@@ -1,0 +1,27 @@
+module Elements
+
+ApplicationWindow 1.0 ApplicationWindow.qml
+Button 1.0 Button.qml
+ComboBox 1.0 ComboBox.qml
+CheckIndicator 1.0 CheckIndicator.qml
+CursorDelegate 1.0 CursorDelegate.qml
+Dialog 1.0 Dialog.qml
+DialogButtonBox 1.0 DialogButtonBox.qml
+ElevationEffect 1.0 ElevationEffect.qml
+GroupBox 1.0 GroupBox.qml
+GroupButton 1.0 GroupButton.qml
+GroupColumn 1.0 GroupColumn.qml
+GroupRow 1.0 GroupRow.qml
+Label 1.0 Label.qml
+MenuItem 1.0 MenuItem.qml
+SideBarButton 1.0 SideBarButton.qml
+StatusBar 1.0 StatusBar.qml
+TabBar 1.0 TabBar.qml
+TabButton 1.0 TabButton.qml
+TextField 1.0 TextField.qml
+ToolBar 1.0 ToolBar.qml
+ToolButton 1.0 ToolButton.qml
+ToolTip 1.0 ToolTip.qml
+
+RemotePointer 1.0 RemotePointer.qml
+RemoteController 1.0 RemoteController.qml

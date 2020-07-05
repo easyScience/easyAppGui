@@ -1,0 +1,9 @@
+module Components
+
+ChartView 1.0 ChartView.qml
+
+ValueAxis 1.0 ValueAxis.qml
+
+LineSeries 1.0 LineSeries.qml
+AreaSeries 1.0 AreaSeries.qml
+ScatterSeries 1.0 ScatterSeries.qml

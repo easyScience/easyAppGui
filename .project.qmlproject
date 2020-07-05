@@ -1,0 +1,21 @@
+import QmlProject 1.1
+
+Project {
+    //mainFile: "App/Gui/main.qml"
+
+    // List of module and plugin directories passed to QML runtime
+    importPaths: ["easyAppGui"]
+
+    // Include .qml files from specified directory and its subdirectories
+    QmlFiles {
+        directory: "easyAppGui"
+    }
+
+    // Include Module Definition Files (qmldir), as well as .ts and .qrc
+    // from specified directory and its subdirectories
+    Files {
+        filter: "qmldir;*.ts;*.qrc"
+        directory: "."
+        recursive: true
+    }
+}
