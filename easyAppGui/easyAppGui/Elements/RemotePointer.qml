@@ -87,5 +87,4 @@ Rectangle {
         hideAnimation.start()
     }
 
-
 }

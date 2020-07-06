@@ -4,7 +4,12 @@ import QtQuick 2.13
 
 QtObject {
 
-    property bool isDebug: false
+    // Python objects
+    property var projectConfig: _projectConfig
+    property var isTestMode: _isTestMode
+
+    // Debug mode
+    property bool isDebugMode: false
 
     // Initial application parameters
     property int appBarCurrentIndex: 0
@@ -16,15 +21,14 @@ QtObject {
     property bool showAppPreferencesDialog: false
 
     // Initial application components accessibility
-    property bool homePageEnabled: isDebug ? true : true
-    property bool projectPageEnabled: isDebug ? true : true
-    property bool samplePageEnabled: isDebug ? true : true
-    property bool experimentPageEnabled: isDebug ? true : false
-    property bool analysisPageEnabled: isDebug ? true : false
-    property bool summaryPageEnabled: isDebug ? true : false
+    property bool homePageEnabled: isDebugMode ? true : true
+    property bool projectPageEnabled: isDebugMode ? true : true
+    property bool samplePageEnabled: isDebugMode ? true : true
+    property bool experimentPageEnabled: isDebugMode ? true : false
+    property bool analysisPageEnabled: isDebugMode ? true : false
+    property bool summaryPageEnabled: isDebugMode ? true : false
 
     // Screenshots control
     property bool saveScreenshotsRunning: false
-    property string screenshotsDir: _screenshotsDir
 
 }

@@ -2,14 +2,16 @@ import QtQuick 2.13
 import QtQuick.Controls 2.13
 import QtTest 1.13
 
+import easyAppGui.Globals 1.0 as EaGlobals
 import easyAppGui.Elements 1.0 as EaElements
 
 MouseArea {
     id: mouseArea
 
     parent: Overlay.overlay // makes buttons background hovered-like !?
-    anchors.fill: parent
     z: 999 // to be above dialog, combobox, etc. windows
+
+    anchors.fill: parent
 
     hoverEnabled: true
     acceptedButtons: Qt.NoButton
@@ -19,7 +21,33 @@ MouseArea {
     TestEvent { id: event }
     EaElements.RemotePointer { id: pointer }
 
+    // Screenshots
+
+    Timer {
+        id: saveScreenshots
+
+        property int i: 1
+        property int fps: EaGlobals.Variables.projectConfig.ci.app.tutorials.fps
+        property string screenshotsDir: EaGlobals.Variables.projectConfig.ci.project.subdirs.screenshots
+
+        running: EaGlobals.Variables.saveScreenshotsRunning
+
+        interval: 1000 / fps
+        repeat: true
+
+        onTriggered: {
+            const fname = ("00000" + i++).slice(-6)
+            const fpath = screenshotsDir + "/" + fname + ".png"
+            saveScreenshot(mouseArea, fpath)
+        }
+    }
+
     // Controller Logic
+
+    function saveScreenshot(item, path) {
+        const image = result.grabImage(item)
+        image.save(path)
+    }
 
     function wait(ms) {
         result.wait(ms)
@@ -35,11 +63,6 @@ MouseArea {
     function hide() {
         pointer.hide()
         wait(pointer.showHideDuration)
-    }
-
-    function saveScreenshot(item, path) {
-        const image = result.grabImage(item)
-        image.save(path)
     }
 
     function pointerMove(item, x, y, delay, buttons) {
@@ -127,4 +150,5 @@ MouseArea {
         event.keyClick(key, modifiers, delay)
         wait(500)
     }
+
 }

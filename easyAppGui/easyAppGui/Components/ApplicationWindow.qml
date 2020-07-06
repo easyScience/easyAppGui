@@ -1,6 +1,4 @@
 import QtQuick 2.13
-//import QtQuick.Window 2.13
-//import QtQuick.Controls 2.13
 
 import easyAppGui.Style 1.0 as EaStyle
 import easyAppGui.Globals 1.0 as EaGlobals
@@ -14,19 +12,18 @@ EaElements.ApplicationWindow {
     property alias appBarLeftButtons: appBarLeftButtons.data
     property alias appBarCentralTabs: appBarCentralTabs.contentData
     property alias appBarRightButtons: appBarRightButtons.data
-
     property alias contentArea: contentArea.contentData
-
     property alias statusBar: statusBarContainer.data
 
     ////////////////
     // App container
     ////////////////
 
-    Item {
+    Rectangle {
         id: appContainer
 
         anchors.fill: parent
+        color: appWindow.color
 
         // Application bar container
         Rectangle {
@@ -37,7 +34,7 @@ EaElements.ApplicationWindow {
             anchors.right: appContainer.right
             height: EaStyle.Sizes.appBarHeight
 
-            color: EaStyle.Colors.appBarBackground //"coral"
+            color: EaStyle.Colors.appBarBackground
 
             // tabs bottom border
             Rectangle {
@@ -110,33 +107,5 @@ EaElements.ApplicationWindow {
         x: (parent.width - width) * 0.5
         y: (parent.height - height) * 0.5
     }
-
-    //////////////
-    // Screenshots
-    //////////////
-
-    Timer {
-        id: saveScreenshots
-
-        property int i: 1
-        //property string dirname: "tutorial"
-
-        running: EaGlobals.Variables.saveScreenshotsRunning
-
-        interval: 1/24*1000
-        repeat: true
-
-        onTriggered: {
-            const fname = ("00000" + i++).slice(-6)
-            const fpath = EaGlobals.Variables.screenshotsDir + "/" + fname + ".png"
-            print('saving', fpath)
-            saveScreenshot(fpath)
-        }
-    }
-
-    function saveScreenshot(fpath) {
-        appContainer.grabToImage(function(result) { result.saveToFile(fpath) })
-    }
-
 
 }
