@@ -87,15 +87,17 @@ EaElements.Dialog {
 
              EaElements.ComboBox {
                 width: EaStyle.Sizes.fontPixelSize * 9
-                model: ["English", "Русский"]
-
-                //onActivated: InterfaceGlobals.Translator.selectLanguage(currentIndex)
-                //Component.onCompleted: currentIndex = InterfaceGlobals.Translator.defaultLanguageIndex
-                onActivated: {
-                    ///appWindow.saveSettings()
-                    ///_translator.selectLanguage(currentText)
-                    ///appWindow.loadSettings()
+                model: XmlListModel {
+                    xml: _translator.languagesAsXml()
+                    query: "/root/item/language"
+                    XmlRole {
+                        name: "name"
+                        query: "name/string()"
+                    }
                 }
+
+                onActivated: _translator.selectLanguage(currentIndex)
+                Component.onCompleted: currentIndex = _translator.defaultLanguageIndex()
             }
         }
     }
