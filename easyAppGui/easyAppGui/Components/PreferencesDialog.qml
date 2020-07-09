@@ -89,7 +89,7 @@ EaElements.Dialog {
                 width: EaStyle.Sizes.fontPixelSize * 9
                 model: XmlListModel {
                     xml: _translator.languagesAsXml()
-                    query: "/root/item/language"
+                    query: "/root/item"
                     XmlRole {
                         name: "name"
                         query: "name/string()"
