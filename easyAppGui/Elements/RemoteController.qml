@@ -27,7 +27,7 @@ MouseArea {
         id: saveScreenshots
 
         property int i: 1
-        property int fps: EaGlobals.Variables.projectConfig.ci.app.tutorials.fps
+        property int fps: EaGlobals.Variables.projectConfig.ci.app.tutorials.video.fps
         property string screenshotsDir: EaGlobals.Variables.projectConfig.ci.project.subdirs.screenshots
 
         running: EaGlobals.Variables.saveScreenshotsRunning
