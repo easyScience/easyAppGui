@@ -13,7 +13,7 @@ MouseArea {
 
     anchors.fill: parent
 
-    hoverEnabled: true
+    hoverEnabled: false
     acceptedButtons: Qt.NoButton
 
     TestUtil { id: util }
@@ -54,8 +54,8 @@ MouseArea {
     }
 
     function show() {
-        pointer.posX = mouseArea.mouseX - pointer.minSize/2
-        pointer.posY = mouseArea.mouseY - pointer.minSize/2
+        pointer.posX = mouseArea.width / 2 - pointer.minSize / 2
+        pointer.posY = mouseArea.height / 2 - pointer.minSize / 2
         pointer.show()
         wait(pointer.showHideDuration)
     }
