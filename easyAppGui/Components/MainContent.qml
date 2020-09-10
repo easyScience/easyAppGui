@@ -4,7 +4,7 @@ import QtQuick.Controls 2.13
 import easyAppGui.Elements 1.0 as EaElements
 
 Item {
-    id: mainArea
+    id: mainAreaContainer
 
     property alias tabs: tabs.contentData
     property alias items: items.contentData
@@ -14,18 +14,18 @@ Item {
     EaElements.TabBar {
         id: tabs
 
-        anchors.top: mainArea.top
-        anchors.left: mainArea.left
-        anchors.right: mainArea.right
+        anchors.top: mainAreaContainer.top
+        anchors.left: mainAreaContainer.left
+        anchors.right: mainAreaContainer.right
     }
 
     SwipeView {
         id: items
 
         anchors.top: tabs.bottom
-        anchors.bottom: mainArea.bottom
-        anchors.left: mainArea.left
-        anchors.right: mainArea.right
+        anchors.bottom: mainAreaContainer.bottom
+        anchors.left: mainAreaContainer.left
+        anchors.right: mainAreaContainer.right
 
         clip: true
         interactive: false

@@ -59,7 +59,7 @@ T.GroupBox {
 
             text: collapsible ? "play" : "circle"
 
-            color: EaStyle.Colors.themeAccent
+            color: control.enabled ? EaStyle.Colors.themeAccent : EaStyle.Colors.themeForegroundDisabled
             Behavior on color {
                 EaAnimations.ThemeChange {}
             }
@@ -87,7 +87,7 @@ T.GroupBox {
 
             text: control.title
 
-            color: EaStyle.Colors.themeAccent
+            color: control.enabled ? EaStyle.Colors.themeAccent : EaStyle.Colors.themeForegroundDisabled
             Behavior on color {
                 EaAnimations.ThemeChange {}
             }

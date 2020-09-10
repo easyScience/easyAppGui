@@ -91,6 +91,8 @@ T.Dialog {
 
     footer: EaElements.DialogButtonBox {
         visible: count > 0
+        bottomPadding: EaStyle.Sizes.fontPixelSize * 1.2
+        rightPadding: EaStyle.Sizes.fontPixelSize * 1.2
     }
 
     T.Overlay.modal: Rectangle {

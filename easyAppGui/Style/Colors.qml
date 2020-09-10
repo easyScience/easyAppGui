@@ -27,6 +27,11 @@ QtObject {
     property color rippleHovered: isDarkTheme ? "#75666666" : "#75999999"
     property color ripplePressed: isDarkTheme ? "#75777777" : "#75888888"
 
+    // Buttons
+    property color buttonForeground: themeForeground
+    property color buttonForegroundHovered: themeAccent
+    property color buttonForegroundPressed: isDarkTheme ? Qt.lighter(buttonForegroundHovered, 1.25) : Qt.darker(buttonForegroundHovered, 1.25)
+
     // Application window
     property color appBorder: isDarkTheme ? "#262626" : "#ddd"
 

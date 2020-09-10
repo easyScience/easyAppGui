@@ -3,8 +3,25 @@ import QtQuick.Controls 2.13
 
 import easyAppGui.Style 1.0 as EaStyle
 
-Column {
-    //width: parent.width
-    //spacing: EaStyle.Sizes.sideBarPadding
-    //padding: EaStyle.Sizes.sideBarPadding
+// Basic controls area
+Flickable {
+
+    default property alias content: basicControlsContainer.data
+
+    contentHeight: basicControlsContainer.height
+    contentWidth: basicControlsContainer.width
+
+    clip: true
+    flickableDirection: Flickable.VerticalFlick
+
+    ScrollBar.vertical: ScrollBar {
+        policy: ScrollBar.AsNeeded
+        interactive: false
+    }
+
+    Column {
+        id: basicControlsContainer
+
+        width: EaStyle.Sizes.sideBarWidth // ???
+    }
 }

@@ -1,6 +1,7 @@
 module Elements
 
 ApplicationWindow 1.0 ApplicationWindow.qml
+AppBarTabButton 1.0 AppBarTabButton.qml
 Button 1.0 Button.qml
 ComboBox 1.0 ComboBox.qml
 CheckIndicator 1.0 CheckIndicator.qml
