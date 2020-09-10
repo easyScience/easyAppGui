@@ -66,6 +66,10 @@ MouseArea {
     }
 
     function pointerMove(item, x, y, delay, buttons) {
+        if (item === undefined) {
+            print("Undefined item")
+            return
+        }
         if (x === undefined)
             x = item.width / 2
         if (y === undefined)
@@ -79,6 +83,10 @@ MouseArea {
     }
 
     function mousePress(item, x, y, button, modifiers, delay) {
+        if (item === undefined) {
+            print("Undefined item")
+            return
+        }
         if (x === undefined)
             x = item.width / 2
         if (y === undefined)
@@ -97,6 +105,10 @@ MouseArea {
     }
 
     function mouseRelease(item, x, y, button, modifiers, delay) {
+        if (item === undefined) {
+            print("Undefined item")
+            return
+        }
         if (x === undefined)
             x = item.width / 2
         if (y === undefined)
