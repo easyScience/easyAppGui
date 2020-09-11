@@ -15,14 +15,18 @@ T.Button {
     implicitHeight: Math.max(implicitBackgroundHeight + topInset + bottomInset,
                              implicitContentHeight + topPadding + bottomPadding)
 
-    //topInset: 0///6
-    //bottomInset: 0///6
-    padding: 0//EaStyle.Sizes.fontPixelSize * 0.4///12
-    //horizontalPadding: EaStyle.Sizes.fontPixelSize///padding - 4
+    padding: 0
     spacing: 0
+
+    /*
+    topInset: 0
+    bottomInset: 0
+    horizontalPadding: 0
+    */
 
     flat: true
 
+    // Icon text
     contentItem: IconLabel {
         spacing: control.spacing
         mirrored: control.mirrored
@@ -32,25 +36,10 @@ T.Button {
         text: control.text
         font: control.font
 
-        /*
-        color: !control.enabled ?
-                   EaStyle.Colors.themeForegroundDisabled :
-                   control.highlighted ?
-                       EaStyle.Colors.themeAccent :
-                       EaStyle.Colors.themeForeground
-                       */
-
-        color: !control.enabled ?
-                   EaStyle.Colors.themeForegroundDisabled :
-                   !rippleArea.containsMouse ?
-                       EaStyle.Colors.buttonForeground :
-                       !rippleArea.containsPress ?
-                           EaStyle.Colors.buttonForegroundHovered :
-                           EaStyle.Colors.buttonForegroundPressed
+        color: foregroundColor()
         Behavior on color {
             EaAnimations.ThemeChange {}
         }
-
     }
 
     //Mouse area to react on click events
@@ -58,7 +47,17 @@ T.Button {
         id: rippleArea
         anchors.fill: control
         hoverEnabled: true
-        onClicked: control.clicked()
-        //onPressed: mouse.accepted = false
+        //onClicked: control.clicked()
+        onPressed: mouse.accepted = false
+    }
+
+    // Logic
+
+    function foregroundColor() {
+        if (!control.enabled)
+            return EaStyle.Colors.themeForegroundDisabled
+        if (rippleArea.containsMouse || control.checked || control.down)
+            return EaStyle.Colors.themeForegroundHovered
+        return EaStyle.Colors.themeForeground
     }
 }

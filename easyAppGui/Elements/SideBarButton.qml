@@ -10,16 +10,7 @@ import easyAppGui.Elements 1.0 as EaElements
 T.Button {
     id: control
 
-    property var iconFontFamily: EaStyle.Fonts.iconsFamily
-    property var iconFontPixelSize: font.pixelSize * 1.25
     property string fontIcon: ""
-
-    property color textColor: !enabled ?
-                                  EaStyle.Colors.themeForegroundDisabled :
-                                  checked || down ?
-                                      EaStyle.Colors.themeAccent :
-                                      EaStyle.Colors.themeForeground
-    //property color backgroundColor: value
 
     implicitWidth: Math.max(implicitBackgroundWidth + leftInset + rightInset,
                             implicitContentWidth + leftPadding + rightPadding)
@@ -30,18 +21,14 @@ T.Button {
     rightInset: 0
     topInset: 0
     bottomInset: 0
-
     padding: 0
-
     spacing: EaStyle.Sizes.fontPixelSize * 0.5
-
-    //flat: true
 
     font.family: EaStyle.Fonts.fontFamily
     font.pixelSize: EaStyle.Sizes.fontPixelSize
 
+    // ToolTip
     EaElements.ToolTip {
-        //parent: control
         text: control.ToolTip.text
         visible: control.hovered && text !== ""
     }
@@ -54,12 +41,12 @@ T.Button {
 
             // Icon
             Label {
-                font.family: iconFontFamily
-                font.pixelSize: iconFontPixelSize
+                font.family: EaStyle.Fonts.iconsFamily
+                font.pixelSize: control.font.pixelSize * 1.25
 
                 text: control.fontIcon
 
-                color: control.textColor
+                color: foregroundColor()
                 Behavior on color {
                     EaAnimations.ThemeChange {}
                 }
@@ -72,7 +59,7 @@ T.Button {
 
                 text: control.text
 
-                color: control.textColor
+                color: foregroundColor()
                 Behavior on color {
                     EaAnimations.ThemeChange {}
                 }
@@ -87,25 +74,37 @@ T.Button {
 
         radius: 2
 
-        color: rippleArea.containsMouse ?
-                   (rippleArea.containsPress ?
-                        EaStyle.Colors.sideBarButtonBackgroundPressed :
-                        EaStyle.Colors.sideBarButtonBackgroundHovered) :
-                    EaStyle.Colors.sideBarButtonBackground
+        color: backgroundColor()
         Behavior on color {
-            PropertyAnimation {
-                duration: rippleArea.containsMouse ? 500 : 0 //Globals.Variables.themeChangeTime
-                alwaysRunToEnd: true
-                easing.type: Easing.OutCubic
-            }
+            EaAnimations.ThemeChange {}
         }
+    }
 
-        MouseArea {
-            id: rippleArea
-            anchors.fill: parent
-            hoverEnabled: true
-            onPressed: mouse.accepted = false
-        }
+    //Mouse area to react on click events
+    MouseArea {
+        id: rippleArea
+        anchors.fill: parent
+        hoverEnabled: true
+        //onClicked: control.clicked() // Doesn't work as for Button or ToolButton
+        onPressed: mouse.accepted = false // Color doesn't changed onPressed
+    }
+
+    // Logic
+
+    function backgroundColor() {
+        if (!control.enabled)
+            return EaStyle.Colors.themeBackgroundDisabled
+        if (rippleArea.containsMouse)
+            return EaStyle.Colors.themeBackgroundHovered
+        return EaStyle.Colors.themeBackground
+    }
+
+    function foregroundColor() {
+        if (!control.enabled)
+            return EaStyle.Colors.themeForegroundDisabled
+        if (rippleArea.containsMouse || control.checked || control.down)
+            return EaStyle.Colors.themeForegroundHovered
+        return EaStyle.Colors.themeForeground
     }
 
 }

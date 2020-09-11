@@ -13,24 +13,20 @@ QtObject {
 
     property color themeAccent: isDarkTheme ? "#4ec1ef": "#00a3e3"
     property color themePrimary: isDarkTheme ? "#222" : "#ddd"
+
     property color themeBackground: isDarkTheme ? "#333" : "#e9e9e9"
+    property color themeBackgroundDisabled: isDarkTheme ? "#333" : "#e9e9e9"
+    property color themeBackgroundHovered: isDarkTheme ? "#555" : "#d9d9d9"
+
     property color themeForeground: isDarkTheme ? "#eee" : "#333"
     property color themeForegroundDisabled: isDarkTheme ? "#888": "#bbb" // control.Material.hintTextColor
+    property color themeForegroundHovered: themeAccent
 
     // System theme
     property var _systemThemeChecker: Item { Material.theme: Material.System }
     property int systemTheme: _systemThemeChecker.Material.theme === Material.Dark ?
                                   Colors.Themes.DarkTheme :
                                   Colors.Themes.LightTheme
-
-    // Ripple
-    property color rippleHovered: isDarkTheme ? "#75666666" : "#75999999"
-    property color ripplePressed: isDarkTheme ? "#75777777" : "#75888888"
-
-    // Buttons
-    property color buttonForeground: themeForeground
-    property color buttonForegroundHovered: themeAccent
-    property color buttonForegroundPressed: isDarkTheme ? Qt.lighter(buttonForegroundHovered, 1.25) : Qt.darker(buttonForegroundHovered, 1.25)
 
     // Application window
     property color appBorder: isDarkTheme ? "#262626" : "#ddd"
@@ -41,8 +37,9 @@ QtObject {
     property color appBarBorder: isDarkTheme ? "#2e2e2e" : "#d6d6d6"
 
     property color appBarButtonBackground: "transparent"
-    property color appBarButtonBackgroundHovered: "transparent"//isDarkTheme ? "#50666666" : "#20666666" // temporary disable because of problems with RemoteController if parent: Overlay.overlay !?
-    property color appBarButtonBackgroundPressed: isDarkTheme ? "#90666666" : "#40666666"
+    property color appBarButtonBackgroundDisabled: "transparent"
+    property color appBarButtonBackgroundHovered: isDarkTheme ? "#50666666" : "#15666666" // temporary disable because of problems with RemoteController if parent: Overlay.overlay !?
+    property color appBarButtonBackgroundPressed: isDarkTheme ? "#90666666" : "#25666666"
     property color appBarButtonForeground: isDarkTheme ? "#ccc" : "#444"
 
     property color appBarComboBoxBackground: isDarkTheme ? "#10666666" : "#70ffffff"
@@ -55,9 +52,9 @@ QtObject {
     property color mainContentBackground: isDarkTheme ? "#474747" : "#fff"
 
     // SideBar
-    property color sideBarButtonBackground: isDarkTheme ? "#333" : "#e9e9e9"
-    property color sideBarButtonBackgroundHovered: isDarkTheme ? "#222" : "#20666666"
-    property color sideBarButtonBackgroundPressed: isDarkTheme ? "#111" : "#40666666"
+    property color sideBarButtonBackground: appBarBackground
+    property color sideBarButtonBackgroundHovered: isDarkTheme ? "#50666666" : "#e0e0e0"
+    property color sideBarButtonBackgroundPressed: isDarkTheme ? "#50666666" : "#ccc"
     property color sideBarButtonForeground: isDarkTheme ? "#ccc" : "#444"
 
     // Status bar

@@ -5,8 +5,7 @@ import QtQuick.Controls.impl 2.13
 
 import easyAppGui.Style 1.0 as EaStyle
 import easyAppGui.Animations 1.0 as EaAnimations
-
-//import Templates.Controls 1.0
+import easyAppGui.Elements 1.0 as EaElements
 
 T.ToolButton {
     id: control
@@ -31,56 +30,62 @@ T.ToolButton {
     font.family: EaStyle.Fonts.fontFamily
     font.pixelSize: EaStyle.Sizes.fontPixelSize
 
-    //ToolTip.visible: hovered && ToolTip.text !== ""
-
-    /*
-    ToolTip {
-        text: ToolTip.text
-        visible: control.parent.hovered//hovered && ToolTip.text !== ""
+    // ToolTip
+    EaElements.ToolTip {
+        text: control.ToolTip.text
+        visible: control.hovered && text !== ""
     }
-    */
 
+    // Icon label
     contentItem: IconLabel {
         font.family: EaStyle.Fonts.iconsFamily
         font.pixelSize: control.font.pixelSize * 1.25
 
         text: control.fontIcon
 
-        color: !control.enabled ?
-                   EaStyle.Colors.themeForegroundDisabled :
-                   control.checked || control.highlighted ?
-                        EaStyle.Colors.themeAccent :
-                        EaStyle.Colors.themeForeground
+        color: foregroundColor()
         Behavior on color {
             EaAnimations.ThemeChange {}
         }
     }
 
+    // Background
     background: Rectangle {
         implicitWidth: EaStyle.Sizes.toolButtonHeight
         implicitHeight: EaStyle.Sizes.toolButtonHeight
 
         radius: EaStyle.Sizes.toolButtonHeight * 0.5
 
-        color: rippleArea.containsMouse ?
-                   (rippleArea.containsPress ?
-                        EaStyle.Colors.appBarButtonBackgroundPressed :
-                        EaStyle.Colors.appBarButtonBackgroundHovered) :
-                    EaStyle.Colors.appBarButtonBackground
+        color: backgroundColor()
         Behavior on color {
-            PropertyAnimation {
-                duration: rippleArea.containsMouse ? 500 : 0 //Globals.Variables.themeChangeTime
-                alwaysRunToEnd: true
-                easing.type: Easing.OutCubic
-            }
+            EaAnimations.ThemeChange {}
         }
+    }
 
-        MouseArea {
-            id: rippleArea
-            anchors.fill: parent
-            hoverEnabled: true
-            //onClicked: control.clicked()
-            onPressed: mouse.accepted = false
-        }
+    //Mouse area to react on click events
+    MouseArea {
+        id: rippleArea
+        anchors.fill: parent
+        hoverEnabled: true
+        //onClicked: control.clicked()
+        onPressed: mouse.accepted = false
+    }
+
+    // Logic
+
+    function backgroundColor() {
+        if (!control.enabled)
+            return EaStyle.Colors.themeBackgroundDisabled
+        if (rippleArea.containsMouse)
+            return EaStyle.Colors.themeBackgroundHovered
+        return EaStyle.Colors.themeBackground
+    }
+
+    function foregroundColor() {
+        if (!control.enabled)
+            return EaStyle.Colors.themeForegroundDisabled
+        if (rippleArea.containsMouse)
+            return EaStyle.Colors.themeForegroundHovered
+        return EaStyle.Colors.themeForeground
     }
 }

@@ -13,6 +13,7 @@ MouseArea {
 
     anchors.fill: parent
 
+    //hoverEnabled: true
     hoverEnabled: false
     acceptedButtons: Qt.NoButton
 
