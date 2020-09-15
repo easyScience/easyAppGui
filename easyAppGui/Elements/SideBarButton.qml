@@ -78,6 +78,11 @@ T.Button {
         Behavior on color {
             EaAnimations.ThemeChange {}
         }
+
+        border.color: borderColor()//control.hovered ? EaStyle.Colors.themeBackground : EaStyle.Colors.appBarBorder
+        Behavior on border.color {
+            EaAnimations.ThemeChange {}
+        }
     }
 
     //Mouse area to react on click events
@@ -105,6 +110,14 @@ T.Button {
         if (rippleArea.containsMouse || control.checked || control.down)
             return EaStyle.Colors.themeForegroundHovered
         return EaStyle.Colors.themeForeground
+    }
+
+    function borderColor() {
+        if (!control.enabled)
+            return EaStyle.Colors.themeBackgroundDisabled
+        if (rippleArea.containsMouse || control.checked || control.down)
+            return EaStyle.Colors.appBarBorder
+        return EaStyle.Colors.appBarBorder
     }
 
 }
