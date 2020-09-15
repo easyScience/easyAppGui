@@ -58,8 +58,16 @@ T.TextField {
     }
 
     background: Rectangle {
-        color: EaStyle.Colors.mainContentBackground
+        color: control.activeFocus ? EaStyle.Colors.appBarComboBoxBackgroundHovered
+                                          : (control.hovered ? EaStyle.Colors.appBarComboBoxBackgroundHovered : EaStyle.Colors.appBarComboBoxBackground)
+        Behavior on color {
+            EaAnimations.ThemeChange {}
+        }
+
         border.color: control.activeFocus ? EaStyle.Colors.themeAccent
-                                          : (control.hovered ? EaStyle.Colors.themeAccent : EaStyle.Colors.appBarBorder)
+                                          : (control.hovered ? EaStyle.Colors.themeAccent : EaStyle.Colors.appBarComboBoxBorder)
+        Behavior on border.color {
+            EaAnimations.ThemeChange {}
+        }
     }
 }
