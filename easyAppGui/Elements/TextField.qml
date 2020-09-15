@@ -16,8 +16,7 @@ T.TextField {
                              contentHeight + topPadding + bottomPadding,
                              placeholder.implicitHeight + topPadding + bottomPadding)
 
-    topPadding: EaStyle.Sizes.fontPixelSize * 0.5
-    bottomPadding: EaStyle.Sizes.fontPixelSize * 0.5
+    padding: EaStyle.Sizes.fontPixelSize * 0.5
 
     verticalAlignment: TextInput.AlignVCenter
 
@@ -59,10 +58,8 @@ T.TextField {
     }
 
     background: Rectangle {
-        y: control.height - height - control.bottomPadding + 8
-        implicitWidth: 120
-        height: control.activeFocus || control.hovered ? 2 : 1
-        color: control.activeFocus ? EaStyle.Colors.themeAccent
-                                   : (control.hovered ? EaStyle.Colors.themeForeground : EaStyle.Colors.themeForegroundDisabled)
+        color: EaStyle.Colors.mainContentBackground
+        border.color: control.activeFocus ? EaStyle.Colors.themeAccent
+                                          : (control.hovered ? EaStyle.Colors.themeAccent : EaStyle.Colors.appBarBorder)
     }
 }
