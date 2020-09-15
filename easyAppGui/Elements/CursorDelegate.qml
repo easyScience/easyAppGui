@@ -11,6 +11,7 @@ Rectangle {
 
     color: EaStyle.Colors.themeAccent
 
+    /*
     Connections {
         target: cursor.parent
         onCursorPositionChanged: {
@@ -19,6 +20,7 @@ Rectangle {
             timer.restart()
         }
     }
+    */
 
     Timer {
         id: timer
