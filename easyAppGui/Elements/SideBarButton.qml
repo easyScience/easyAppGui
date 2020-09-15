@@ -117,7 +117,7 @@ T.Button {
             return EaStyle.Colors.themeBackgroundDisabled
         if (rippleArea.containsMouse || control.checked || control.down)
             return EaStyle.Colors.appBarBorder
-        return EaStyle.Colors.appBarBorder
+        return EaStyle.Colors.appBarComboBoxBorder
     }
 
 }
