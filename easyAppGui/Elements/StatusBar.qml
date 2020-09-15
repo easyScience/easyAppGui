@@ -8,7 +8,8 @@ import easyAppGui.Elements 1.0 as EaElements
 Rectangle {
     id: statusBar
 
-    property alias text: label.text
+    //property alias text: label.text
+    property alias model: listView.model
 
     //visible: EaGlobals.Variables.showAppStatusBar
 
@@ -22,17 +23,32 @@ Rectangle {
         EaAnimations.ThemeChange {}
     }
 
-    // Status bar text
-    Label {
-        id: label
+    // Status bar content
+    ListView {
+        id: listView
 
-        //anchors.verticalCenter: parent.verticalCenter
-        //height: parent.height
-        //verticalAlignment: Text.AlignVCenter
-        topPadding: (statusBar.height - font.pixelSize - 5) * 0.5
-        leftPadding: 10
+        width: statusBar.width
+        height: statusBar.height
+        spacing: EaStyle.Sizes.fontPixelSize
+        orientation: ListView.Horizontal
 
-        color: EaStyle.Colors.statusBarForeground
+        model: ListModel {
+            ListElement {
+                label: "Label1"
+                value: "Value1"
+            }
+            ListElement {
+                label: "Label2"
+                value: "Value2"
+            }
+        }
+
+        delegate: EaElements.Label {
+            topPadding: (statusBar.height - 3 / 2 * font.pixelSize) * 0.5
+            leftPadding: font.pixelSize
+            color: EaStyle.Colors.statusBarForeground
+            text: model.label + ": " + model.value
+        }
     }
 
     // Status bar top border
