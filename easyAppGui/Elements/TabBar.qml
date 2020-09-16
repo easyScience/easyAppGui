@@ -40,13 +40,14 @@ T.TabBar {
             Rectangle {
                 height: 2
                 width: parent.width
-                y: control.position === T.TabBar.Footer ? 0 : parent.height - height
+                y: control.position === T.TabBar.Footer ? 0 : parent.height - height - EaStyle.Sizes.borderThickness
                 color: EaStyle.Colors.themeAccent
             }
         }
     }
 
     background: Rectangle {
+        z: 2
         //color: control.Material.backgroundColor
         color: "transparent"
 

@@ -5,5 +5,5 @@ import easyAppGui.Style 1.0 as EaStyle
 import easyAppGui.Elements 1.0 as EaElements
 
 EaElements.TabBar {
-    showBottomBorder: false
+    showBottomBorder: true
 }

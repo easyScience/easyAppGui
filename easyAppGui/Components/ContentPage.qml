@@ -63,6 +63,7 @@ Item {
         Rectangle {
             id: border
 
+            z: 2
             anchors.left: parent.left
             anchors.top: parent.top
             anchors.bottom: parent.bottom

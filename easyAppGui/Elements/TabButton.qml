@@ -95,12 +95,22 @@ T.TabButton {
 
     // Logic
 
+    /*
     function backgroundColor() {
         if (!control.enabled)
             return "#00000000" //EaStyle.Colors.themeBackgroundDisabled
         if (rippleArea.containsMouse)
             return EaStyle.Colors.isDarkTheme ? "#22ffffff" : "#11000000" //EaStyle.Colors.themeBackgroundHovered
         return "#00000000" //EaStyle.Colors.themeBackground
+    }
+    */
+
+    function backgroundColor() {
+        if (!control.enabled)
+            return EaStyle.Colors.themeBackgroundDisabled
+        if (rippleArea.containsMouse)
+            return EaStyle.Colors.themeBackgroundHovered1
+        return EaStyle.Colors.contentBackground
     }
 
     function foregroundColor() {

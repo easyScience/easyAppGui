@@ -100,7 +100,7 @@ T.Button {
         if (!control.enabled)
             return EaStyle.Colors.themeBackgroundDisabled
         if (rippleArea.containsMouse)
-            return EaStyle.Colors.themeBackgroundHovered
+            return EaStyle.Colors.themeBackgroundHovered1
         return EaStyle.Colors.themeBackground
     }
 
@@ -116,7 +116,7 @@ T.Button {
         if (!control.enabled)
             return EaStyle.Colors.themeBackgroundDisabled
         if (rippleArea.containsMouse || control.checked || control.down)
-            return EaStyle.Colors.appBarBorder
+            return EaStyle.Colors.appBarBackground
         return EaStyle.Colors.appBarComboBoxBorder
     }
 

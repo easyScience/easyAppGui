@@ -77,7 +77,7 @@ T.ToolButton {
         if (!control.enabled)
             return EaStyle.Colors.themeBackgroundDisabled
         if (rippleArea.containsMouse)
-            return EaStyle.Colors.themeBackgroundHovered
+            return EaStyle.Colors.themeBackgroundHovered2
         return EaStyle.Colors.themeBackground
     }
 
