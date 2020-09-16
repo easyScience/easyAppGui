@@ -88,7 +88,7 @@ EaElements.Dialog {
              EaElements.ComboBox {
                 width: EaStyle.Sizes.fontPixelSize * 9
                 model: XmlListModel {
-                    xml: _translator.languagesAsXml()
+                    xml: EaGlobals.Variables.translator.languagesAsXml()
                     query: "/root/item"
                     XmlRole {
                         name: "name"
@@ -96,8 +96,8 @@ EaElements.Dialog {
                     }
                 }
 
-                onActivated: _translator.selectLanguage(currentIndex)
-                Component.onCompleted: currentIndex = _translator.defaultLanguageIndex()
+                onActivated: EaGlobals.Variables.translator.selectLanguage(currentIndex)
+                Component.onCompleted: currentIndex = EaGlobals.Variables.translator.defaultLanguageIndex()
             }
         }
     }

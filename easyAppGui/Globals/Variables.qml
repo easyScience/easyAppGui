@@ -2,11 +2,22 @@ pragma Singleton
 
 import QtQuick 2.13
 
+import easyAppGui.Logic 1.0 as EaLogic
+
 QtObject {
 
     // Python objects
-    property var projectConfig: _projectConfig
-    property var isTestMode: _isTestMode
+    readonly property var isTestMode: typeof _isTestMode !== "undefined" && _isTestMode !== null ?
+                                          _isTestMode :
+                                          false
+
+    readonly property var projectConfig: typeof _projectConfig !== "undefined" && _projectConfig !== null ?
+                                             _projectConfig :
+                                             EaLogic.ProjectConfig.projectConfig()
+
+    readonly property var translator: typeof _translator !== "undefined" && _translator !== null ?
+                                          _translator :
+                                          new EaLogic.Translate.Translator()
 
     // Initial application parameters
     property int appBarCurrentIndex: 0
