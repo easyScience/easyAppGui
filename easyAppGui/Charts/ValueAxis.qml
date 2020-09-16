@@ -6,6 +6,8 @@ import easyAppGui.Globals 1.0 as EaGlobals
 import easyAppGui.Animations 1.0 as EaAnimations
 
 ValueAxis {
+    property string title: ""
+
     lineVisible: false // Hide axes lines (only grid is visible)
 
     color: EaStyle.Colors.appBorder
@@ -27,6 +29,8 @@ ValueAxis {
     Behavior on labelsColor {
         EaAnimations.ThemeChange {}
     }
+
+    titleText: `<font color='${labelsColor}'>${title}</font>` // The only way to change a title color
 
     labelsFont.family: EaStyle.Fonts.fontFamily
     labelsFont.pixelSize: EaStyle.Sizes.fontPixelSize
