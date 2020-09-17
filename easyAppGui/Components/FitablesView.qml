@@ -1,11 +1,13 @@
 import QtQuick 2.13
 import QtQuick.Controls 2.13
+import QtQuick.XmlListModel 2.13
 
 import easyAppGui.Globals 1.0 as EaGlobals
 import easyAppGui.Style 1.0 as EaStyle
 import easyAppGui.Elements 1.0 as EaElements
 import easyAppGui.Components 1.0 as EaComponents
 
+import Gui.Globals 1.0 as ExGlobals
 
 ListView {
     id: listView
@@ -21,6 +23,7 @@ ListView {
 
     // Table model
 
+    /*
     model: ListModel {
         ListElement {
             number: "1"
@@ -46,6 +49,19 @@ ListView {
             error: ""
             fit: false
         }
+    }
+    */
+
+    model: XmlListModel {
+        xml: ExGlobals.Constants.proxy.fitablesModelAsXml
+        query: "/root/item"
+
+        XmlRole { name: "number"; query: "number/number()" }
+        XmlRole { name: "label"; query: "label/string()" }
+        XmlRole { name: "value"; query: "value/string()" }
+        XmlRole { name: "unit"; query: "unit/string()" }
+        XmlRole { name: "error"; query: "error/string()" }
+        XmlRole { name: "fit"; query: "fit/number()" }
     }
 
     // Table header
