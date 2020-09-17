@@ -17,9 +17,9 @@ T.CheckBox {
                              implicitContentHeight + topPadding + bottomPadding,
                              implicitIndicatorHeight + topPadding + bottomPadding)
 
-    spacing: EaGlobals.Sizes.fontPixelSize * 0.5
-    padding: EaGlobals.Sizes.fontPixelSize * 0.5
-    verticalPadding: padding + EaGlobals.Sizes.fontPixelSize * 0.5
+    spacing: EaStyle.Sizes.fontPixelSize * 0.5
+    padding: EaStyle.Sizes.fontPixelSize * 0.5
+    verticalPadding: padding + EaStyle.Sizes.fontPixelSize * 0.5
 
     tristate: false
 
