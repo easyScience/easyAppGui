@@ -58,16 +58,16 @@ ListView {
 
         XmlRole { name: "number"; query: "number/number()" }
         XmlRole { name: "label"; query: "label/string()" }
-        XmlRole { name: "value"; query: "value/string()" }
+        XmlRole { name: "value"; query: "value/number()" }
         XmlRole { name: "unit"; query: "unit/string()" }
-        XmlRole { name: "error"; query: "error/string()" }
+        XmlRole { name: "error"; query: "error/number()" }
         XmlRole { name: "fit"; query: "fit/number()" }
     }
 
     // Table header
 
     header: Rectangle {
-        width: parent.width
+        width: listView.width
         height: rowHeight
 
         color: EaStyle.Colors.themeBackground
@@ -117,7 +117,7 @@ ListView {
     // Table rows
 
     delegate: Rectangle {
-        width: parent.width
+        width: listView.width
         height: rowHeight
 
         color: index % 2 ?
@@ -143,7 +143,7 @@ ListView {
                 anchors.verticalCenter: parent.verticalCenter
                 horizontalAlignment: Text.AlignRight
                 width: columnWidth("valueColumn")
-                text: model.value
+                text: model.value.toFixed(4)
             }
             EaElements.Label {
                 anchors.verticalCenter: parent.verticalCenter
@@ -155,9 +155,10 @@ ListView {
                 anchors.verticalCenter: parent.verticalCenter
                 horizontalAlignment: Text.AlignRight
                 width: columnWidth("errorColumn")
-                text: model.error
+                text: !fitCheckBox.checked || model.error === 0.0 ? "" : model.error.toFixed(4)
             }
             EaElements.CheckBox {
+                id: fitCheckBox
                 anchors.verticalCenter: parent.verticalCenter
                 width: columnWidth("fitColumn")
                 checked: model.fit
