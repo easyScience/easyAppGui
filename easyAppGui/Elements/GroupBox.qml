@@ -123,7 +123,8 @@ T.GroupBox {
 
         clip: true
 
-        Component.onCompleted: collapsed ? height = 0 : height = implicitHeight
+        //Component.onCompleted: collapsed ? height = 0 : height = implicitHeight
+        onImplicitHeightChanged: collapsed ? height = 0 : height = implicitHeight
     }
 
     // Horisontal border at the bottom
