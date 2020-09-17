@@ -53,6 +53,8 @@ ListView {
     */
 
     model: XmlListModel {
+        id: fitablesModel
+
         xml: ExGlobals.Constants.proxy.fitablesModelAsXml
         query: "/root/item"
 
@@ -162,6 +164,14 @@ ListView {
                 anchors.verticalCenter: parent.verticalCenter
                 width: columnWidth("fitColumn")
                 checked: model.fit
+                onToggled: {
+                    //print("model xml", JSON.stringify(fitablesModel.xml))
+                    //print("model roles", JSON.stringify(fitablesModel.roles))
+                    //print("model row", JSON.stringify(fitablesModel.get(index)))
+                    //print("model query", fitablesModel.query)
+                    //print("row index", index)
+                    ExGlobals.Constants.proxy.editFitablesModel(index, 'fit', checked)
+                }
             }
         }
     }
