@@ -122,7 +122,7 @@ ListView {
         width: listView.width
         height: rowHeight
 
-        color: index % 2 ?
+        color: model.index % 2 ?
                    EaStyle.Colors.themeBackgroundHovered2 :
                    EaStyle.Colors.themeBackgroundHovered1
 
@@ -141,11 +141,12 @@ ListView {
                 width: columnWidth("labelColumn")
                 text: model.label
             }
-            EaElements.Label {
+            TextInput {
                 anchors.verticalCenter: parent.verticalCenter
                 horizontalAlignment: Text.AlignRight
                 width: columnWidth("valueColumn")
                 text: model.value.toFixed(4)
+                onEditingFinished: ExGlobals.Constants.proxy.editFitablesModel(model.index, "value", text)
             }
             EaElements.Label {
                 anchors.verticalCenter: parent.verticalCenter
@@ -170,7 +171,7 @@ ListView {
                     //print("model row", JSON.stringify(fitablesModel.get(index)))
                     //print("model query", fitablesModel.query)
                     //print("row index", index)
-                    ExGlobals.Constants.proxy.editFitablesModel(index, 'fit', checked)
+                    ExGlobals.Constants.proxy.editFitablesModel(model.index, "fit", checked)
                 }
             }
         }
