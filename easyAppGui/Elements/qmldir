@@ -5,6 +5,7 @@ ApplicationWindow 1.0 ApplicationWindow.qml
 BoxShadow 1.0 BoxShadow.qml
 Button 1.0 Button.qml
 ComboBox 1.0 ComboBox.qml
+CheckBox 1.0 CheckBox.qml
 CheckIndicator 1.0 CheckIndicator.qml
 CursorDelegate 1.0 CursorDelegate.qml
 Dialog 1.0 Dialog.qml

@@ -8,19 +8,27 @@ import easyAppGui.Elements 1.0 as EaElements
 Rectangle {
     id: indicatorItem
 
-    implicitWidth: EaStyle.Sizes.fontPixelSize
-    implicitHeight: EaStyle.Sizes.fontPixelSize
-
-    radius: 2
-
-    color: "transparent"
-    ///border.color: !control.enabled ? control.Material.hintTextColor
-    ///    : checkState !== Qt.Unchecked ? control.Material.accentColor : control.Material.secondaryTextColor
-    border.width: checkState !== Qt.Unchecked ? width / 2 : 2
-
     property Item control
     property int checkState: control.checkState
 
+    implicitWidth: EaStyle.Sizes.fontPixelSize * 1.5
+    implicitHeight: EaStyle.Sizes.fontPixelSize * 1.5
+
+    radius: 2
+
+    color: EaStyle.Colors.themeBackgroundHovered2
+    Behavior on color {
+        EaAnimations.ThemeChange {}
+    }
+
+    border.color: control.checked ?
+                      control.color :
+                      EaStyle.Colors.isDarkTheme ? "#bbb" : "#999"
+    Behavior on border.color {
+        EaAnimations.ThemeChange {}
+    }
+
+    border.width: checkState !== Qt.Unchecked ? width / 2 : 1
     Behavior on border.width {
         NumberAnimation {
             duration: 100
@@ -28,24 +36,15 @@ Rectangle {
         }
     }
 
-    /*
-    Behavior on border.color {
-        ColorAnimation {
-            duration: 100
-            easing.type: Easing.OutCubic
-        }
-    }
-    */
-
     EaElements.Label {
         id: checkSymbol
 
         x: (parent.width - width) / 2
         y: (parent.height - height) / 2
 
-        text: "\ue800" // ????
+        text: "\uf00c"
 
-        font.family: EaStyle.Fonts.fontFamily
+        font.family: EaStyle.Fonts.iconsFamily
         font.pixelSize: EaStyle.Sizes.fontPixelSize
 
         scale: indicatorItem.checkState === Qt.Checked ? 1 : 0
@@ -56,7 +55,7 @@ Rectangle {
         }
 
         color: indicatorItem.enabled ?
-                   "red" : //EaStyle.Colors.checkSymbol :
+                   "white" ://EaStyle.Colors.checkSymbol :
                    EaStyle.Colors.themeForegroundDisabled
         Behavior on color {
             EaAnimations.ThemeChange {}

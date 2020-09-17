@@ -1,14 +1,15 @@
 import QtQuick 2.13
 import QtQuick.Templates 2.13 as T
 
-import Globals 1.0 as Globals
-import Templates.Animations 1.0 as Animations
-import Templates.Controls 1.0
+import easyAppGui.Style 1.0 as EaStyle
+import easyAppGui.Globals 1.0 as EaGlobals
+import easyAppGui.Animations 1.0 as EaAnimations
+import easyAppGui.Elements 1.0 as EaElements
 
 T.CheckBox {
     id: control
 
-    property color color: Globals.Colors.themeAccent
+    property color color: EaStyle.Colors.themeAccent
 
     implicitWidth: Math.max(implicitBackgroundWidth + leftInset + rightInset,
                             implicitContentWidth + leftPadding + rightPadding)
@@ -16,26 +17,27 @@ T.CheckBox {
                              implicitContentHeight + topPadding + bottomPadding,
                              implicitIndicatorHeight + topPadding + bottomPadding)
 
-    spacing: Globals.Sizes.fontPixelSize * 0.5
-    padding: Globals.Sizes.fontPixelSize * 0.5
-    verticalPadding: padding + Globals.Sizes.fontPixelSize * 0.5
+    spacing: 0//EaGlobals.Sizes.fontPixelSize * 0.5
+    padding: 0//EaGlobals.Sizes.fontPixelSize * 0.5
+    verticalPadding: 0//padding + EaGlobals.Sizes.fontPixelSize * 0.5
 
     tristate: false
 
-    font.family: Globals.Fonts.sans
-    font.pixelSize: Globals.Sizes.fontPixelSize
+    font.family: EaStyle.Fonts.fontFamily
+    font.pixelSize: EaStyle.Sizes.fontPixelSize
 
-    indicator: CheckIndicator {
+    indicator: EaElements.CheckIndicator {
         id: checkIndicator
 
         x: control.text ? (control.mirrored ? control.width - width - control.rightPadding : control.leftPadding) : control.leftPadding + (control.availableWidth - width) / 2
         y: control.topPadding + (control.availableHeight - height) / 2
         control: control
 
-        border.color: control.color
-        Behavior on border.color {
-            Animations.ThemeChange {}
-        }
+        //border.width: 1
+        //border.color: control.checked ? control.color : EaStyle.Colors.appBarBorder
+        //Behavior on border.color {
+        //    EaAnimations.ThemeChange {}
+        //}
 
         /*
         Ripple {
@@ -57,22 +59,18 @@ T.CheckBox {
             z: -1
             anchors.centerIn: parent
 
-            implicitWidth: Globals.Sizes.toolButtonHeight
-            implicitHeight: Globals.Sizes.toolButtonHeight
+            implicitWidth: EaGlobals.Sizes.toolButtonHeight
+            implicitHeight: EaGlobals.Sizes.toolButtonHeight
 
-            radius: Globals.Sizes.toolButtonHeight * 0.5
+            radius: EaGlobals.Sizes.toolButtonHeight * 0.5
 
             color: rippleArea.containsMouse ?
                        (rippleArea.containsPress ? // TODO: fix this, as currently containsPress is not catched because of onPressed: mouse.accepted = false
-                            Globals.Colors.appBarButtonBackgroundPressed :
-                            Globals.Colors.appBarButtonBackgroundHovered) :
-                        Globals.Colors.appBarButtonBackground
+                            EaStyle.Colors.appBarButtonBackgroundPressed :
+                            EaStyle.Colors.appBarButtonBackgroundHovered) :
+                        EaStyle.Colors.appBarButtonBackground
             Behavior on color {
-                PropertyAnimation {
-                    duration: rippleArea.containsMouse ? 500 : 0 //Globals.Variables.themeChangeTime
-                    alwaysRunToEnd: true
-                    easing.type: Easing.OutCubic
-                }
+                EaAnimations.ThemeChange {}
             }
 
             MouseArea {
@@ -94,10 +92,10 @@ T.CheckBox {
         verticalAlignment: Text.AlignVCenter
 
         color: control.enabled ?
-                   Globals.Colors.themeForeground :
-                   Globals.Colors.themeForegroundDisabled // control.Material.foreground : control.Material.hintTextColor
+                   EaStyle.Colors.themeForeground :
+                   EaStyle.Colors.themeForegroundDisabled // control.Material.foreground : control.Material.hintTextColor
         Behavior on color {
-            Animations.ThemeChange {}
+            EaAnimations.ThemeChange {}
         }
     }
 }
