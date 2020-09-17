@@ -14,10 +14,10 @@ T.GroupBox {
     property bool collapsible: true
     property bool collapsed: collapsible ? true : false
 
-    implicitWidth: Math.max(
-                       parent.width,
-                       titleArea.implicitWidth + leftPadding + rightPadding,
-                       contentItem.implicitWidth + leftPadding + rightPadding)
+    implicitWidth: parent.width
+                       //Math.max(parent.width,
+                       //titleArea.implicitWidth + leftPadding + rightPadding,
+                       //contentItem.implicitWidth + leftPadding + rightPadding)
     implicitHeight: titleArea.implicitHeight + contentItem.height + spacing
                     + topPadding + bottomPadding
 
