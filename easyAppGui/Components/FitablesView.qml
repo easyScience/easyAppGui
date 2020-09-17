@@ -141,7 +141,8 @@ ListView {
                 width: columnWidth("labelColumn")
                 text: model.label
             }
-            TextInput {
+            EaElements.TextInput {
+            //TextField {
                 anchors.verticalCenter: parent.verticalCenter
                 horizontalAlignment: Text.AlignRight
                 width: columnWidth("valueColumn")

@@ -23,7 +23,8 @@ Rectangle {
 
     border.color: control.checked ?
                       control.color :
-                      EaStyle.Colors.isDarkTheme ? "#bbb" : "#999"
+                      control.hovered ? EaStyle.Colors.themeForegroundHovered :
+                                        EaStyle.Colors.isDarkTheme ? "#bbb" : "#999"
     Behavior on border.color {
         EaAnimations.ThemeChange {}
     }
