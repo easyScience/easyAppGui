@@ -55,7 +55,7 @@ ListView {
     model: XmlListModel {
         id: fitablesModel
 
-        xml: ExGlobals.Constants.proxy.fitablesModelAsXml
+        xml: ExGlobals.Constants.proxy.fitablesListAsXml
         query: "/root/item"
 
         XmlRole { name: "number"; query: "number/number()" }
@@ -147,7 +147,7 @@ ListView {
                 horizontalAlignment: Text.AlignRight
                 width: columnWidth("valueColumn")
                 text: model.value.toFixed(4)
-                onEditingFinished: ExGlobals.Constants.proxy.editFitablesModel(model.index, "value", text)
+                onEditingFinished: ExGlobals.Constants.proxy.editFitableByIndexAndName(model.index, "value", text)
             }
             EaElements.Label {
                 anchors.verticalCenter: parent.verticalCenter
@@ -172,7 +172,7 @@ ListView {
                     //print("model row", JSON.stringify(fitablesModel.get(index)))
                     //print("model query", fitablesModel.query)
                     //print("row index", index)
-                    ExGlobals.Constants.proxy.editFitablesModel(model.index, "fit", checked)
+                    ExGlobals.Constants.proxy.editFitableByIndexAndName(model.index, "fit", checked)
                 }
             }
         }
