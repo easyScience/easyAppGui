@@ -20,7 +20,15 @@ T.TextField {
 
     verticalAlignment: TextInput.AlignVCenter
 
-    color: enabled ? EaStyle.Colors.themeForeground : EaStyle.Colors.themeForegroundDisabled
+    selectByMouse: true
+
+    font.family: EaStyle.Fonts.fontFamily
+    font.pixelSize: EaStyle.Sizes.fontPixelSize
+    font.bold: control.activeFocus ? true : false
+
+    color: !enabled ? EaStyle.Colors.themeForegroundDisabled :
+                     rippleArea.containsMouse || control.activeFocus ? EaStyle.Colors.themeForegroundHovered :
+                                                                       EaStyle.Colors.themeForeground
     Behavior on color {
         EaAnimations.ThemeChange {}
     }
@@ -64,10 +72,18 @@ T.TextField {
             EaAnimations.ThemeChange {}
         }
 
-        border.color: control.activeFocus ? EaStyle.Colors.themeAccent
+        border.color: control.activeFocus ? EaStyle.Colors.themeForegroundHovered
                                           : (control.hovered ? EaStyle.Colors.themeAccent : EaStyle.Colors.appBarComboBoxBorder)
         Behavior on border.color {
             EaAnimations.ThemeChange {}
         }
+    }
+
+    //Mouse area to react on click events
+    MouseArea {
+        id: rippleArea
+        anchors.fill: control
+        hoverEnabled: true
+        onPressed: mouse.accepted = false
     }
 }

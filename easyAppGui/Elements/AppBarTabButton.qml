@@ -36,6 +36,7 @@ EaElements.TabButton {
             Label {
                 font.family: control.font.family
                 font.pixelSize: control.font.pixelSize
+                font.bold: control.checked ? true : false
 
                 text: control.text
 

@@ -59,7 +59,7 @@ T.GroupBox {
 
             text: collapsible ? "play" : "circle"
 
-            color: control.enabled ? EaStyle.Colors.themeAccent : EaStyle.Colors.themeForegroundDisabled
+            color: foregroundColor()
             Behavior on color {
                 EaAnimations.ThemeChange {}
             }
@@ -83,14 +83,22 @@ T.GroupBox {
 
             font.family: EaStyle.Fonts.fontFamily
             font.pixelSize: EaStyle.Sizes.fontPixelSize
-            font.bold: true
+            //font.bold: true
 
             text: control.title
 
-            color: control.enabled ? EaStyle.Colors.themeAccent : EaStyle.Colors.themeForegroundDisabled
+            color: foregroundColor()
             Behavior on color {
                 EaAnimations.ThemeChange {}
             }
+        }
+
+        //Mouse area to react on click events
+        MouseArea {
+            id: rippleArea
+            anchors.fill: parent
+            hoverEnabled: true
+            onPressed: mouse.accepted = false
         }
 
         // On clicked animation
@@ -158,5 +166,15 @@ T.GroupBox {
             to: collapsed ? 90 : 0
             duration: 150
         }
+    }
+
+    // Logic
+
+    function foregroundColor() {
+        if (!control.enabled)
+            return EaStyle.Colors.themeForegroundDisabled
+        if (rippleArea.containsMouse)
+            return EaStyle.Colors.themeForegroundHovered
+        return EaStyle.Colors.themeForeground
     }
 }

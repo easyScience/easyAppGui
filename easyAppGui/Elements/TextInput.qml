@@ -8,10 +8,11 @@ import easyAppGui.Elements 1.0 as EaElements
 TextInput {
     id: control
 
+    selectByMouse: true
+
     font.family: EaStyle.Fonts.fontFamily
     font.pixelSize: EaStyle.Sizes.fontPixelSize
-
-    selectByMouse: true
+    font.bold: control.activeFocus ? true : false
 
     color: !enabled ? EaStyle.Colors.themeForegroundDisabled :
                      rippleArea.containsMouse || control.activeFocus ? EaStyle.Colors.themeForegroundHovered :
