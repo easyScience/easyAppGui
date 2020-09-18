@@ -120,7 +120,7 @@ T.GroupBox {
         anchors.rightMargin: anchors.leftMargin
 
         topPadding: EaStyle.Sizes.fontPixelSize * 0.5
-        bottomPadding: anchors.leftMargin
+        bottomPadding: anchors.leftMargin * 1.5
         leftPadding: icon.width * 0.5
         rightPadding: 0
 
