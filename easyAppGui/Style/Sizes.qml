@@ -16,8 +16,8 @@ QtObject {
     property int appWindowHeightXGA: scalePx(768)
     property int appWindowHeightWXGA: scalePx(800)
 
-    property int appWindowMinimumWidth: appWindowWidthXGA
-    property int appWindowMinimumHeight: appWindowHeightSVGA
+    property int appWindowMinimumWidth: appWindowWidthWXGA
+    property int appWindowMinimumHeight: appWindowHeightXGA
 
     property int appWindowWidth: Qt.platform.pluginName === "wasm" ? Screen.width : Math.min(appWindowMinimumWidth, Screen.width)
     property int appWindowHeight: Qt.platform.pluginName === "wasm" ? Screen.height : Math.min(appWindowMinimumHeight, Screen.height)
@@ -30,7 +30,7 @@ QtObject {
     property int appBarSpacing: fontPixelSize
 
     // Sidebar
-    readonly property int sideBarWidth: Math.round(fontPixelSize * 32)
+    readonly property int sideBarWidth: Math.round(fontPixelSize * 36)
     property int groupBoxSpacing: fontPixelSize
     property int sideBarPadding: fontPixelSize
     property int sideBarButtonHeight: Math.round(fontPixelSize * 2.5)
