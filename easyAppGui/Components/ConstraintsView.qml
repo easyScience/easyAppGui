@@ -16,10 +16,12 @@ ListView {
     property int rowHeight: EaStyle.Sizes.fontPixelSize * 2.75
     property int maxRowCountShow: 5
 
-    visible: count > 0
+    enabled: count > 0
 
     width: parent.width - EaStyle.Sizes.fontPixelSize * 0.5
-    height: rowHeight * (Math.min(count, maxRowCountShow) + 1)
+    height: count > 0 ?
+                rowHeight * (Math.min(count, maxRowCountShow) + 1 ) :
+                rowHeight * (Math.min(count, maxRowCountShow) + 2 )
 
     clip: true
 
@@ -87,6 +89,22 @@ ListView {
     }
 
     // Table rows
+
+    Rectangle {
+        visible: model.count === 0
+
+        width: listView.width
+        height: rowHeight
+        y: height
+
+        color: EaStyle.Colors.themeBackgroundHovered1
+
+        EaElements.Label {
+            anchors.verticalCenter: parent.verticalCenter
+            leftPadding: EaStyle.Sizes.fontPixelSize
+            text: "No constraints"
+        }
+    }
 
     delegate: Rectangle {
         width: listView.width
