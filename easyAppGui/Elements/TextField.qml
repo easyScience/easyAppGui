@@ -16,7 +16,9 @@ T.TextField {
                              contentHeight + topPadding + bottomPadding,
                              placeholder.implicitHeight + topPadding + bottomPadding)
 
-    padding: EaStyle.Sizes.fontPixelSize * 0.5
+    padding: EaStyle.Sizes.fontPixelSize * 0.5 + 1
+    topInset: 0
+    bottomInset: 0
 
     verticalAlignment: TextInput.AlignVCenter
 
