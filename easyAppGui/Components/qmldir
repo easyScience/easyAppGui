@@ -16,4 +16,5 @@ SideBarColumn 1.0 SideBarColumn.qml
 
 PreferencesDialog 1.0 PreferencesDialog.qml
 
+ConstraintsView 1.0 ConstraintsView.qml
 FitablesView 1.0 FitablesView.qml
