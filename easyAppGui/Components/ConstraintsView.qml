@@ -31,7 +31,7 @@ ListView {
         xml: ExGlobals.Constants.proxy.constraintsListAsXml
         query: "/root/item"
 
-        onXmlChanged: print(ExGlobals.Constants.proxy.constraintsListAsXml)
+        //onXmlChanged: print(ExGlobals.Constants.proxy.constraintsListAsXml)
 
         XmlRole { name: "number"; query: "number/number()" }
         XmlRole { name: "dependentName"; query: "dependentName/string()" }
@@ -220,7 +220,7 @@ ListView {
         widths.independentNameColumn = nameColumn
 
         //print(JSON.stringify(widths))
-        print(key, widths[key])
+        //print(key, widths[key])
 
         return widths[key]
     }

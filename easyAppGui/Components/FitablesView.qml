@@ -160,7 +160,7 @@ ListView {
                 horizontalAlignment: Text.AlignRight
                 width: columnWidth("errorColumn")
                 text: !fitCheckBox.checked || model.error === 0.0 || model.error > 999999 ? "" : model.error.toFixed(4)
-                onTextChanged: print(model.error, typeof model.error)
+                //onTextChanged: print(model.error, typeof model.error)
             }
             EaElements.CheckBox {
                 id: fitCheckBox
