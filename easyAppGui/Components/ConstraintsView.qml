@@ -31,9 +31,13 @@ ListView {
         xml: ExGlobals.Constants.proxy.constraintsListAsXml
         query: "/root/item"
 
+        onXmlChanged: print(ExGlobals.Constants.proxy.constraintsListAsXml)
+
         XmlRole { name: "number"; query: "number/number()" }
         XmlRole { name: "dependentName"; query: "dependentName/string()" }
-        XmlRole { name: "operator"; query: "operator/string()" }
+        XmlRole { name: "relationalOperator"; query: "relationalOperator/string()" }
+        XmlRole { name: "value"; query: "value/number()" }
+        XmlRole { name: "arithmeticOperator"; query: "arithmeticOperator/string()" }
         XmlRole { name: "independentName"; query: "independentName/string()" }
         XmlRole { name: "enabled"; query: "enabled/number()" }
     }
@@ -59,19 +63,31 @@ ListView {
             EaElements.Label {
                 anchors.verticalCenter: parent.verticalCenter
                 width: columnWidth("dependentNameColumn")
-                text: "Dependent"
+                text: "Constraint"
             }
             EaElements.Label {
                 anchors.verticalCenter: parent.verticalCenter
                 horizontalAlignment: Text.AlignRight
-                width: columnWidth("operatorColumn")
+                width: columnWidth("relationalOperatorColumn")
+                text: ""
+            }
+            EaElements.Label {
+                anchors.verticalCenter: parent.verticalCenter
+                horizontalAlignment: Text.AlignRight
+                width: columnWidth("valueColumn")
+                text: ""
+            }
+            EaElements.Label {
+                anchors.verticalCenter: parent.verticalCenter
+                horizontalAlignment: Text.AlignRight
+                width: columnWidth("arithmeticOperatorColumn")
                 text: ""
             }
             EaElements.Label {
                 anchors.verticalCenter: parent.verticalCenter
                 horizontalAlignment: Text.AlignLeft
                 width: columnWidth("independentNameColumn")
-                text: "Independent"
+                text: ""
             }
             EaElements.Label {
                 anchors.verticalCenter: parent.verticalCenter
@@ -133,9 +149,23 @@ ListView {
             }
             EaElements.Label {
                 anchors.verticalCenter: parent.verticalCenter
+                horizontalAlignment: Text.AlignHCenter
+                width: columnWidth("relationalOperatorColumn")
+                font.family: EaStyle.Fonts.iconsFamily
+                text: model.relationalOperator.replace("=", "\uf52c").replace(">", "\uf531").replace("<", "\uf536")
+            }
+            EaElements.Label {
+                anchors.verticalCenter: parent.verticalCenter
                 horizontalAlignment: Text.AlignRight
-                width: columnWidth("operatorColumn")
-                text: "= " + model.operator
+                width: columnWidth("valueColumn")
+                text: model.value.toFixed(4)
+            }
+            EaElements.Label {
+                anchors.verticalCenter: parent.verticalCenter
+                horizontalAlignment: Text.AlignHCenter
+                width: columnWidth("arithmeticOperatorColumn")
+                font.family: EaStyle.Fonts.iconsFamily
+                text: model.arithmeticOperator.replace("*", "\uf00d").replace("/", "\uf529").replace("+", "\uf067").replace("-", "\uf068")
             }
             EaElements.Label {
                 anchors.verticalCenter: parent.verticalCenter
@@ -173,8 +203,10 @@ ListView {
         const widths = {
             numberColumn: EaStyle.Sizes.fontPixelSize * 2,
             dependentNameColumn: 0, // to be calculated and updated below
+            relationalOperatorColumn: EaStyle.Sizes.fontPixelSize * 2,
+            valueColumn: EaStyle.Sizes.fontPixelSize * 4,
             independentNameColumn: 0, // to be calculated and updated below
-            operatorColumn: EaStyle.Sizes.fontPixelSize * 5,
+            arithmeticOperatorColumn: EaStyle.Sizes.fontPixelSize * 2,
             useColumn: EaStyle.Sizes.fontPixelSize * 3,
             delColumn: rowHeight
         }
@@ -186,6 +218,9 @@ ListView {
         const nameColumn = (allColumnWidth - fixedColumnsWidth - spacingWidth) / 2
         widths.dependentNameColumn = nameColumn
         widths.independentNameColumn = nameColumn
+
+        //print(JSON.stringify(widths))
+        print(key, widths[key])
 
         return widths[key]
     }

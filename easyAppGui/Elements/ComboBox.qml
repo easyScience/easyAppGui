@@ -43,6 +43,8 @@ T.ComboBox {
         width: parent.width
         height: EaStyle.Sizes.comboBoxHeight
 
+        font.family: control.font.family
+
         text: control.textRole ? (Array.isArray(control.model) ? modelData[control.textRole] : model[control.textRole]) : modelData
         ///Material.foreground: control.currentIndex === index ? parent.Material.accent : parent.Material.foreground
         highlighted: control.highlightedIndex === index
