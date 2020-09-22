@@ -40,7 +40,7 @@ T.ComboBox {
     }
 
     delegate: EaElements.MenuItem {
-        width: parent.width
+        width: parent !== null ? parent.width : 0
         height: EaStyle.Sizes.comboBoxHeight
 
         font.family: control.font.family
