@@ -31,6 +31,14 @@ T.ComboBox {
     hoverEnabled: true
     editable: false
 
+    //Mouse area to react on click events
+    MouseArea {
+        id: rippleArea
+        anchors.fill: parent//control
+        hoverEnabled: true
+        onPressed: mouse.accepted = false
+    }
+
     delegate: EaElements.MenuItem {
         width: parent.width
         height: EaStyle.Sizes.comboBoxHeight
@@ -51,7 +59,7 @@ T.ComboBox {
         font.pixelSize: EaStyle.Sizes.fontPixelSize
 
         ///color: control.enabled ? control.Material.foreground : control.Material.hintTextColor
-        color: control.enabled ? EaStyle.Colors.themeForeground :  EaStyle.Colors.themeForegroundDisabled
+        color: foregroundColor()
         Behavior on color {
             EaAnimations.ThemeChange {}
         }
@@ -79,7 +87,7 @@ T.ComboBox {
         ///selectedTextColor: control.Material.primaryHighlightedTextColor
 
         ///color: control.enabled ? control.Material.foreground : control.Material.hintTextColor
-        color: control.enabled ? EaStyle.Colors.themeForeground :  EaStyle.Colors.themeForegroundDisabled
+        color: foregroundColor()
         Behavior on color {
             EaAnimations.ThemeChange {}
         }
@@ -103,7 +111,7 @@ T.ComboBox {
             EaAnimations.ThemeChange {}
         }
 
-        border.color: EaStyle.Colors.appBarComboBoxBorder
+        border.color: borderColor()
         Behavior on border.color {
             EaAnimations.ThemeChange {}
         }
@@ -155,5 +163,23 @@ T.ComboBox {
                 elevation: 8
             }
         }
+    }
+
+    // Logic
+
+    function foregroundColor() {
+        if (!enabled)
+            return EaStyle.Colors.themeForegroundDisabled
+        if (rippleArea.containsMouse)
+            return EaStyle.Colors.themeForegroundHovered
+        return EaStyle.Colors.themeForeground
+    }
+
+    function borderColor() {
+        if (!enabled)
+            return EaStyle.Colors.themeForegroundDisabled
+        if (rippleArea.containsMouse)
+            return EaStyle.Colors.themeForegroundHovered
+        return EaStyle.Colors.appBarComboBoxBorder
     }
 }

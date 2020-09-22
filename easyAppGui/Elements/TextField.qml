@@ -29,8 +29,9 @@ T.TextField {
     font.bold: control.activeFocus ? true : false
 
     color: !enabled ? EaStyle.Colors.themeForegroundDisabled :
-                     rippleArea.containsMouse || control.activeFocus ? EaStyle.Colors.themeForegroundHovered :
-                                                                       EaStyle.Colors.themeForeground
+                     rippleArea.containsMouse || control.activeFocus ?
+                          EaStyle.Colors.themeForegroundHovered :
+                          EaStyle.Colors.themeForeground
     Behavior on color {
         EaAnimations.ThemeChange {}
     }
@@ -68,14 +69,20 @@ T.TextField {
     }
 
     background: Rectangle {
-        color: control.activeFocus ? EaStyle.Colors.appBarComboBoxBackgroundHovered
-                                          : (control.hovered ? EaStyle.Colors.appBarComboBoxBackgroundHovered : EaStyle.Colors.appBarComboBoxBackground)
+        color: control.activeFocus ?
+                   EaStyle.Colors.appBarComboBoxBackgroundHovered :
+                        control.hovered ?
+                            EaStyle.Colors.appBarComboBoxBackgroundHovered :
+                            EaStyle.Colors.appBarComboBoxBackground
         Behavior on color {
             EaAnimations.ThemeChange {}
         }
 
-        border.color: control.activeFocus ? EaStyle.Colors.themeForegroundHovered
-                                          : (control.hovered ? EaStyle.Colors.themeAccent : EaStyle.Colors.appBarComboBoxBorder)
+        border.color: control.activeFocus ?
+                          EaStyle.Colors.themeForegroundHovered :
+                                control.hovered ?
+                                    EaStyle.Colors.themeForegroundHovered :
+                                    EaStyle.Colors.appBarComboBoxBorder
         Behavior on border.color {
             EaAnimations.ThemeChange {}
         }
