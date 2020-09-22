@@ -81,9 +81,11 @@ ListView {
             }
             EaElements.Label {
                 anchors.verticalCenter: parent.verticalCenter
-                horizontalAlignment: Text.AlignRight
-                width: columnWidth("delColumn")
-                text: ""
+                horizontalAlignment: Text.AlignHCenter
+                width: columnWidth("delColumn") - 4
+                font.family: EaStyle.Fonts.iconsFamily
+                font.pixelSize: EaStyle.Sizes.fontPixelSize * 1.25
+                text: "\uf2ed"
             }
         }
     }
@@ -102,7 +104,7 @@ ListView {
         EaElements.Label {
             anchors.verticalCenter: parent.verticalCenter
             leftPadding: EaStyle.Sizes.fontPixelSize
-            text: "No constraints"
+            text: qsTr("No Constraints Added")
         }
     }
 
@@ -151,6 +153,7 @@ ListView {
                 height: columnWidth("delColumn") - 7
                 width: columnWidth("delColumn") - 4
                 fontIcon: "minus-circle"
+                ToolTip.text: qsTr("Remove this constraint")
                 onClicked: ExGlobals.Constants.proxy.removeConstraintByIndex(currentIndex)
             }
         }
