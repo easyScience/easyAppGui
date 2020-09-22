@@ -176,7 +176,7 @@ ListView {
                 anchors.verticalCenter: parent.verticalCenter
                 width: columnWidth("useColumn")
                 checked: model.enabled
-                onToggled: ExGlobals.Constants.proxy.toggleConstraintByIndex(currentIndex, checked)
+                onToggled: ExGlobals.Constants.proxy.toggleConstraintByIndex(model.index, checked)
             }
             EaElements.SideBarButton {
                 anchors.verticalCenter: parent.verticalCenter
@@ -184,7 +184,7 @@ ListView {
                 width: columnWidth("delColumn") - 4
                 fontIcon: "minus-circle"
                 ToolTip.text: qsTr("Remove this constraint")
-                onClicked: ExGlobals.Constants.proxy.removeConstraintByIndex(currentIndex)
+                onClicked: ExGlobals.Constants.proxy.removeConstraintByIndex(model.index)
             }
         }
     }
