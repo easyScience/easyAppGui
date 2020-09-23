@@ -50,6 +50,8 @@ T.GroupBox {
         Label {
             id: icon
 
+            width: font.pixelSize - 1
+
             anchors.verticalCenter: parent.verticalCenter
             anchors.left: titleArea.left
             anchors.leftMargin: EaStyle.Sizes.fontPixelSize * 0.75

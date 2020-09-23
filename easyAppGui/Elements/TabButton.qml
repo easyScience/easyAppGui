@@ -108,7 +108,7 @@ T.TabButton {
 
     function backgroundColor() {
         if (!control.enabled)
-            return EaStyle.Colors.themeBackgroundDisabled
+            return EaStyle.Colors.contentBackground
         if (rippleArea.containsMouse)
             return EaStyle.Colors.themeBackgroundHovered1
         return EaStyle.Colors.contentBackground
