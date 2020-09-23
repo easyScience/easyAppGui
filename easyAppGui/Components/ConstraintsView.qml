@@ -140,6 +140,7 @@ ListView {
                 anchors.verticalCenter: parent.verticalCenter
                 horizontalAlignment: Text.AlignRight
                 width: columnWidth("numberColumn")
+                color: EaStyle.Colors.themeForegroundDisabled
                 text: model.number
             }
             EaElements.Label {
