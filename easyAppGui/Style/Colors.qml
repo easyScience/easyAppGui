@@ -78,5 +78,8 @@ QtObject {
     property color chartBackground: "transparent"
     property color chartPlotAreaBackground: "transparent"
 
+    // Table
+    property color tableHighlight: isDarkTheme ? "#204ec1ef": "#2000a3e3"
+
 
 }

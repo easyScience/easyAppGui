@@ -69,7 +69,7 @@ T.Button {
 
     // Background
     background: Rectangle {
-        implicitWidth: EaStyle.Sizes.sideBarButtonWidth - 2 * EaStyle.Sizes.sideBarPadding
+        implicitWidth: EaStyle.Sizes.sideBarContentWidth
         implicitHeight: EaStyle.Sizes.sideBarButtonHeight
 
         radius: 2

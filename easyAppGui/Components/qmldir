@@ -16,5 +16,10 @@ SideBarColumn 1.0 SideBarColumn.qml
 
 PreferencesDialog 1.0 PreferencesDialog.qml
 
-ConstraintsView 1.0 ConstraintsView.qml
-FitablesView 1.0 FitablesView.qml
+TableView 1.0 TableView.qml
+TableViewHeader 1.0 TableViewHeader.qml
+TableViewDelegate 1.0 TableViewDelegate.qml
+TableViewLabel 1.0 TableViewLabel.qml
+TableViewTextInput 1.0 TableViewTextInput.qml
+TableViewCheckBox 1.0 TableViewCheckBox.qml
+TableViewButton 1.0 TableViewButton.qml
