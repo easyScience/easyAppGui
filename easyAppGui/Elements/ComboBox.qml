@@ -12,6 +12,11 @@ import easyAppGui.Elements 1.0 as EaElements
 T.ComboBox {
     id: control
 
+    property color borderColor: _borderColor()
+    property color foregroundColor: _foregroundColor()
+    property color backgroundColor: _backgroundColor()
+    property color popupBackgroundColor: _popupBackgroundColor()
+
     implicitWidth: Math.max(implicitBackgroundWidth + leftInset + rightInset,
                             implicitContentWidth + leftPadding + rightPadding)
     implicitHeight: Math.max(implicitBackgroundHeight + topInset + bottomInset,
@@ -61,7 +66,7 @@ T.ComboBox {
         font.pixelSize: EaStyle.Sizes.fontPixelSize
 
         ///color: control.enabled ? control.Material.foreground : control.Material.hintTextColor
-        color: foregroundColor()
+        color: foregroundColor
         Behavior on color {
             EaAnimations.ThemeChange {}
         }
@@ -89,7 +94,7 @@ T.ComboBox {
         ///selectedTextColor: control.Material.primaryHighlightedTextColor
 
         ///color: control.enabled ? control.Material.foreground : control.Material.hintTextColor
-        color: foregroundColor()
+        color: foregroundColor
         Behavior on color {
             EaAnimations.ThemeChange {}
         }
@@ -104,16 +109,12 @@ T.ComboBox {
         radius: control.flat ? 0 : 2
 
         ///color: !control.editable ? control.Material.dialogColor : "transparent"
-        color: control.hovered ?
-                   (control.pressed ?
-                        EaStyle.Colors.appBarComboBoxBackgroundPressed :
-                        EaStyle.Colors.appBarComboBoxBackgroundHovered) :
-                    EaStyle.Colors.appBarComboBoxBackground
+        color: backgroundColor
         Behavior on color {
             EaAnimations.ThemeChange {}
         }
 
-        border.color: borderColor()
+        border.color: borderColor
         Behavior on border.color {
             EaAnimations.ThemeChange {}
         }
@@ -140,6 +141,8 @@ T.ComboBox {
         }
 
         contentItem: ListView {
+            id: listView
+
             clip: true
             implicitHeight: contentHeight
             model: control.delegateModel
@@ -151,7 +154,8 @@ T.ComboBox {
 
         background: Rectangle {
             radius: 2
-            color: EaStyle.Colors.dialogBackground
+
+            color: popupBackgroundColor
             Behavior on color {
                 PropertyAnimation {
                     duration: EaStyle.Times.themeChange
@@ -169,7 +173,19 @@ T.ComboBox {
 
     // Logic
 
-    function foregroundColor() {
+    function _popupBackgroundColor() {
+        return EaStyle.Colors.dialogBackground
+    }
+
+    function _backgroundColor() {
+        if (!control.hovered)
+            return EaStyle.Colors.appBarComboBoxBackground
+        if (control.pressed)
+            return EaStyle.Colors.appBarComboBoxBackgroundPressed
+        return EaStyle.Colors.appBarComboBoxBackgroundHovered
+    }
+
+    function _foregroundColor() {
         if (!enabled)
             return EaStyle.Colors.themeForegroundDisabled
         if (rippleArea.containsMouse)
@@ -177,7 +193,7 @@ T.ComboBox {
         return EaStyle.Colors.themeForeground
     }
 
-    function borderColor() {
+    function _borderColor() {
         if (!enabled)
             return EaStyle.Colors.themeForegroundDisabled
         if (rippleArea.containsMouse)

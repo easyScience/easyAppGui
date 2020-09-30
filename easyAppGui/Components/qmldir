@@ -22,4 +22,5 @@ TableViewDelegate 1.0 TableViewDelegate.qml
 TableViewLabel 1.0 TableViewLabel.qml
 TableViewTextInput 1.0 TableViewTextInput.qml
 TableViewCheckBox 1.0 TableViewCheckBox.qml
+TableViewComboBox 1.0 TableViewComboBox.qml
 TableViewButton 1.0 TableViewButton.qml

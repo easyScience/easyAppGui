@@ -111,7 +111,6 @@ ListView {
                      "} \n" +
                 "} \n"
 
-        print(qmlString)
         const headerObj = Qt.createQmlObject(qmlString, listView)
 
         return headerObj
