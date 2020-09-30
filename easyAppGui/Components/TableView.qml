@@ -25,22 +25,21 @@ ListView {
     headerPositioning: ListView.OverlayHeader
     boundsBehavior: Flickable.StopAtBounds
 
+    // Highlight current row
     highlight: Rectangle {
         z: 2 // To display highlight rect above delegate
 
         color: EaStyle.Colors.tableHighlight
     }
 
-    // Default info, if no constraints added
-
+    // Default info, if no rows added
     Rectangle { 
         visible: model.count === 0
 
         width: listView.width
-        height: EaStyle.Sizes.tableRowHeight
-        y: height
+        height: EaStyle.Sizes.tableRowHeight * 2
 
-        color: EaStyle.Colors.themeBackgroundHovered1
+        color: EaStyle.Colors.themeBackground
 
         EaElements.Label {
             id: defaultLabel
@@ -69,9 +68,13 @@ ListView {
         }
     }
 
-    // Table header
-
-    onCountChanged: count !== 0 ? header = createHeader() : header = null
+    // Create table header
+    onCountChanged: {
+        if (header !== null)
+            return
+        if (count > 0)
+            header = createHeader()
+    }
 
     // Logic
 
@@ -108,6 +111,7 @@ ListView {
                      "} \n" +
                 "} \n"
 
+        print(qmlString)
         const headerObj = Qt.createQmlObject(qmlString, listView)
 
         return headerObj
