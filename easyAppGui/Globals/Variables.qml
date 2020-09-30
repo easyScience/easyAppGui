@@ -27,6 +27,7 @@ QtObject {
     property bool showAppBar: true
     property bool showAppStatusBar: true
     property bool showAppPreferencesDialog: false
+    property bool showToolTips: false
 
     // Screenshots control
     property bool saveScreenshotsRunning: false
