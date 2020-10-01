@@ -14,6 +14,10 @@ ListView {
     property int maxRowCountShow: EaStyle.Sizes.tableMaxRowCountShow
     property alias defaultLabelText: defaultLabel.text
 
+    property string modelXml: model.xml
+    property int modelStatus: model.status
+    property int lastCurrentIndex: -1
+
     enabled: count > 0
 
     width: EaStyle.Sizes.sideBarContentWidth
@@ -24,6 +28,7 @@ ListView {
     clip: true
     headerPositioning: ListView.OverlayHeader
     boundsBehavior: Flickable.StopAtBounds
+
 
     // Highlight current row
     highlight: Rectangle {
@@ -74,6 +79,18 @@ ListView {
             return
         if (count > 0)
             header = createHeader()
+    }
+
+    // Restore current index on xml model changed
+    onModelXmlChanged: {
+        if (lastCurrentIndex !== currentIndex)
+            lastCurrentIndex = currentIndex
+    }
+    onModelStatusChanged: {
+        if (modelStatus !== XmlListModel.Ready)
+            return
+        if (lastCurrentIndex >= 0 && lastCurrentIndex < count)
+            currentIndex = lastCurrentIndex
     }
 
     // Logic
