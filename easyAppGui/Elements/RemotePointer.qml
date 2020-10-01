@@ -26,8 +26,8 @@ Rectangle {
 
     ParallelAnimation {
         id: showAnimation
-        PropertyAction { target: pointer; property: "x"; value: pointer.posX - pointer.maxSize/2 }
-        PropertyAction { target: pointer; property: "y"; value: pointer.posY - pointer.maxSize/2 }
+        PropertyAction { target: pointer; property: "x"; value: pointer.posX - pointer.width/2 }
+        PropertyAction { target: pointer; property: "y"; value: pointer.posY - pointer.height/2 }
         PropertyAnimation { target: pointer; property: "opacity"; to: pointer.minOpacity; duration: pointer.showHideDuration }
     }
 
