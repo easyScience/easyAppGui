@@ -4,6 +4,7 @@ import QtQuick.Controls 2.13
 import QtQuick.Controls.impl 2.13
 
 import easyAppGui.Style 1.0 as EaStyle
+import easyAppGui.Globals 1.0 as EaGlobals
 import easyAppGui.Animations 1.0 as EaAnimations
 import easyAppGui.Elements 1.0 as EaElements
 
@@ -30,7 +31,7 @@ T.Button {
     // ToolTip
     EaElements.ToolTip {
         text: control.ToolTip.text
-        visible: control.hovered && text !== ""
+        visible: control.hovered && EaGlobals.Variables.showToolTips && text !== ""
     }
 
     // Icon with text label
