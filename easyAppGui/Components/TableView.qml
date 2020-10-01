@@ -31,6 +31,7 @@ ListView {
 
 
     // Highlight current row
+    highlightMoveDuration: EaStyle.Sizes.tableHighlightMoveDuration
     highlight: Rectangle {
         z: 2 // To display highlight rect above delegate
 
@@ -89,8 +90,11 @@ ListView {
     onModelStatusChanged: {
         if (modelStatus !== XmlListModel.Ready)
             return
-        if (lastCurrentIndex >= 0 && lastCurrentIndex < count)
+        if (lastCurrentIndex >= 0 && lastCurrentIndex < count) {
+            highlightMoveDuration = 0
             currentIndex = lastCurrentIndex
+            highlightMoveDuration = EaStyle.Sizes.tableHighlightMoveDuration
+        }
     }
 
     // Logic
