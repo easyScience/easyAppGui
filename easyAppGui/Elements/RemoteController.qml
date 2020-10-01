@@ -54,9 +54,12 @@ MouseArea {
         result.wait(ms)
     }
 
-    function show() {
+    function posToCenter() {
         pointer.posX = mouseArea.width / 2 - pointer.minSize / 2
         pointer.posY = mouseArea.height / 2 - pointer.minSize / 2
+    }
+
+    function show() {
         pointer.show()
         wait(pointer.showHideDuration)
     }
