@@ -6,7 +6,7 @@ build-backend = "poetry.masonry.api"
 
 [tool.poetry]
 name = "easyAppGui"
-version = "0.2.3"
+version = "0.0.1"
 description = "Generic GUI for easyScience applications"
 license = "GPL-3.0-only"
 authors = ["Andrew Sazonov", "Simon Ward"]
