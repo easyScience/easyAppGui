@@ -31,22 +31,6 @@ EaElements.Dialog {
         Row {
             spacing: EaStyle.Sizes.fontPixelSize * 0.5
 
-            EaElements.Label {
-               width: EaStyle.Sizes.fontPixelSize * 5.3
-               anchors.verticalCenter: parent.verticalCenter
-               text: qsTr("Tool tips") + ":"
-            }
-
-            EaElements.CheckBox {
-                //text: qsTr("Enable tool tips")
-                checked: EaGlobals.Variables.showToolTips
-                onCheckedChanged: EaGlobals.Variables.showToolTips = checked
-            }
-        }
-
-        Row {
-            spacing: EaStyle.Sizes.fontPixelSize * 0.5
-
              EaElements.Label {
                 width: EaStyle.Sizes.fontPixelSize * 6
                 anchors.verticalCenter: parent.verticalCenter
@@ -114,6 +98,22 @@ EaElements.Dialog {
 
                 onActivated: EaGlobals.Variables.translator.selectLanguage(currentIndex)
                 Component.onCompleted: currentIndex = EaGlobals.Variables.translator.defaultLanguageIndex()
+            }
+        }
+
+        Row {
+            spacing: EaStyle.Sizes.fontPixelSize * 0.5
+
+            EaElements.Label {
+               width: EaStyle.Sizes.fontPixelSize * 5.3
+               anchors.verticalCenter: parent.verticalCenter
+               text: qsTr("Tool tips") + ":"
+            }
+
+            EaElements.CheckBox {
+                //text: qsTr("Enable tool tips")
+                checked: EaGlobals.Variables.showToolTips
+                onCheckedChanged: EaGlobals.Variables.showToolTips = checked
             }
         }
     }

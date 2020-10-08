@@ -104,10 +104,7 @@ T.GroupBox {
         }
 
         // On clicked animation
-        onClicked: {
-            contentItem.height === 0 ? collapsed = true : collapsed = false
-            animo.restart()
-        }
+        onClicked: collapsionAnimo.restart()
     }
 
     // Content area
@@ -133,7 +130,6 @@ T.GroupBox {
 
         clip: true
 
-        //Component.onCompleted: collapsed ? height = 0 : height = implicitHeight
         onImplicitHeightChanged: collapsed ? height = 0 : height = implicitHeight
     }
 
@@ -153,7 +149,7 @@ T.GroupBox {
 
     // Collapsion animation
     ParallelAnimation {
-        id: animo
+        id: collapsionAnimo
 
         NumberAnimation {
             target: contentItem
@@ -168,6 +164,8 @@ T.GroupBox {
             to: collapsed ? 90 : 0
             duration: 150
         }
+
+        onFinished: collapsed = !collapsed
     }
 
     // Logic

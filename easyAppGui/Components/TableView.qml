@@ -34,8 +34,8 @@ ListView {
     highlightMoveDuration: EaStyle.Sizes.tableHighlightMoveDuration
     highlight: Rectangle {
         z: 2 // To display highlight rect above delegate
-
-        color: EaStyle.Colors.tableHighlight
+        color: count > 1 ? EaStyle.Colors.tableHighlight : "transparent"
+        //color: EaStyle.Colors.tableHighlight
     }
 
     // Default info, if no rows added
@@ -78,14 +78,18 @@ ListView {
     onCountChanged: {
         if (header !== null)
             return
-        if (count > 0)
+        if (count > 0) {
             header = createHeader()
+            positionViewAtBeginning()
+        }
     }
 
     // Restore current index on xml model changed
     onModelXmlChanged: {
-        if (lastCurrentIndex !== currentIndex)
+        if (lastCurrentIndex !== currentIndex) {
             lastCurrentIndex = currentIndex
+            //positionViewAtBeginning()
+        }
     }
     onModelStatusChanged: {
         if (modelStatus !== XmlListModel.Ready)
