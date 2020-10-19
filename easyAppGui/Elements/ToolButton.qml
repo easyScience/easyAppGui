@@ -85,7 +85,7 @@ T.ToolButton {
     function foregroundColor() {
         if (!control.enabled)
             return EaStyle.Colors.themeForegroundDisabled
-        if (rippleArea.containsMouse)
+        if (control.checked && rippleArea.containsMouse)
             return EaStyle.Colors.themeForegroundHovered
         return EaStyle.Colors.themeForeground
     }
