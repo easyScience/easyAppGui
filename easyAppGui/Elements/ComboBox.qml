@@ -1,8 +1,8 @@
-import QtQuick 2.13
-import QtQuick.Window 2.13
-import QtQuick.Controls 2.13
-import QtQuick.Controls.impl 2.13
-import QtQuick.Templates 2.13 as T
+import QtQuick 2.14
+import QtQuick.Window 2.14
+import QtQuick.Controls 2.14
+import QtQuick.Controls.impl 2.14
+import QtQuick.Templates 2.14 as T
 
 import easyAppGui.Style 1.0 as EaStyle
 import easyAppGui.Globals 1.0 as EaGlobals
