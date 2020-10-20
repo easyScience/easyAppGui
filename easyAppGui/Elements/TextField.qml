@@ -21,6 +21,7 @@ T.TextField {
     bottomInset: 0
 
     verticalAlignment: TextInput.AlignVCenter
+    horizontalAlignment: TextInput.AlignRight
 
     selectByMouse: true
 
