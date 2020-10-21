@@ -52,6 +52,7 @@ T.ComboBox {
 
         text: control.textRole ? (Array.isArray(control.model) ? modelData[control.textRole] : model[control.textRole]) : modelData
         ///Material.foreground: control.currentIndex === index ? parent.Material.accent : parent.Material.foreground
+
         highlighted: control.highlightedIndex === index
         hoverEnabled: control.hoverEnabled
     }
@@ -72,7 +73,7 @@ T.ComboBox {
         }
     }
 
-    contentItem: T.TextField {
+    contentItem: Label {
         padding: EaStyle.Sizes.fontPixelSize * 0.5
         leftPadding: control.editable ? 2 : control.mirrored ? 0 : 12
         rightPadding: control.editable ? 2 : control.mirrored ? 12 : 0
@@ -82,13 +83,15 @@ T.ComboBox {
         text: control.editable ? control.editText : control.displayText
 
         enabled: control.editable
-        autoScroll: control.editable
-        readOnly: control.down
-        inputMethodHints: control.inputMethodHints
-        validator: control.validator
+        ///autoScroll: control.editable
+        ///readOnly: control.down
+        ///inputMethodHints: control.inputMethodHints
+        ///validator: control.validator
 
         font: control.font
         verticalAlignment: Text.AlignVCenter
+
+        textFormat: Text.RichText
 
         ///selectionColor: control.Material.accentColor
         ///selectedTextColor: control.Material.primaryHighlightedTextColor
@@ -99,7 +102,7 @@ T.ComboBox {
             EaAnimations.ThemeChange {}
         }
 
-        cursorDelegate: CursorDelegate { }
+        ///cursorDelegate: CursorDelegate { }
     }
 
     background: Rectangle {
@@ -201,3 +204,5 @@ T.ComboBox {
         return EaStyle.Colors.appBarComboBoxBorder
     }
 }
+
+// https://forum.qt.io/topic/103394/using-subscripts-in-text-inside-combobox/5
