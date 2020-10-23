@@ -38,7 +38,7 @@ T.GroupBox {
         enabled: collapsible
 
         implicitHeight: EaStyle.Sizes.tabBarHeight
-        width: control.width
+        width: label.width
 
         topInset: 0
         bottomInset: 0
@@ -79,6 +79,8 @@ T.GroupBox {
         // Custom text label
         contentItem: null // reimplemented as label to support above icon rotation animation
         Label {
+            id: label
+
             anchors.verticalCenter: parent.verticalCenter
             anchors.left: icon.right
             anchors.leftMargin: EaStyle.Sizes.fontPixelSize * 0.75
