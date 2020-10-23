@@ -40,13 +40,13 @@ EaElements.Dialog {
             EaElements.ComboBox {
                 id: themeSelector
                 width: EaStyle.Sizes.fontPixelSize * 9
-                model: [qsTr("Dark"), qsTr("Light"), qsTr("System")]
-                currentIndex: EaStyle.Colors.isDarkTheme ? 0 : 1 // EaStyle.Colors.theme === EaStyle.Colors.DarkTheme ? 0 : 1
-                onCurrentTextChanged: {
-                    if (currentIndex === 0 && EaStyle.Colors.theme !== EaStyle.Colors.DarkTheme) {
-                        EaStyle.Colors.theme = EaStyle.Colors.DarkTheme
-                    } else if (currentIndex === 1 && EaStyle.Colors.theme !== EaStyle.Colors.LightTheme) {
+                model: [qsTr("Light"), qsTr("Dark"), qsTr("System")]
+                //currentIndex: EaStyle.Colors.isDarkTheme ? 0 : 1 // EaStyle.Colors.theme === EaStyle.Colors.DarkTheme ? 0 : 1
+                onCurrentIndexChanged: {
+                    if (currentIndex === 0 && EaStyle.Colors.theme !== EaStyle.Colors.LightTheme) {
                         EaStyle.Colors.theme = EaStyle.Colors.LightTheme
+                    } else if (currentIndex === 1 && EaStyle.Colors.theme !== EaStyle.Colors.DarkTheme) {
+                        EaStyle.Colors.theme = EaStyle.Colors.DarkTheme
                     } else if (currentIndex === 2 && EaStyle.Colors.theme !== EaStyle.Colors.LightTheme) {
                         EaStyle.Colors.theme = EaStyle.Colors.systemTheme
                     }
@@ -79,25 +79,29 @@ EaElements.Dialog {
         Row {
             spacing: EaStyle.Sizes.fontPixelSize * 0.5
 
-             EaElements.Label {
+            EaElements.Label {
                 width: EaStyle.Sizes.fontPixelSize * 6
                 anchors.verticalCenter: parent.verticalCenter
                 text: qsTr("Language") + ":"
             }
 
              EaElements.ComboBox {
-                width: EaStyle.Sizes.fontPixelSize * 9
-                model: XmlListModel {
-                    xml: EaGlobals.Variables.translator.languagesAsXml()
-                    query: "/root/item"
-                    XmlRole {
-                        name: "name"
-                        query: "name/string()"
-                    }
-                }
-
+                 id: languageSelector
+                 width: EaStyle.Sizes.fontPixelSize * 9
+                 model: XmlListModel {
+                     xml: EaGlobals.Variables.translator.languagesAsXml()
+                     query: "/root/item"
+                     XmlRole {
+                         name: "name"
+                         query: "name/string()"
+                     }
+                     onStatusChanged: {
+                         if (status === XmlListModel.Ready) {
+                             languageSelector.currentIndex = EaGlobals.Variables.translator.defaultLanguageIndex()
+                         }
+                     }
+                 }
                 onActivated: EaGlobals.Variables.translator.selectLanguage(currentIndex)
-                Component.onCompleted: currentIndex = EaGlobals.Variables.translator.defaultLanguageIndex()
             }
         }
 
