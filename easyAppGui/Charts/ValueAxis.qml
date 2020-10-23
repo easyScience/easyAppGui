@@ -10,22 +10,22 @@ ValueAxis {
 
     lineVisible: false // Hide axes lines (only grid is visible)
 
-    color: EaStyle.Colors.appBorder
+    color: EaStyle.Colors.chartAxis
     Behavior on color {
         EaAnimations.ThemeChange {}
     }
 
-    gridLineColor: EaStyle.Colors.appBorder
+    gridLineColor: EaStyle.Colors.chartGridLine
     Behavior on gridLineColor {
         EaAnimations.ThemeChange {}
     }
 
-    minorGridLineColor: EaStyle.Colors.themeBackground
+    minorGridLineColor: EaStyle.Colors.chartMinorGridLine
     Behavior on minorGridLineColor {
         EaAnimations.ThemeChange {}
     }
 
-    labelsColor: EaStyle.Colors.chartForeground
+    labelsColor: EaStyle.Colors.chartLabels
     Behavior on labelsColor {
         EaAnimations.ThemeChange {}
     }

@@ -30,7 +30,7 @@ QtObject {
                                   Colors.Themes.LightTheme
 
     // Application window
-    property color appBorder: isDarkTheme ? "#262626" : "#ddd"
+    property color appBorder: isDarkTheme ? "#292929" : "#ddd"
 
     // Application bar (on top of the application window)
     property color appBarBackground: themeBackground
@@ -39,8 +39,8 @@ QtObject {
 
     property color appBarButtonBackground: "transparent"
     property color appBarButtonBackgroundDisabled: "transparent"
-    property color appBarButtonBackgroundHovered: isDarkTheme ? "#50666666" : "#15666666" // temporary disable because of problems with RemoteController if parent: Overlay.overlay !?
-    property color appBarButtonBackgroundPressed: isDarkTheme ? "#90666666" : "#25666666"
+    property color appBarButtonBackgroundHovered: isDarkTheme ? "#20666666" : "#15666666" // temporary disable because of problems with RemoteController if parent: Overlay.overlay !?
+    property color appBarButtonBackgroundPressed: isDarkTheme ? "#50666666" : "#25666666"
     property color appBarButtonForeground: isDarkTheme ? "#ccc" : "#444"
 
     property color appBarComboBoxBackground: isDarkTheme ? "#10666666" : "#70ffffff"
@@ -50,7 +50,7 @@ QtObject {
 
     // Content
     property color contentBackground: isDarkTheme ? "#3a3a3a" : "#f4f4f4"
-    property color mainContentBackground: isDarkTheme ? "#474747" : "#fff"
+    property color mainContentBackground: isDarkTheme ? "#444" : "#fff"
 
     // SideBar
     property color sideBarButtonBackground: appBarBackground
@@ -75,24 +75,29 @@ QtObject {
 
     // Charts
     property color chartForeground: themeForeground
-    property color chartBackground: "transparent"
-    property color chartPlotAreaBackground: "transparent"
+    property color chartBackground: mainContentBackground
+    property color chartPlotAreaBackground: mainContentBackground
+    property color chartAxis: isDarkTheme ? "#2a2a2a" : "#ddd"
+    property color chartGridLine: chartAxis
+    property color chartMinorGridLine: themeBackground
+    property color chartLabels: chartForeground
+    property color chartLine: "coral"
 
     // Table
     property color tableHighlight: isDarkTheme ? "#204ec1ef": "#2000a3e3"
 
     // Matplotlib style. This should only hold:
-    //        'figure.facecolor' = bg_color
-    //        'axes.facecolor' = axis_color
-    //        'axes.labelcolor' = text_color
-    //        'xtick.color' = text_color
-    //        'ytick.color' = text_color
     property var matplotlibRcParams: {
-//        'lines.linewidth': 2,
-//        'axes.xmargin': 0,
-//        'axes.prop_cycle': ['#ff7f50'], //Qt.color('coral')...
-//        'axes.edgecolor': appBorder.toString(),
-//        'grid.color': appBorder.toString()
+        //'lines.linewidth': 2,
+        //'axes.xmargin': 0,
+        //'axes.prop_cycle': ['#ff7f50'], //Qt.color('coral')...
+        'figure.facecolor': chartBackground.toString(),
+        'axes.facecolor': chartPlotAreaBackground.toString(),
+        'axes.edgecolor': chartAxis.toString(),
+        'axes.labelcolor': chartLabels.toString(),
+        'grid.color': chartGridLine.toString(),
+        'xtick.color': chartLabels.toString(),
+        'ytick.color': chartLabels.toString()
     }
 
 }
