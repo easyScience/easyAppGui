@@ -81,13 +81,18 @@ QtObject {
     // Table
     property color tableHighlight: isDarkTheme ? "#204ec1ef": "#2000a3e3"
 
-    // Matplotlib style
+    // Matplotlib style. This should only hold:
+    //        'figure.facecolor' = bg_color
+    //        'axes.facecolor' = axis_color
+    //        'axes.labelcolor' = text_color
+    //        'xtick.color' = text_color
+    //        'ytick.color' = text_color
     property var matplotlibRcParams: {
-        'lines.linewidth': 2,
-        'axes.xmargin': 0,
-        'axes.prop_cycle': ['#ff7f50'], //Qt.color('coral')...
-        'axes.edgecolor': appBorder.toString(),
-        'grid.color': appBorder.toString()
+//        'lines.linewidth': 2,
+//        'axes.xmargin': 0,
+//        'axes.prop_cycle': ['#ff7f50'], //Qt.color('coral')...
+//        'axes.edgecolor': appBorder.toString(),
+//        'grid.color': appBorder.toString()
     }
 
 }
