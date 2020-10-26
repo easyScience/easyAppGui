@@ -23,6 +23,7 @@ QtObject {
 
     // Font families
     readonly property string fontFamily: ptSansRegular.name
+    readonly property string fontSource: ptSansRegular.source
 
     readonly property string monoFontFamily: ptMono.name
 

@@ -12,15 +12,22 @@
 # QtCreator CMake
 CMakeLists.txt.user*
 
+# Fortran
+fort.1
+
 # Python
 __pycache__
 .venv
 .coverage
+.pyc
 
 # Poetry
-poetry.lock
 dist
 *.egg-info
+
+# PyInstaller
+build
+*.spec
 
 # Jupyter
 .ipynb_checkpoints
@@ -33,3 +40,7 @@ dist
 # Misc
 ..*
 *.log
+*.zip
+temp.cif
+.ci/
+.idea/
