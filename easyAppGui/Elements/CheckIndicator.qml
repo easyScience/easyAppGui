@@ -21,10 +21,11 @@ Rectangle {
         EaAnimations.ThemeChange {}
     }
 
-    border.color: control.checked ?
-                      control.color :
-                      control.hovered ? EaStyle.Colors.themeForegroundHovered :
-                                        EaStyle.Colors.isDarkTheme ? "#bbb" : "#999"
+    border.color: !control.enabled ? EaStyle.Colors.themeForegroundDisabled :
+                                     control.checked ?
+                                         control.color :
+                                         control.hovered ? EaStyle.Colors.themeForegroundHovered :
+                                                           EaStyle.Colors.isDarkTheme ? "#bbb" : "#999"
     Behavior on border.color {
         EaAnimations.ThemeChange {}
     }
