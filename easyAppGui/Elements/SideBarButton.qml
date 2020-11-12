@@ -11,6 +11,7 @@ import easyAppGui.Elements 1.0 as EaElements
 T.Button {
     id: control
 
+    property bool wide: false
     property string fontIcon: ""
 
     implicitWidth: Math.max(implicitBackgroundWidth + leftInset + rightInset,
@@ -70,7 +71,7 @@ T.Button {
 
     // Background
     background: Rectangle {
-        implicitWidth: EaStyle.Sizes.sideBarContentWidth / 2 - EaStyle.Sizes.fontPixelSize / 2
+        implicitWidth: wide ? EaStyle.Sizes.sideBarContentWidth : (EaStyle.Sizes.sideBarContentWidth - EaStyle.Sizes.fontPixelSize) / 2
         implicitHeight: EaStyle.Sizes.sideBarButtonHeight
 
         radius: 2

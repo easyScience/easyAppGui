@@ -13,6 +13,7 @@ T.GroupBox {
     default property alias contentItemData: contentItem.data
     property bool collapsible: true
     property bool collapsed: collapsible ? true : false
+    property bool last: false
 
     implicitWidth: parent.width
                        //Math.max(parent.width,
@@ -137,7 +138,7 @@ T.GroupBox {
 
     // Horisontal border at the bottom
     Rectangle {
-        id: bottomBorder
+        visible: !last
 
         y: control.height - height
         width: control.width
