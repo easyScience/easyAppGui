@@ -30,7 +30,7 @@ Rectangle {
         EaAnimations.ThemeChange {}
     }
 
-    border.width: checkState !== Qt.Unchecked ? width / 2 : 2
+    border.width: checkState !== Qt.Unchecked ? width / 2 : 1
     Behavior on border.width {
         NumberAnimation {
             duration: 100
