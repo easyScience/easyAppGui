@@ -20,6 +20,7 @@ QtObject {
     property color themeBackgroundHovered2: isDarkTheme ? "#4a4a4a" : "#f7f7f7"
 
     property color themeForeground: isDarkTheme ? "#eee" : "#333"
+    property color themeForegroundMinor: isDarkTheme ? "#888" : "#aaa"
     property color themeForegroundDisabled: isDarkTheme ? "#555": "#bbb" // control.Material.hintTextColor
     property color themeForegroundHovered: themeAccent
 
