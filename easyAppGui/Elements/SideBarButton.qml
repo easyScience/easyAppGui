@@ -12,6 +12,7 @@ T.Button {
     id: control
 
     property bool wide: false
+    property bool smallIcon: false
     property string fontIcon: ""
 
     implicitWidth: Math.max(implicitBackgroundWidth + leftInset + rightInset,
@@ -43,8 +44,12 @@ T.Button {
 
             // Icon
             Label {
+                anchors.verticalCenter: parent.verticalCenter
+
                 font.family: EaStyle.Fonts.iconsFamily
-                font.pixelSize: control.font.pixelSize * 1.25
+                font.pixelSize: smallIcon ?
+                                    control.font.pixelSize * 1.0 :
+                                    control.font.pixelSize * 1.25
 
                 text: control.fontIcon
 
@@ -56,6 +61,8 @@ T.Button {
 
             // Text label
             Label {
+                anchors.verticalCenter: parent.verticalCenter
+
                 font.family: control.font.family
                 font.pixelSize: control.font.pixelSize
 
