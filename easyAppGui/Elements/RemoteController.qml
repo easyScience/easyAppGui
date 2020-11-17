@@ -1,6 +1,6 @@
-import QtQuick 2.13
-import QtQuick.Controls 2.13
-import QtTest 1.13
+import QtQuick 2.14
+import QtQuick.Controls 2.14
+import QtTest 1.14
 
 import easyAppGui.Globals 1.0 as EaGlobals
 import easyAppGui.Elements 1.0 as EaElements
@@ -74,6 +74,7 @@ MouseArea {
             print("Undefined item")
             return
         }
+
         if (x === undefined)
             x = item.width / 2
         if (y === undefined)
@@ -82,6 +83,7 @@ MouseArea {
             delay = -1
         if (buttons === undefined)
             buttons = Qt.NoButton
+
         const pos = item.mapToItem(null, x, y)
         pointer.move(pos.x, pos.y)
     }
@@ -91,6 +93,7 @@ MouseArea {
             print("Undefined item")
             return
         }
+
         if (x === undefined)
             x = item.width / 2
         if (y === undefined)
@@ -101,9 +104,9 @@ MouseArea {
             modifiers = Qt.NoModifier
         if (delay === undefined)
             delay = -1
-        //print(item, x, y, button)
+
         //event.mouseMove(item, x, y, button, modifiers, delay)
-        event.mouseRelease(item, x, y, button, modifiers, delay)
+        //event.mouseRelease(item, x, y, button, modifiers, delay)
         event.mousePress(item, x, y, button, modifiers, delay)
         pointer.click()
     }
@@ -113,6 +116,7 @@ MouseArea {
             print("Undefined item")
             return
         }
+
         if (x === undefined)
             x = item.width / 2
         if (y === undefined)
@@ -123,6 +127,7 @@ MouseArea {
             modifiers = Qt.NoModifier
         if (delay === undefined)
             delay = -1
+
         event.mouseRelease(item, x, y, button, modifiers, delay)
     }
 
@@ -138,6 +143,34 @@ MouseArea {
         wait(pointer.clickRelaxation - pointer.pressDuration)
 
         wait(500)
+    }
+
+    function mouseLeftClickSilent(item) {
+        if (item === undefined) {
+            print("Undefined item")
+            return
+        }
+        const x = item.width / 2
+        const y = item.height / 2
+        const button = Qt.LeftButton
+        const modifiers = Qt.NoModifier
+        const delay = -1
+
+        event.mouseClick(item, x, y, button, modifiers, delay)
+    }
+
+    function mouseRightClickSilent(item) {
+        if (item === undefined) {
+            print("Undefined item")
+            return
+        }
+        const x = item.width / 2
+        const y = item.height / 2
+        const button = Qt.RightButton
+        const modifiers = Qt.NoModifier
+        const delay = -1
+
+        event.mouseClick(item, x, y, button, modifiers, delay)
     }
 
     function typeText(text) {
