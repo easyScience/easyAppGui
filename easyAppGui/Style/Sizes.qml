@@ -40,7 +40,7 @@ QtObject {
     property int tableColumnSpacing: Math.round(fontPixelSize * 0.5)
     property int tableRowHeight: Math.round(fontPixelSize * 2.75)
     property int tableMaxRowCountShow: 5
-    property int tableHighlightMoveDuration: 500
+    property int tableHighlightMoveDuration: 100
 
     // Status bar
     property int statusBarHeight: Math.round(fontPixelSize * 2.5)

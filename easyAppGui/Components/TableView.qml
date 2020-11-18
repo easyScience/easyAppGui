@@ -44,7 +44,7 @@ Column {
         boundsBehavior: Flickable.StopAtBounds
 
         // Highlight current row
-        highlightMoveDuration: EaStyle.Sizes.tableHighlightMoveDuration
+        highlightMoveDuration: tableHighlightMoveDuration()
         highlight: Rectangle {
             z: 2 // To display highlight rect above delegate
             color: listView.count > 1 ? EaStyle.Colors.tableHighlight : "transparent"
@@ -110,11 +110,15 @@ Column {
             if (lastCurrentIndex >= 0 && lastCurrentIndex < count) {
                 highlightMoveDuration = 0
                 currentIndex = lastCurrentIndex
-                highlightMoveDuration = EaStyle.Sizes.tableHighlightMoveDuration
+                highlightMoveDuration = tableHighlightMoveDuration()
             }
         }
 
         // Logic
+
+        function tableHighlightMoveDuration() {
+            return EaStyle.Sizes.tableHighlightMoveDuration
+        }
 
         function createHeader() {
             const tableViewDelegate = listView.contentItem.children[0]
