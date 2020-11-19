@@ -43,23 +43,20 @@ T.MenuItem {
         ///source: "qrc:/qt-project.org/imports/QtQuick/Controls.2/Material/images/arrow-indicator.png"
     }
 
-    contentItem: IconLabel {
+    contentItem: Label {
         readonly property real arrowPadding: control.subMenu && control.arrow ? control.arrow.width + control.spacing : 0
         readonly property real indicatorPadding: control.checkable && control.indicator ? control.indicator.width + control.spacing : 0
         leftPadding: !control.mirrored ? indicatorPadding : arrowPadding
         rightPadding: control.mirrored ? indicatorPadding : arrowPadding
 
-        spacing: control.spacing
-        mirrored: control.mirrored
-        display: control.display
-        alignment: Qt.AlignLeft
-
-        icon: control.icon
-        text: control.text
         font: control.font
+        verticalAlignment: Text.AlignVCenter
 
-        ///color: control.enabled ? control.Material.foreground : control.Material.hintTextColor
-        color: control.enabled ? EaStyle.Colors.themeForeground : EaStyle.Colors.themeForegroundDisabled
+        textFormat: Text.RichText
+
+        text: control.text
+
+        color: EaStyle.Colors.themeForeground
         Behavior on color {
             EaAnimations.ThemeChange {}
         }
