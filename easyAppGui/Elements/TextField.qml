@@ -27,7 +27,7 @@ T.TextField {
 
     font.family: EaStyle.Fonts.fontFamily
     font.pixelSize: EaStyle.Sizes.fontPixelSize
-    font.bold: control.activeFocus ? true : false
+    //font.bold: control.activeFocus ? true : false
 
     color: !enabled ? EaStyle.Colors.themeForegroundDisabled :
                      rippleArea.containsMouse || control.activeFocus ?
