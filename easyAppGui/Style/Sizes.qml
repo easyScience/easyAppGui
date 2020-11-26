@@ -17,7 +17,7 @@ QtObject {
     property int appWindowHeightWXGA: scalePx(800)
 
     property int appWindowMinimumWidth: appWindowWidthWXGA
-    property int appWindowMinimumHeight: appWindowHeightXGA + 50
+    property int appWindowMinimumHeight: appWindowHeightXGA + 60
 
     property int appWindowWidth: Qt.platform.pluginName === "wasm" ? Screen.width : Math.min(appWindowMinimumWidth, Screen.width)
     property int appWindowHeight: Qt.platform.pluginName === "wasm" ? Screen.height : Math.min(appWindowMinimumHeight, Screen.height)
