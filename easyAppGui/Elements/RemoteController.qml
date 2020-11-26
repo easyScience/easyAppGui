@@ -1,5 +1,6 @@
 import QtQuick 2.14
 import QtQuick.Controls 2.14
+import QtMultimedia 5.14
 import QtTest 1.14
 
 import easyAppGui.Globals 1.0 as EaGlobals
@@ -7,6 +8,8 @@ import easyAppGui.Elements 1.0 as EaElements
 
 MouseArea {
     id: mouseArea
+
+    property string audioDir: ""
 
     parent: Overlay.overlay // makes buttons background hovered-like !?
     z: 999 // to be above dialog, combobox, etc. windows
@@ -21,6 +24,17 @@ MouseArea {
     TestResult { id: result }
     TestEvent { id: event }
     EaElements.RemotePointer { id: pointer }
+
+    // Audio
+
+    Audio {
+        id: audio
+
+        onDurationChanged: {
+            play()
+            wait(audio.duration)
+        }
+    }
 
     // Screenshots
 
@@ -44,6 +58,14 @@ MouseArea {
     }
 
     // Controller Logic
+
+    function say(text) {
+        if (text === "")
+            return
+        const fileName = text.replace(/ /g, "_")
+        audio.source = `${audioDir}/${fileName}.mp3`
+        wait(1000) // Needed for smooth pointer movement
+    }
 
     function saveScreenshot(item, path) {
         const image = result.grabImage(item)
