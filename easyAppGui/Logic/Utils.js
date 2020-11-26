@@ -21,3 +21,13 @@ function prettyJson(json, tab = '    ')
 {
     return JSON.stringify(json, null, tab.length)
 }
+
+function toFixed(value, num_digits = 4) {
+    if (typeof value === 'undefined') {
+        return ""
+    } else if (typeof value == 'number') {
+        return value.toFixed(num_digits)
+    } else {
+        return value
+    }
+}
