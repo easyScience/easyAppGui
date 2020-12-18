@@ -75,30 +75,18 @@ QtObject {
     property color textViewBackgroundDisabled: themeBackgroundHovered2
 
     // Charts
+    //property var chartForegrounds: isDarkTheme ? ["#ff0000", "#00ff00", "0000ff"] : ['#00a3e3', '#ff7f50', '#6b8e23']
+    property var chartForegrounds: ['#00a3e3', '#ff7f50', '#6b8e23']
     property color chartForeground: themeForeground
     property color chartBackground: mainContentBackground
     property color chartPlotAreaBackground: mainContentBackground
     property color chartAxis: isDarkTheme ? "#2a2a2a" : "#ddd"
-    property color chartGridLine: chartAxis
+    property color chartGridLine: isDarkTheme ? "#3a3a3a" : "#eee"
     property color chartMinorGridLine: themeBackground
     property color chartLabels: chartForeground
     property color chartLine: "coral"
 
     // Table
     property color tableHighlight: isDarkTheme ? "#204ec1ef": "#2000a3e3"
-
-    // Matplotlib style. This should only hold:
-    property var matplotlibRcParams: {
-        //'lines.linewidth': 2,
-        //'axes.xmargin': 0,
-        //'axes.prop_cycle': ['#ff7f50'], //Qt.color('coral')...
-        'figure.facecolor': chartBackground.toString(),
-        'axes.facecolor': chartPlotAreaBackground.toString(),
-        'axes.edgecolor': chartAxis.toString(),
-        'axes.labelcolor': chartLabels.toString(),
-        'grid.color': chartGridLine.toString(),
-        'xtick.color': chartLabels.toString(),
-        'ytick.color': chartLabels.toString()
-    }
 
 }
