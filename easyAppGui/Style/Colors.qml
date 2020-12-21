@@ -4,9 +4,8 @@ import QtQuick 2.13
 import QtQuick.Controls.Material 2.13
 
 QtObject {
-
     // Theme
-    enum Themes { DarkTheme = 0, LightTheme }
+    enum Themes { LightTheme = 0, DarkTheme }
 
     property int theme: systemTheme//Colors.Themes.DarkTheme
     property bool isDarkTheme: theme === Colors.Themes.DarkTheme
@@ -75,8 +74,8 @@ QtObject {
     property color textViewBackgroundDisabled: themeBackgroundHovered2
 
     // Charts
-    //property var chartForegrounds: isDarkTheme ? ["#ff0000", "#00ff00", "0000ff"] : ['#00a3e3', '#ff7f50', '#6b8e23']
-    property var chartForegrounds: ['#00a3e3', '#ff7f50', '#6b8e23']
+    //property var chartForegrounds: ['#00a3e3', '#ff7f50', '#6b8e23']
+    property var chartForegrounds: isDarkTheme ? ['#81D4FA', '#FFAB91', '#C5E1A5'] : ['#03A9F4', '#FF5722', '#8BC34A']
     property color chartForeground: themeForeground
     property color chartBackground: mainContentBackground
     property color chartPlotAreaBackground: mainContentBackground
