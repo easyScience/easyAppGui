@@ -7,15 +7,19 @@ import easyAppGui.Animations 1.0 as EaAnimations
 ChartView {
     id: chart
 
+    property bool allowZoom: true
+
     margins.top: 0
     margins.bottom: 0
     margins.left: 0
     margins.right: 0
 
+    //anchors.margins: -12 //doesn't work
+
     antialiasing: true
 
     //theme: Globals.Colors.chartTheme
-    animationDuration: EaStyle.Times.chartAnimation
+    animationDuration: EaStyle.Times.chartAnimation //0
     animationOptions: ChartView.SeriesAnimations
 
     legend.visible: false
@@ -137,10 +141,15 @@ ChartView {
 
     // Left mouse button events
     MouseArea {
+        enabled: allowZoom
+
         anchors.fill: chart
         acceptedButtons: Qt.LeftButton
 
         onPressed: {
+            //chart.animationOptions = ChartView.SeriesAnimations
+            chart.animationDuration = EaStyle.Times.chartAnimation
+
             recZoom.x = mouseX
             recZoom.y = mouseY
             recZoom.visible = true
@@ -167,6 +176,8 @@ ChartView {
         }
 
         onReleased: {
+            //enableAnimation()
+
             const x = Math.min(recZoom.x, mouseX) - chart.anchors.leftMargin
             const y = Math.min(recZoom.y, mouseY) - chart.anchors.topMargin
 
@@ -175,17 +186,42 @@ ChartView {
 
             chart.zoomIn(Qt.rect(x, y, width, height))
             recZoom.visible = false
+
+            //disableAnimation()
         }
     }
 
     // Right mouse button events
     MouseArea {
+        enabled: allowZoom
+
         anchors.fill: chart
         acceptedButtons: Qt.RightButton
 
         onClicked: {
+            //enableAnimation()
+
             chart.zoomReset()
+
+            //disableAnimation()
         }
+    }
+
+    // Disable animation timer
+    Timer {
+        id: disableAnimationTimer
+        interval: animationDuration
+        onTriggered: animationDuration = 0
+    }
+
+    // Logic
+
+    function enableAnimation() {
+        animationDuration = EaStyle.Times.chartAnimation
+    }
+
+    function disableAnimation() {
+        disableAnimationTimer.restart()
     }
 
 }

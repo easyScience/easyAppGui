@@ -3,7 +3,7 @@ import QtCharts 2.13
 import easyAppGui.Style 1.0 as EaStyle
 
 AreaSeries {
-    opacity: 0.3
+    opacity: 0.6
 
     color: EaStyle.Colors.themeAccent
 
