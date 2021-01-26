@@ -1,4 +1,5 @@
 import QtQuick 2.13
+import Qt.labs.settings 1.0
 
 import easyAppGui.Style 1.0 as EaStyle
 import easyAppGui.Globals 1.0 as EaGlobals
@@ -108,4 +109,16 @@ EaElements.ApplicationWindow {
         y: (parent.height - height) * 0.5
     }
 
+    ///////////
+    // Settings
+    ///////////
+
+    Settings {
+        fileName: 'settings.ini'
+        category: 'AppGeometry'
+        property alias x: appWindow.x
+        property alias y: appWindow.y
+        property alias width: appWindow.width
+        property alias height: appWindow.height
+    }
 }
