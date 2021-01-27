@@ -31,3 +31,14 @@ function toFixed(value, num_digits = 4) {
         return value
     }
 }
+
+// converts a URL to a local file path
+function urlToLocalFile(url) {
+    if (Qt.platform.os === "windows") {
+        return url.replace('file:///', '')
+    } else if (Qt.platform.os === "osx" || Qt.platform.os === "linux" || Qt.platform.os === "unix") {
+        return url.replace('file://', '')
+    } else {
+        return url
+    }
+}
