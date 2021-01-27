@@ -8,12 +8,13 @@ import Qt.labs.settings 1.0
 import easyAppGui.Style 1.0 as EaStyle
 import easyAppGui.Globals 1.0 as EaGlobals
 import easyAppGui.Elements 1.0 as EaElements
+import easyAppGui.Logic 1.0 as EaLogic
 
 EaElements.Dialog {
     id: dialog
 
     property alias projectName: projectNameField.text
-    property alias projectKeywords: projectKeywordsField.text
+    property alias projectShortDescription: projectShortDescriptionField.text
 
     //property alias shortcuts: projectParentDirDialog.shortcuts
 
@@ -48,15 +49,15 @@ EaElements.Dialog {
         Column {
             EaElements.Label {
                 enabled: false
-                text: qsTr("Keywords")
+                text: qsTr("Short description")
             }
 
             EaElements.TextField {
-                id: projectKeywordsField
+                id: projectShortDescriptionField
 
                 implicitWidth: inputFieldWidth
                 horizontalAlignment: TextInput.AlignLeft
-                placeholderText: qsTr("Enter project keywords here")
+                placeholderText: qsTr("Enter short project description here")
             }
         }
 
@@ -74,7 +75,7 @@ EaElements.Dialog {
                 horizontalAlignment: TextInput.AlignLeft
 
                 placeholderText: qsTr("Enter project location here")
-                text: projectParentDirDialog.folder + '/' + projectNameField.text
+                text: EaLogic.Utils.urlToLocalFile(projectParentDirDialog.folder + '/' + projectNameField.text)
 
                 EaElements.ToolButton {
                     id: chooseButton
