@@ -9,6 +9,7 @@ import easyAppGui.Elements 1.0 as EaElements
 MouseArea {
     id: mouseArea
 
+    property bool sayEnabled: true
     property string audioDir: ""
 
     parent: Overlay.overlay // makes buttons background hovered-like !?
@@ -60,6 +61,8 @@ MouseArea {
     // Controller Logic
 
     function say(text) {
+        if (!sayEnabled)
+            return
         if (text === "")
             return
         const fileName = text.replace(/ /g, "_")

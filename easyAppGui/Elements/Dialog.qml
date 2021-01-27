@@ -15,6 +15,8 @@ import easyAppGui.Elements 1.0 as EaElements
 T.Dialog {
     id: control
 
+    property alias buttonBox: control.footer
+
     implicitWidth: Math.max(implicitBackgroundWidth + leftInset + rightInset,
                             contentWidth + leftPadding + rightPadding,
                             implicitHeaderWidth,
