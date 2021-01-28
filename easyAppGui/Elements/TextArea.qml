@@ -19,8 +19,8 @@ T.TextArea {
                              placeholder.implicitHeight + 1 + topPadding + bottomPadding)
 
     padding: EaStyle.Sizes.fontPixelSize
-    topPadding: 0
-    bottomPadding: 0
+    //topPadding: 0
+    //bottomPadding: 0
 
     selectByMouse: true
 
