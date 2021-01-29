@@ -46,13 +46,10 @@ EaElements.Dialog {
                         enabled: true
                         anchors.fill: parent
                         cursorShape: Qt.PointingHandCursor
-                        Connections {
-                            onClicked: {
-                                Qt.openUrlExternally(EaGlobals.Variables.appUrl)
-                                }
-                        }                        
+                        onClicked: Qt.openUrlExternally(EaGlobals.Variables.appUrl)
                     } // MouseArea                    
-                }
+                } // Image
+
                 // Application name and version
                 Column {
                     spacing: 0
@@ -74,7 +71,7 @@ EaElements.Dialog {
                             font.pixelSize: 50
                             color: "#444"
                         }
-                    }
+                    } // Row
                     // Application version
                     Text {
                         id: appVersion
@@ -84,10 +81,10 @@ EaElements.Dialog {
                         font.pixelSize: EaStyle.Sizes.fontPixelSize
                         text: "Version %1 (%2)".arg(ExGlobals.Constants.appVersion).arg(ExGlobals.Constants.appDate)
                     }
-                }
+                } // Column
 
-            }
-        }
+            } // Row
+        } // Item
 
         // Eula and licences container
         Column {
@@ -121,8 +118,8 @@ EaElements.Dialog {
                     cursorShape: Qt.PointingHandCursor
                     onClicked: Qt.openUrlExternally(EaGlobals.Variables.oslUrl)
                 }
-            }
-        }
+            } // Label
+        } // Column
 
         // Description container
         Column {
@@ -155,8 +152,8 @@ EaElements.Dialog {
                     cursorShape: Qt.PointingHandCursor
                     onClicked: Qt.openUrlExternally(EaGlobals.Variables.essUrl)
                 }
-            }
-        }
+            }  // Image
+        } // Column
 
         // Footer
         Text {
@@ -166,7 +163,7 @@ EaElements.Dialog {
             color: "#222"
             text: "© 2019-2021 • All rights reserved"
         }
-    }
+    } // Column
 
-}
+} // Dialog
 
