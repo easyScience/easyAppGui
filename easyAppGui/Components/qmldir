@@ -1,5 +1,6 @@
 module Components
 
+AboutDialog 1.0 AboutDialog.qml
 ApplicationWindow 1.0 ApplicationWindow.qml
 
 AppBarCentralTabs 1.0 AppBarCentralTabs.qml
