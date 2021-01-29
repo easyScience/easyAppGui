@@ -26,7 +26,7 @@ QtObject {
     property int appWindowY: Qt.platform.pluginName === "wasm" ? 0 : (Screen.height - appWindowHeight) * 0.5
 
     // Application bar
-    property int appBarHeight: Math.round(fontPixelSize * 3.5)
+    property int appBarHeight: Math.round(fontPixelSize * 4.5)
     property int appBarSpacing: fontPixelSize
 
     // Sidebar

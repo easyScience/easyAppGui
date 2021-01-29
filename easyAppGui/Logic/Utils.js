@@ -22,23 +22,45 @@ function prettyJson(json, tab = '    ')
     return JSON.stringify(json, null, tab.length)
 }
 
-function toFixed(value, num_digits = 4) {
-    if (typeof value === 'undefined') {
+function toFixed(value, num_digits = 4)
+{
+    if (typeof value === 'undefined')
+    {
         return ""
-    } else if (typeof value == 'number') {
+    }
+    else if (typeof value == 'number')
+    {
         return value.toFixed(num_digits)
-    } else {
+    }
+    else
+    {
         return value
     }
 }
 
 // converts a URL to a local file path
-function urlToLocalFile(url) {
-    if (Qt.platform.os === "windows") {
+function urlToLocalFile(url)
+{
+    if (Qt.platform.os === "windows")
+    {
         return url.replace('file:///', '')
-    } else if (Qt.platform.os === "osx" || Qt.platform.os === "linux" || Qt.platform.os === "unix") {
+    }
+    else if (Qt.platform.os === "osx" || Qt.platform.os === "linux" || Qt.platform.os === "unix")
+    {
         return url.replace('file://', '')
-    } else {
+    }
+    else
+    {
         return url
     }
+}
+
+function isQmlScene()
+{
+    const runnerPath = Qt.application.arguments[0]
+    if (runnerPath.includes('qmlscene'))
+    {
+        return true
+    }
+    return false
 }

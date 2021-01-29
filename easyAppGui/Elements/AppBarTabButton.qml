@@ -13,16 +13,17 @@ EaElements.TabButton {
     contentItem: Item {
         implicitWidth: row.width
 
-        Row {
+        Column {
             id: row
-            width: childrenRect.width
-            spacing: control.spacing
+            spacing: 0 //control.spacing
             anchors.centerIn: parent
 
             // Icon
             Label {
+                anchors.horizontalCenter: parent.horizontalCenter
+
                 font.family: EaStyle.Fonts.iconsFamily
-                font.pixelSize: control.font.pixelSize * 1.25
+                font.pixelSize: control.font.pixelSize * 1.5
 
                 text: control.fontIcon
 
@@ -34,8 +35,12 @@ EaElements.TabButton {
 
             // Text label
             Label {
+                id: textLabel
+
+                anchors.horizontalCenter: parent.horizontalCenter
+
                 font.family: control.font.family
-                font.pixelSize: control.font.pixelSize
+                font.pixelSize: control.font.pixelSize * 0.95
                 font.bold: control.checked ? true : false
 
                 text: control.text
@@ -51,6 +56,7 @@ EaElements.TabButton {
     // Background
     background: Rectangle {
         implicitHeight: EaStyle.Sizes.tabBarHeight
+        implicitWidth: textLabel.implicitWidth + control.font.pixelSize * 1.5
 
         color: backgroundColor()
         Behavior on color {
