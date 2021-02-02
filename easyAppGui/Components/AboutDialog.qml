@@ -39,7 +39,7 @@ EaElements.Dialog {
             height: childrenRect.height
 
             Row {
-                spacing: 10
+                spacing: EaStyle.Sizes.fontPixelSize
 
                 // Application icon
                 EaElements.LinkedImage {
@@ -87,7 +87,7 @@ EaElements.Dialog {
         // Eula and licences container
         Column {
             anchors.horizontalCenter: parent.horizontalCenter
-            spacing: 5
+            spacing: EaStyle.Sizes.fontPixelSize * 0.5
                 // EULA
             EaElements.Label  {
                     anchors.horizontalCenter: parent.horizontalCenter
@@ -124,16 +124,11 @@ EaElements.Dialog {
             id: descriptionContainer
             width: infoRect.width
             anchors.horizontalCenter: parent.horizontalCenter
-            spacing: 5
+            spacing: EaStyle.Sizes.fontPixelSize * 0.5
 
-            Text {
-                width: parent.width
+        EaElements.Label {
                 anchors.horizontalCenter: parent.horizontalCenter
                 horizontalAlignment: Text.AlignHCenter
-                wrapMode: TextEdit.WordWrap
-                font.family: EaStyle.Fonts.fontFamily
-                font.pixelSize: EaStyle.Sizes.fontPixelSize
-                color: "#222"
                 text: description
             }
 
@@ -149,7 +144,6 @@ EaElements.Dialog {
         // Footer
         EaElements.Label {
             anchors.horizontalCenter: parent.horizontalCenter
-            color: "#222"
             text: "© 2019-2021 • All rights reserved"
         }
     } // Column
