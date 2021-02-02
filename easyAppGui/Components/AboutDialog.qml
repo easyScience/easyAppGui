@@ -16,13 +16,21 @@ EaElements.Dialog {
     id: aboutDialog
     title: "About"
 
-    visible: EaGlobals.Variables.showAppAboutDialog
-
-    onClosed: EaGlobals.Variables.showAppAboutDialog = 0
+    property string appIconPath: ""
+    property string appUrl: ""
+    property string appPrefixName: ""
+    property string appSuffixName: ""
+    property string appVersion: ""
+    property string appDate: ""
+    property string eulaUrl: ""
+    property string oslUrl: ""
+    property string essIconPath: ""
+    property string essUrl: ""
+    property string description: ""
 
     Column {
-        padding: 20
-        spacing: 30
+        padding: EaStyle.Sizes.fontPixelSize * 2.0
+        spacing: EaStyle.Sizes.fontPixelSize * 0.5
 
         // Application icon, name, version container
         Item {
@@ -32,22 +40,13 @@ EaElements.Dialog {
 
             Row {
                 spacing: 10
-                bottomPadding: appIcon.y
 
                 // Application icon
-                Image {
-                    id: appIcon
+                EaElements.LinkedImage {
+                    source: appIconPath
                     y: 10
                     width: 75
-                    fillMode: Image.PreserveAspectFit
-                    source: EaGlobals.Variables.appIconPath
-                    antialiasing: true
-                    MouseArea {
-                        enabled: true
-                        anchors.fill: parent
-                        cursorShape: Qt.PointingHandCursor
-                        onClicked: Qt.openUrlExternally(EaGlobals.Variables.appUrl)
-                    } // MouseArea                    
+                    link: appUrl
                 } // Image
 
                 // Application name and version
@@ -59,14 +58,14 @@ EaElements.Dialog {
                         spacing: 3
 
                         Text {
-                            text: EaGlobals.Variables.appPrefixName
+                            text: appPrefixName
                             font.family: EaStyle.Fonts.secondCondensedFontFamily
                             font.weight: Font.ExtraLight
                             font.pixelSize: 50
                             color: "#444"
                         }
                         Text {
-                            text: EaGlobals.Variables.appSuffixName
+                            text: appSuffixName
                             font.family: EaStyle.Fonts.secondCondensedFontFamily
                             font.pixelSize: 50
                             color: "#444"
@@ -74,12 +73,11 @@ EaElements.Dialog {
                     } // Row
                     // Application version
                     Text {
-                        id: appVersion
+                        id: idVersion
                         anchors.right: parent.right
                         font.family: EaStyle.Fonts.secondExpandedFontFamily
-                        //font.weight: Font.Light
                         font.pixelSize: EaStyle.Sizes.fontPixelSize
-                        text: "Version %1 (%2)".arg(ExGlobals.Constants.appVersion).arg(ExGlobals.Constants.appDate)
+                        text: "Version %1 (%2)".arg(appVersion).arg(appDate)
                     }
                 } // Column
 
@@ -101,7 +99,7 @@ EaElements.Dialog {
                         enabled: true
                         anchors.fill: parent
                         cursorShape: Qt.PointingHandCursor
-                        onClicked: Qt.openUrlExternally(EaGlobals.Variables.eulaUrl)
+                        onClicked: Qt.openUrlExternally(eulaUrl)
                     } // MouseArea
                 } // Label
 
@@ -116,7 +114,7 @@ EaElements.Dialog {
                     enabled: true
                     anchors.fill: parent
                     cursorShape: Qt.PointingHandCursor
-                    onClicked: Qt.openUrlExternally(EaGlobals.Variables.oslUrl)
+                    onClicked: Qt.openUrlExternally(oslUrl)
                 }
             } // Label
         } // Column
@@ -136,30 +134,21 @@ EaElements.Dialog {
                 font.family: EaStyle.Fonts.fontFamily
                 font.pixelSize: EaStyle.Sizes.fontPixelSize
                 color: "#222"
-                text: EaGlobals.Variables.description
+                text: description
             }
 
             // ESS icon
-            Image {
+            EaElements.LinkedImage {
                 anchors.horizontalCenter: parent.horizontalCenter
                 height: 75
-                fillMode: Image.PreserveAspectFit
-                source: EaGlobals.Variables.essIconPath
-
-                MouseArea {
-                    enabled: true
-                    anchors.fill: parent
-                    cursorShape: Qt.PointingHandCursor
-                    onClicked: Qt.openUrlExternally(EaGlobals.Variables.essUrl)
-                }
+                source: essIconPath
+                link: essUrl
             }  // Image
         } // Column
 
         // Footer
-        Text {
+        EaElements.Label {
             anchors.horizontalCenter: parent.horizontalCenter
-            font.family: EaStyle.Fonts.fontFamily
-            font.pixelSize: EaStyle.Sizes.fontPixelSize
             color: "#222"
             text: "© 2019-2021 • All rights reserved"
         }
