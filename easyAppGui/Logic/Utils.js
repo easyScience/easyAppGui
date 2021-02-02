@@ -38,12 +38,19 @@ function toFixed(value, num_digits = 4)
     }
 }
 
+function osPathSep() {
+    if (Qt.platform.os === "windows") {
+		return '\\'
+	}
+	return '/'
+}	
+
 // converts a URL to a local file path
 function urlToLocalFile(url)
-{
+{	
     if (Qt.platform.os === "windows")
     {
-        return url.replace('file:///', '')
+        return url.replace('file:///', '').split('/').join('\\')
     }
     else if (Qt.platform.os === "osx" || Qt.platform.os === "linux" || Qt.platform.os === "unix")
     {
