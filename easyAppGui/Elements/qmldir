@@ -15,6 +15,7 @@ GroupBox 1.0 GroupBox.qml
 GroupButton 1.0 GroupButton.qml
 GroupColumn 1.0 GroupColumn.qml
 GroupRow 1.0 GroupRow.qml
+LinkedImage 1.0 LinkedImage.qml
 Label 1.0 Label.qml
 MenuItem 1.0 MenuItem.qml
 SideBarButton 1.0 SideBarButton.qml

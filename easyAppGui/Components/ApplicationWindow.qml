@@ -107,5 +107,8 @@ EaElements.ApplicationWindow {
         x: (parent.width - width) * 0.5
         y: (parent.height - height) * 0.5
     }
-
+    EaComponents.AboutDialog {
+        x: (parent.width - width) * 0.5
+        y: (parent.height - height) * 0.5
+    }
 }
