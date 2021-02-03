@@ -16,7 +16,10 @@ EaElements.TabButton {
         Column {
             id: row
             spacing: 0 //control.spacing
-            anchors.centerIn: parent
+            //anchors.centerIn: parent
+            anchors.horizontalCenter: parent.horizontalCenter
+            anchors.bottom: parent.bottom
+            anchors.bottomMargin: control.font.pixelSize * 0.85
 
             // Icon
             Label {
