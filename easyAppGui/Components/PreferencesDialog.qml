@@ -32,7 +32,7 @@ EaElements.Dialog {
             spacing: EaStyle.Sizes.fontPixelSize * 0.5
 
              EaElements.Label {
-                width: EaStyle.Sizes.fontPixelSize * 6
+                width: EaStyle.Sizes.fontPixelSize * 8
                 anchors.verticalCenter: parent.verticalCenter
                 text: qsTr("Theme") + ":"
             }
@@ -59,7 +59,7 @@ EaElements.Dialog {
             spacing: EaStyle.Sizes.fontPixelSize * 0.5
 
              EaElements.Label {
-                width: EaStyle.Sizes.fontPixelSize * 6
+                width: EaStyle.Sizes.fontPixelSize * 8
                 anchors.verticalCenter: parent.verticalCenter
                 text: qsTr("Zoom") + ":"
             }
@@ -80,7 +80,7 @@ EaElements.Dialog {
             spacing: EaStyle.Sizes.fontPixelSize * 0.5
 
             EaElements.Label {
-                width: EaStyle.Sizes.fontPixelSize * 6
+                width: EaStyle.Sizes.fontPixelSize * 8
                 anchors.verticalCenter: parent.verticalCenter
                 text: qsTr("Language") + ":"
             }
@@ -102,6 +102,26 @@ EaElements.Dialog {
                      }
                  }
                 onActivated: EaGlobals.Variables.translator.selectLanguage(currentIndex)
+            }
+        }
+
+        Row {
+            spacing: EaStyle.Sizes.fontPixelSize * 0.5
+
+             EaElements.Label {
+                width: EaStyle.Sizes.fontPixelSize * 8
+                anchors.verticalCenter: parent.verticalCenter
+                text: qsTr("Data plotting") + ":"
+            }
+
+             EaElements.ComboBox {
+                width: EaStyle.Sizes.fontPixelSize * 9
+                model: ExGlobals.Constants.proxy.plotting1dLibs
+                onActivated: ExGlobals.Constants.proxy.current1dPlottingLib = currentValue
+
+                Component.onCompleted: {
+                    currentIndex = model.indexOf(ExGlobals.Constants.proxy.current1dPlottingLib)
+                }
             }
         }
 
