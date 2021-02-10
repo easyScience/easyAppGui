@@ -21,7 +21,7 @@ QtObject {
 
     // Initial application parameters
     property int appBarCurrentIndex: 0
-    property int appWindowFlags: Qt.Window // Qt.FramelessWindowHint | Qt.Dialog
+    property int appWindowFlags: Qt.Window | Qt.WindowFullscreenButtonHint // Qt.FramelessWindowHint | Qt.Dialog
 
     // Initial application elements visibility
     property bool showAppBar: true
@@ -29,6 +29,7 @@ QtObject {
     property bool showAppPreferencesDialog: false
     property bool showAppAboutDialog: false
     property bool showToolTips: false
+    property bool showProjectDescriptionDialog: false
 
     // Screenshots control
     property bool saveScreenshotsRunning: false

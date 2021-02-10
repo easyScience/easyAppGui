@@ -12,6 +12,7 @@ T.ToolButton {
     id: control
 
     property string fontIcon: ""
+    property bool showBackground: true
 
     implicitWidth: Math.max(implicitBackgroundWidth + leftInset + rightInset,
                             implicitContentWidth + leftPadding + rightPadding)
@@ -52,6 +53,8 @@ T.ToolButton {
 
     // Background
     background: Rectangle {
+        visible: showBackground
+
         implicitWidth: EaStyle.Sizes.toolButtonHeight
         implicitHeight: EaStyle.Sizes.toolButtonHeight
 

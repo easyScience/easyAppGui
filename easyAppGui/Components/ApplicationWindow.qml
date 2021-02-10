@@ -1,4 +1,5 @@
 import QtQuick 2.13
+import Qt.labs.settings 1.0
 
 import easyAppGui.Style 1.0 as EaStyle
 import easyAppGui.Globals 1.0 as EaGlobals
@@ -23,6 +24,7 @@ EaElements.ApplicationWindow {
         id: appContainer
 
         anchors.fill: parent
+
         color: appWindow.color
 
         // Application bar container
@@ -36,31 +38,20 @@ EaElements.ApplicationWindow {
 
             color: EaStyle.Colors.appBarBackground
 
-            // tabs bottom border
-            Rectangle {
-                anchors.left: parent.left
-                anchors.right: parent.right
-                anchors.bottom: parent.bottom
-                height: EaStyle.Sizes.borderThickness
-                color: EaStyle.Colors.appBorder
-                Behavior on color {
-                    EaAnimations.ThemeChange {}
-                }
-            }
-
             EaComponents.AppBarLeftButtons {
                 id: appBarLeftButtons
 
-                anchors.verticalCenter: appBar.verticalCenter
-                anchors.left: appBar.left
-                anchors.leftMargin: 10
+                anchors.bottom: parent.bottom
+                anchors.left: parent.left
+                anchors.bottomMargin: EaStyle.Sizes.fontPixelSize * 0.75
+                anchors.leftMargin: EaStyle.Sizes.fontPixelSize
             }
 
             EaComponents.AppBarCentralTabs {
                 id: appBarCentralTabs
 
-                anchors.verticalCenter: appBar.verticalCenter
-                anchors.horizontalCenter: appBar.horizontalCenter
+                anchors.horizontalCenter: parent.horizontalCenter
+                anchors.bottom: parent.bottom
 
                 currentIndex: EaGlobals.Variables.appBarCurrentIndex
                 onCurrentIndexChanged: EaGlobals.Variables.appBarCurrentIndex = currentIndex
@@ -69,9 +60,22 @@ EaElements.ApplicationWindow {
             EaComponents.AppBarRightButtons {
                 id: appBarRightButtons
 
-                anchors.verticalCenter: appBar.verticalCenter
-                anchors.right: appBar.right
-                anchors.rightMargin: 10
+                anchors.bottom: parent.bottom
+                anchors.right: parent.right
+                anchors.bottomMargin: EaStyle.Sizes.fontPixelSize * 0.75
+                anchors.rightMargin: EaStyle.Sizes.fontPixelSize
+            }
+
+            // tabs bottom border
+            Rectangle {
+                anchors.left: parent.left
+                anchors.right: parent.right
+                anchors.bottom: parent.bottom
+                height: EaStyle.Sizes.borderThickness
+                color: EaStyle.Colors.appBarBorder
+                Behavior on color {
+                    EaAnimations.ThemeChange {}
+                }
             }
         }
 
@@ -110,5 +114,18 @@ EaElements.ApplicationWindow {
     EaComponents.AboutDialog {
         x: (parent.width - width) * 0.5
         y: (parent.height - height) * 0.5
+    }
+
+    ///////////
+    // Settings
+    ///////////
+
+    Settings {
+        fileName: 'settings.ini'
+        category: 'AppGeometry'
+        property alias x: appWindow.x
+        property alias y: appWindow.y
+        property alias width: appWindow.width
+        property alias height: appWindow.height
     }
 }
