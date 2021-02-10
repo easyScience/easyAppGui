@@ -32,14 +32,14 @@ EaElements.Dialog {
             spacing: EaStyle.Sizes.fontPixelSize * 0.5
 
              EaElements.Label {
-                width: EaStyle.Sizes.fontPixelSize * 8
+                width: EaStyle.Sizes.fontPixelSize * 10
                 anchors.verticalCenter: parent.verticalCenter
                 text: qsTr("Theme") + ":"
             }
 
             EaElements.ComboBox {
                 id: themeSelector
-                width: EaStyle.Sizes.fontPixelSize * 9
+                width: EaStyle.Sizes.fontPixelSize * 11
                 model: [qsTr("Light"), qsTr("Dark"), qsTr("System")]
                 //currentIndex: EaStyle.Colors.isDarkTheme ? 0 : 1 // EaStyle.Colors.theme === EaStyle.Colors.DarkTheme ? 0 : 1
                 onCurrentIndexChanged: {
@@ -59,13 +59,13 @@ EaElements.Dialog {
             spacing: EaStyle.Sizes.fontPixelSize * 0.5
 
              EaElements.Label {
-                width: EaStyle.Sizes.fontPixelSize * 8
+                width: EaStyle.Sizes.fontPixelSize * 10
                 anchors.verticalCenter: parent.verticalCenter
                 text: qsTr("Zoom") + ":"
             }
 
              EaElements.ComboBox {
-                width: EaStyle.Sizes.fontPixelSize * 9
+                width: EaStyle.Sizes.fontPixelSize * 11
                 model: ["100%", "110%", "120%", "130%", "140%", "150%"]
                 onCurrentTextChanged: {
                     if (parseInt(currentText) === EaStyle.Sizes.defaultScale) {
@@ -80,14 +80,14 @@ EaElements.Dialog {
             spacing: EaStyle.Sizes.fontPixelSize * 0.5
 
             EaElements.Label {
-                width: EaStyle.Sizes.fontPixelSize * 8
+                width: EaStyle.Sizes.fontPixelSize * 10
                 anchors.verticalCenter: parent.verticalCenter
                 text: qsTr("Language") + ":"
             }
 
              EaElements.ComboBox {
                  id: languageSelector
-                 width: EaStyle.Sizes.fontPixelSize * 9
+                 width: EaStyle.Sizes.fontPixelSize * 11
                  model: XmlListModel {
                      xml: EaGlobals.Variables.translator.languagesAsXml()
                      query: "/root/item"
@@ -109,18 +109,38 @@ EaElements.Dialog {
             spacing: EaStyle.Sizes.fontPixelSize * 0.5
 
              EaElements.Label {
-                width: EaStyle.Sizes.fontPixelSize * 8
+                width: EaStyle.Sizes.fontPixelSize * 10
                 anchors.verticalCenter: parent.verticalCenter
                 text: qsTr("Data plotting") + ":"
             }
 
              EaElements.ComboBox {
-                width: EaStyle.Sizes.fontPixelSize * 9
+                width: EaStyle.Sizes.fontPixelSize * 11
                 model: ExGlobals.Constants.proxy.plotting1dLibs
                 onActivated: ExGlobals.Constants.proxy.current1dPlottingLib = currentValue
 
                 Component.onCompleted: {
                     currentIndex = model.indexOf(ExGlobals.Constants.proxy.current1dPlottingLib)
+                }
+            }
+        }
+
+        Row {
+            spacing: EaStyle.Sizes.fontPixelSize * 0.5
+
+             EaElements.Label {
+                width: EaStyle.Sizes.fontPixelSize * 10
+                anchors.verticalCenter: parent.verticalCenter
+                text: qsTr("Structure plotting") + ":"
+            }
+
+             EaElements.ComboBox {
+                width: EaStyle.Sizes.fontPixelSize * 11
+                model: ExGlobals.Constants.proxy.plotting3dLibs
+                onActivated: ExGlobals.Constants.proxy.current3dPlottingLib = currentValue
+
+                Component.onCompleted: {
+                    currentIndex = model.indexOf(ExGlobals.Constants.proxy.current3dPlottingLib)
                 }
             }
         }
