@@ -2,13 +2,29 @@ pragma Singleton
 
 import QtQuick 2.13
 import QtQuick.Controls.Material 2.13
+import Qt.labs.settings 1.0
 
 QtObject {
-    // Theme
-    enum Themes { LightTheme = 0, DarkTheme }
+    id: object
 
-    property int theme: systemTheme//Colors.Themes.DarkTheme
-    property bool isDarkTheme: theme === Colors.Themes.DarkTheme
+    // Theme
+    property var _systemThemeChecker: Item { Material.theme: Material.System }
+    property int theme: _systemThemeChecker.Material.theme // default: system
+
+    enum Themes { LightTheme = 0, DarkTheme, SystemTheme }
+    property bool isDarkTheme: {
+        if (theme === Colors.Themes.DarkTheme) {
+            return true
+        } else if (theme === Colors.Themes.LightTheme) {
+            return false
+        } else {
+            if (_systemThemeChecker.Material.theme === Material.Dark) {
+                return true
+            } else if (_systemThemeChecker.Material.theme === Material.Light) {
+                return false
+            }
+        }
+    }
 
     property color themeAccent: isDarkTheme ? "#4ec1ef": "#00a3e3"
     property color themePrimary: isDarkTheme ? "#222" : "#ddd"
@@ -22,12 +38,6 @@ QtObject {
     property color themeForegroundMinor: isDarkTheme ? "#888" : "#aaa"
     property color themeForegroundDisabled: isDarkTheme ? "#555": "#bbb" // control.Material.hintTextColor
     property color themeForegroundHovered: themeAccent
-
-    // System theme
-    property var _systemThemeChecker: Item { Material.theme: Material.System }
-    property int systemTheme: _systemThemeChecker.Material.theme === Material.Dark ?
-                                  Colors.Themes.DarkTheme :
-                                  Colors.Themes.LightTheme
 
     // Application window
     property color appBorder: isDarkTheme ? "#292929" : "#ddd"
@@ -87,5 +97,13 @@ QtObject {
 
     // Table
     property color tableHighlight: isDarkTheme ? "#204ec1ef": "#2000a3e3"
+
+    // Persistent settings
+
+    property var settings: Settings {
+        fileName: 'settings.ini'
+        category: 'Appearance'
+        property alias theme: object.theme
+    }
 
 }
