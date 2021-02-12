@@ -43,7 +43,7 @@ EaElements.ApplicationWindow {
 
                 anchors.bottom: parent.bottom
                 anchors.left: parent.left
-                anchors.bottomMargin: EaStyle.Sizes.fontPixelSize * 0.75
+                anchors.bottomMargin: EaStyle.Sizes.fontPixelSize * 1.0
                 anchors.leftMargin: EaStyle.Sizes.fontPixelSize
             }
 
@@ -62,7 +62,7 @@ EaElements.ApplicationWindow {
 
                 anchors.bottom: parent.bottom
                 anchors.right: parent.right
-                anchors.bottomMargin: EaStyle.Sizes.fontPixelSize * 0.75
+                anchors.bottomMargin: EaStyle.Sizes.fontPixelSize * 1.0
                 anchors.rightMargin: EaStyle.Sizes.fontPixelSize
             }
 
