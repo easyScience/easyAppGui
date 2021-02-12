@@ -1,6 +1,8 @@
 module Components
 
 ChartView 1.0 ChartView.qml
+BokehChartView 1.0 BokehChartView.qml
+ChemDoodleChartView 1.0 ChemDoodleChartView.qml
 
 ValueAxis 1.0 ValueAxis.qml
 
