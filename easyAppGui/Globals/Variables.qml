@@ -27,10 +27,24 @@ QtObject {
     property bool showAppBar: true
     property bool showAppStatusBar: true
     property bool showAppPreferencesDialog: false
+    property bool showAppAboutDialog: false
     property bool showToolTips: false
     property bool showProjectDescriptionDialog: false
 
     // Screenshots control
     property bool saveScreenshotsRunning: false
+
+    // Links
+    property string essUrl: "https://ess.eu"
+
+    // externally settable variables
+    property string appUrl: ""
+    property string appIconPath: ""
+    property string essIconPath: ""
+    property string eulaUrl: ""
+    property string oslUrl: ""
+    property string appSuffixName: ""
+    property string appPrefixName: ""
+    property string description: ""
 
 }

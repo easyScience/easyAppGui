@@ -79,7 +79,7 @@ EaElements.Dialog {
                 horizontalAlignment: TextInput.AlignLeft
 
                 placeholderText: qsTr("Enter project location here")
-                text: EaLogic.Utils.urlToLocalFile(projectParentDirDialog.folder + '/' + projectNameField.text)
+                text: EaLogic.Utils.urlToLocalFile(projectParentDirDialog.folder + EaLogic.Utils.osPathSep() + projectNameField.text)
 
                 EaElements.ToolButton {
                     id: chooseButton
@@ -120,9 +120,10 @@ EaElements.Dialog {
     // Logic
 
     function projectPathDict() {
-        const array = projectLocation.split('/')
+        const sep = EaLogic.Utils.osPathSep()
+        const array = projectLocation.split(sep)
         const basename = array[array.length - 1]
-        const parent = array.slice(0, array.length - 1).join('/')
+        const parent = array.slice(0, array.length - 1).join(sep)
         return {'basename': basename, 'parent': parent}
     }
 }
