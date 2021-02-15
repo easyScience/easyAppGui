@@ -6,21 +6,18 @@ function headCommon() {
 
 function charthHtml(head, chart) {
     const list = [
-        '<!DOCTYPE html>',
-        '<html>',
-        '\n',
-        '<head>',
-        head,
-        '</head>',
-        '\n',
-        '<body>',
-        '<script>',
-        chart,
-        '</script>',
-        '</body>',
-        '\n',
-        '</html>'
-    ]
+              '<!DOCTYPE html>',
+              '<html>',
+              '<head>',
+              head,
+              '</head>',
+              '<body>',
+              '<script>',
+              chart,
+              '</script>',
+              '</body>',
+              '</html>'
+          ]
     return list.join('\n')
 }
 
@@ -33,10 +30,10 @@ function chemDoodleInfo() {
     }
 }
 
-function chemDoodleHtml(style) {
+function chemDoodleHtml(cifStr, specs) {
     const head = chemDoodleHead()
-    const chart = chemDoodleChart(style)
-    html = charthHtml(head, chart)
+    const chart = chemDoodleChart(cifStr, specs)
+    const html = charthHtml(head, chart)
     return html
 }
 
@@ -74,14 +71,14 @@ function chemDoodleHead() {
     return list.join('\n')
 }
 
-function chemDoodleChart(style) {
+function chemDoodleChart(cifStr, specs) {
     const list = [
-        'const cifStr = '+style.cifStr,
+        'const cifStr = '+cifStr,
         'const xSuper = 1',
         'const ySuper = 1',
         'const zSuper = 1',
         'const phase = ChemDoodle.readCIF(cifStr, xSuper, ySuper, zSuper)',
-        `const crystalTransformer = new ChemDoodle.TransformCanvas3D("crystalTransformer", ${style.chartWidth}, ${style.chartHeight})`,
+        `const crystalTransformer = new ChemDoodle.TransformCanvas3D("crystalTransformer", ${specs.chartWidth}, ${specs.chartHeight})`,
         'crystalTransformer.styles.set3DRepresentation("Ball and Stick")',
         'crystalTransformer.styles.projectionPerspective_3D = true',
         'crystalTransformer.styles.projectionPerspectiveVerticalFieldOfView_3D = 20',
@@ -92,10 +89,10 @@ function chemDoodleChart(style) {
         'crystalTransformer.styles.compass_type_3D = 0',
         'crystalTransformer.styles.compass_size_3D = 70',
         'crystalTransformer.styles.compass_displayText_3D = true',
-        `crystalTransformer.styles.shapes_color = "${style.chartForegroundColor}"`,
+        `crystalTransformer.styles.shapes_color = "${specs.chartForegroundColor}"`,
         'crystalTransformer.styles.text_font_size = 12',
         'crystalTransformer.styles.text_font_families = ["Helvetica", "Arial", "Dialog"]',
-        `crystalTransformer.styles.backgroundColor = "${style.chartBackgroundColor}"`,
+        `crystalTransformer.styles.backgroundColor = "${specs.chartBackgroundColor}"`,
         'crystalTransformer.loadContent([phase.molecule],[phase.unitCell])'
     ]
     return list.join('\n')
@@ -110,10 +107,10 @@ function bokehInfo() {
     }
 }
 
-function bokehHtml(style) {
+function bokehHtml(data, specs) {
     const head = bokehHead()
-    const chart = bokehChart(style)
-    html = charthHtml(head, chart)
+    const chart = bokehChart(data, specs)
+    const html = charthHtml(head, chart)
     return html
 }
 
@@ -157,19 +154,21 @@ function bokehHead() {
     return list.join('\n')
 }
 
-function bokehChart(style) {
-    const hasMeasuredData = typeof style.measuredData !== 'undefined' && typeof style.measuredData.x !== 'undefined'
-    const hasCalculatedData = typeof style.calculatedData !== 'undefined' && typeof style.calculatedData.x !== 'undefined'
+function bokehChart(data, specs) {
+    const hasMeasuredData = typeof data.measured !== 'undefined'
+                          && typeof data.measured.x !== 'undefined'
+    const hasCalculatedData = typeof data.calculated !== 'undefined'
+                            && typeof data.calculated.x !== 'undefined'
     let list = [
         'const plot = Bokeh.Plotting.figure({',
         '    tools: "pan,box_zoom,hover,reset",',
-        `    height: ${style.chartHeight},`,
-        `    width: ${style.chartWidth},`,
-        `    x_axis_label: "${style.xAxisTitle}",`,
-        `    y_axis_label: "${style.yAxisTitle}",`,
-        `    background: "${style.chartBackgroundColor}",`,
-        `    background_fill_color: "${style.chartBackgroundColor}",`,
-        `    border_fill_color: "${style.chartBackgroundColor}",`,
+        `    height: ${specs.chartHeight},`,
+        `    width: ${specs.chartWidth},`,
+        `    x_axis_label: "${specs.xAxisTitle}",`,
+        `    y_axis_label: "${specs.yAxisTitle}",`,
+        `    background: "${specs.chartBackgroundColor}",`,
+        `    background_fill_color: "${specs.chartBackgroundColor}",`,
+        `    border_fill_color: "${specs.chartBackgroundColor}",`,
         '})',
         'plot.x_range.range_padding = 0',
     ]
@@ -177,15 +176,15 @@ function bokehChart(style) {
         list = list.concat([
             'const experimentSource = new Bokeh.ColumnDataSource({',
             '    data: {',
-            `        x: ${style.measuredData.x},`,
-            `        y: ${style.measuredData.y}`,
+            `        x: ${data.measured.x},`,
+            `        y: ${data.measured.y}`,
             '    }',
             '})',
             'const experimentLine = new Bokeh.Line({',
             '    x: { field: "x" },',
             '    y: { field: "y" },',
-            `    line_color: "${style.experimentLineColor}",`,
-            `    line_width: ${style.experimentLineWidth},`,
+            `    line_color: "${specs.experimentLineColor}",`,
+            `    line_width: ${specs.experimentLineWidth},`,
             '})',
             'plot.add_glyph(experimentLine, experimentSource)'
         ])
@@ -194,21 +193,21 @@ function bokehChart(style) {
         list = list.concat([
             'const calculatedSource = new Bokeh.ColumnDataSource({',
             '    data: {',
-            `        x: ${style.calculatedData.x},`,
-            `        y: ${style.calculatedData.y}`,
+            `        x: ${data.calculated.x},`,
+            `        y: ${data.calculated.y}`,
             '    }',
             '})',
             'const calculatedLine = new Bokeh.Line({',
             '    x: { field: "x" },',
             '    y: { field: "y" },',
-            `    line_color: "${style.calculatedLineColor}",`,
-            `    line_width: ${style.calculatedLineWidth},`,
+            `    line_color: "${specs.calculatedLineColor}",`,
+            `    line_width: ${specs.calculatedLineWidth},`,
             '})',
             'plot.add_glyph(calculatedLine, calculatedSource)'
         ])
     }
-    if (typeof style.elementId !== 'undefined') {
-        list = list.concat(['Bokeh.Plotting.show(plot, "#analysisSection")'])
+    if (typeof specs.containerId !== 'undefined') {
+        list = list.concat([`Bokeh.Plotting.show(plot, "#${specs.containerId}")`])
     } else {
         list = list.concat(['Bokeh.Plotting.show(plot)'])
     }

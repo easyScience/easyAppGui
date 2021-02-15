@@ -8,25 +8,32 @@ Rectangle {
     id: container
 
     property string cifStr: ''
-    property string chartForegroundColor: 'black'
 
-    color: 'white'
+    property color backgroundColor: 'white'
+    property color foregroundColor: 'black'
+
+    color: backgroundColor
 
     WebEngineView {
         id: webView
 
         anchors.fill: parent
-        anchors.margins: EaStyle.Sizes.fontPixelSize * 1.5
-        backgroundColor: container.color
+        anchors.margins: 0
+        backgroundColor: backgroundColor
     }
 
-    property string html: EaLogic.Plotting.chemDoodleHtml({
-        cifStr: cifStr,
-        chartWidth: container.width.toString(),
-        chartHeight: container.height.toString(),
-        chartBackgroundColor: container.color,
-        chartForegroundColor: chartForegroundColor
-    })
+    property string html:
+        EaLogic.Plotting.chemDoodleHtml(
+            // cif
+            cifStr,
+            // specs
+            {
+                chartWidth: container.width.toString(),
+                chartHeight: container.height.toString(),
+                chartBackgroundColor: backgroundColor,
+                chartForegroundColor: foregroundColor
+            }
+            )
 
     onHtmlChanged: webView.loadHtml(html)
 }
