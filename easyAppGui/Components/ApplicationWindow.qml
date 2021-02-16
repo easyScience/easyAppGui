@@ -7,6 +7,8 @@ import easyAppGui.Animations 1.0 as EaAnimations
 import easyAppGui.Elements 1.0 as EaElements
 import easyAppGui.Components 1.0 as EaComponents
 
+import Gui.Pages.Home 1.0 as ExHomePage
+
 EaElements.ApplicationWindow {
     id: appWindow
 
@@ -107,14 +109,8 @@ EaElements.ApplicationWindow {
     ///////////////
 
     // Application dialogs (invisible at the beginning)
-    EaComponents.PreferencesDialog {
-        x: (parent.width - width) * 0.5
-        y: (parent.height - height) * 0.5
-    }
-    EaComponents.AboutDialog {
-        x: (parent.width - width) * 0.5
-        y: (parent.height - height) * 0.5
-    }
+    EaComponents.PreferencesDialog {}
+    ExHomePage.AboutDialog {}
 
     ///////////
     // Settings

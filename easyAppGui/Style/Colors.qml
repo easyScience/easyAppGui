@@ -94,7 +94,7 @@ QtObject {
     property color chartMinorGridLine: themeBackground
     property color chartLabels: chartForeground
     property color chartLine: "coral"
-    property color linkColor: "#2a99d9"
+    property color linkColor: themeAccent
 
     // Table
     property color tableHighlight: isDarkTheme ? "#204ec1ef": "#2000a3e3"

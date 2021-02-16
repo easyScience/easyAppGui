@@ -11,11 +11,7 @@ import easyAppGui.Elements 1.0 as EaElements
 
 import Gui.Globals 1.0 as ExGlobals
 
-
 EaElements.Dialog {
-    id: aboutDialog
-    title: "About"
-
     property string appIconPath: ""
     property string appUrl: ""
     property string appPrefixName: ""
@@ -28,105 +24,87 @@ EaElements.Dialog {
     property string essUrl: ""
     property string description: ""
 
+    title: qsTr("About")
+
+    parent: Overlay.overlay
+
+    x: (parent.width - width) * 0.5
+    y: (parent.height - height) * 0.5
+
+    modal: true
+    standardButtons: Dialog.Ok
+
     Column {
-        padding: EaStyle.Sizes.fontPixelSize * 2.0
-        spacing: EaStyle.Sizes.fontPixelSize * 0.5
+        padding: EaStyle.Sizes.fontPixelSize * 0.5
+        spacing: EaStyle.Sizes.fontPixelSize * 2.5
 
         // Application icon, name, version container
-        Item {
-            id: infoRect
-            width: childrenRect.width
-            height: childrenRect.height
+        Column {
+            spacing: -EaStyle.Sizes.fontPixelSize * 0.5
 
             Row {
-                spacing: EaStyle.Sizes.fontPixelSize
-
-                // Application icon
+                // App icon
                 EaElements.LinkedImage {
                     source: appIconPath
-                    y: 10
-                    width: 75
+                    width: EaStyle.Sizes.fontPixelSize * 5
                     link: appUrl
-                } // Image
+                }
 
-                // Application name and version
-                Column {
-                    spacing: 0
+                // Horizontal spacer
+                Item { width: EaStyle.Sizes.fontPixelSize; height: 1 }
 
-                    // Application name
-                    Row {
-                        spacing: 3
+                // App name
+                EaElements.Label {
+                    text: appPrefixName
+                    font.family: EaStyle.Fonts.secondCondensedFontFamily
+                    font.weight: Font.ExtraLight
+                    font.pixelSize: EaStyle.Sizes.fontPixelSize * 3.5
+                }
 
-                        Text {
-                            text: appPrefixName
-                            font.family: EaStyle.Fonts.secondCondensedFontFamily
-                            font.weight: Font.ExtraLight
-                            font.pixelSize: 50
-                            color: "#444"
-                        }
-                        Text {
-                            text: appSuffixName
-                            font.family: EaStyle.Fonts.secondCondensedFontFamily
-                            font.pixelSize: 50
-                            color: "#444"
-                        }
-                    } // Row
-                    // Application version
-                    Text {
-                        id: idVersion
-                        anchors.right: parent.right
-                        font.family: EaStyle.Fonts.secondExpandedFontFamily
-                        font.pixelSize: EaStyle.Sizes.fontPixelSize
-                        text: "Version %1 (%2)".arg(appVersion).arg(appDate)
-                    }
-                } // Column
+                EaElements.Label {
+                    text: appSuffixName
+                    font.family: EaStyle.Fonts.secondCondensedFontFamily
+                    font.pixelSize: EaStyle.Sizes.fontPixelSize * 3.5
+                }
+            }
 
-            } // Row
-        } // Item
+            // Application version
+            EaElements.Label {
+                anchors.right: parent.right
+                font.family: EaStyle.Fonts.secondExpandedFontFamily
+                text: "Version %1 (%2)".arg(appVersion).arg(appDate)
+            }
+        }
 
-        // Eula and licences container
+        // EULA and licences container
         Column {
             anchors.horizontalCenter: parent.horizontalCenter
             spacing: EaStyle.Sizes.fontPixelSize * 0.5
-                // EULA
-            EaElements.Label  {
-                    anchors.horizontalCenter: parent.horizontalCenter
-                    font.family: EaStyle.Fonts.secondFontFamily
-                    font.pixelSize: EaStyle.Sizes.fontPixelSize
-                    text: "End User Licence Agreement"
-                    color: EaStyle.Colors.linkColor
-                    MouseArea {
-                        enabled: true
-                        anchors.fill: parent
-                        cursorShape: Qt.PointingHandCursor
-                        onClicked: Qt.openUrlExternally(eulaUrl)
-                    } // MouseArea
-                } // Label
+
+            // EULA
+            EaElements.Button {
+                anchors.horizontalCenter: parent.horizontalCenter
+                checked: true
+                text: "End User Licence Agreement"
+                onClicked: Qt.openUrlExternally(oslUrl)
+            }
 
             // Licences
-           EaElements.Label {
+            EaElements.Button {
                 anchors.horizontalCenter: parent.horizontalCenter
-                font.family: EaStyle.Fonts.fontFamily
-                font.pixelSize: EaStyle.Sizes.fontPixelSize
+                checked: true
                 text: "Dependent Open Source Licenses"
-                color: EaStyle.Colors.linkColor
-                MouseArea {
-                    enabled: true
-                    anchors.fill: parent
-                    cursorShape: Qt.PointingHandCursor
-                    onClicked: Qt.openUrlExternally(oslUrl)
-                }
-            } // Label
-        } // Column
+                onClicked: Qt.openUrlExternally(oslUrl)
+            }
+        }
 
         // Description container
         Column {
-            id: descriptionContainer
-            width: infoRect.width
             anchors.horizontalCenter: parent.horizontalCenter
             spacing: EaStyle.Sizes.fontPixelSize * 0.5
 
-        EaElements.Label {
+            // Text
+            EaElements.Label {
                 anchors.horizontalCenter: parent.horizontalCenter
                 horizontalAlignment: Text.AlignHCenter
                 text: description
@@ -135,18 +113,18 @@ EaElements.Dialog {
             // ESS icon
             EaElements.LinkedImage {
                 anchors.horizontalCenter: parent.horizontalCenter
-                height: 75
+                height: EaStyle.Sizes.fontPixelSize * 5
                 source: essIconPath
                 link: essUrl
-            }  // Image
-        } // Column
+            }
+        }
 
         // Footer
         EaElements.Label {
             anchors.horizontalCenter: parent.horizontalCenter
             text: "© 2019-2021 • All rights reserved"
         }
-    } // Column
+    }
 
-} // Dialog
+}
 

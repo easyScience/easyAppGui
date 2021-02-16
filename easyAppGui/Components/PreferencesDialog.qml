@@ -12,10 +12,15 @@ import easyAppGui.Elements 1.0 as EaElements
 import Gui.Globals 1.0 as ExGlobals
 
 EaElements.Dialog {
-    title: qsTr("Preferences")
-
     visible: EaGlobals.Variables.showAppPreferencesDialog
     onClosed: EaGlobals.Variables.showAppPreferencesDialog = false
+
+    title: qsTr("Preferences")
+
+    parent: Overlay.overlay
+
+    x: (parent.width - width) * 0.5
+    y: (parent.height - height) * 0.5
 
     modal: true
     standardButtons: Dialog.Ok

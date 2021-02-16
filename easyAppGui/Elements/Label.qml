@@ -17,7 +17,7 @@ T.Label {
         EaAnimations.ThemeChange {}
     }
 
-    linkColor: EaStyle.Colors.themeAccent
+    linkColor: EaStyle.Colors.linkColor
     Behavior on linkColor {
         EaAnimations.ThemeChange {}
     }
