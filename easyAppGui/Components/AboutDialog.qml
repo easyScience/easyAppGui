@@ -40,13 +40,14 @@ EaElements.Dialog {
 
         // Application icon, name, version container
         Column {
+            anchors.horizontalCenter: parent.horizontalCenter
             spacing: -EaStyle.Sizes.fontPixelSize * 0.5
 
             Row {
                 // App icon
                 EaElements.LinkedImage {
+                    height: EaStyle.Sizes.fontPixelSize * 5
                     source: appIconPath
-                    width: EaStyle.Sizes.fontPixelSize * 5
                     link: appUrl
                 }
 
@@ -86,7 +87,7 @@ EaElements.Dialog {
                 anchors.horizontalCenter: parent.horizontalCenter
                 checked: true
                 text: "End User Licence Agreement"
-                onClicked: Qt.openUrlExternally(oslUrl)
+                onClicked: Qt.openUrlExternally(eulaUrl)
             }
 
             // Licences
