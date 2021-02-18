@@ -47,4 +47,7 @@ QtObject {
     property string appPrefixName: ""
     property string description: ""
 
+    // Settings
+    property string settingsFile: projectConfig.ci.app.info.settings_path
+
 }

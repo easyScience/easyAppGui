@@ -112,7 +112,7 @@ EaElements.Dialog {
     // Persistent settings
 
     Settings {
-        fileName: 'settings.ini'
+        fileName: EaGlobals.Variables.settingsFile
         category: 'Location'
         property alias projectLocation: dialog.projectLocation
     }

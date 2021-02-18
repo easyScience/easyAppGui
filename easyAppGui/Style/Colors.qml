@@ -4,6 +4,8 @@ import QtQuick 2.13
 import QtQuick.Controls.Material 2.13
 import Qt.labs.settings 1.0
 
+import easyAppGui.Globals 1.0 as EaGlobals
+
 QtObject {
     id: object
 
@@ -102,7 +104,7 @@ QtObject {
     // Persistent settings
 
     property var settings: Settings {
-        fileName: 'settings.ini'
+        fileName: EaGlobals.Variables.settingsFile
         category: 'Appearance'
         property alias theme: object.theme
     }

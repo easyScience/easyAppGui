@@ -117,7 +117,7 @@ EaElements.ApplicationWindow {
     ///////////
 
     Settings {
-        fileName: 'settings.ini'
+        fileName: EaGlobals.Variables.settingsFile
         category: 'AppGeometry'
         property alias x: appWindow.x
         property alias y: appWindow.y
