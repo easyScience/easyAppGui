@@ -48,6 +48,8 @@ QtObject {
     property string description: ""
 
     // Settings
-    property string settingsFile: projectConfig.ci.app.info.settings_path
+    property string settingsFile: typeof projectConfig.ci.app.info !== "undefined"
+                                  ? projectConfig.ci.app.info.settings_path
+                                  : ''
 
 }
