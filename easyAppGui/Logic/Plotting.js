@@ -101,9 +101,10 @@ function chemDoodleChart(cifStr, specs) {
 // Bokeh
 
 function bokehInfo() {
+    const version = '2.2.3'
     return {
-        version: '2.2.3',
-        url: 'https://docs.bokeh.org/en'
+        version: version,
+        url: `https://docs.bokeh.org/en/${version}`
     }
 }
 
