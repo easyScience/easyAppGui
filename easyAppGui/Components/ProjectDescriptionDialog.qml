@@ -1,6 +1,5 @@
 import QtQuick 2.13
 import QtQuick.Controls 2.13
-
 import QtQuick.Dialogs 1.3 as QtQuickDialogs1
 import Qt.labs.platform 1.1 as QtLabsPlatform1
 import Qt.labs.settings 1.0
@@ -22,6 +21,11 @@ EaElements.Dialog {
     property int inputFieldWidth: EaStyle.Sizes.fontPixelSize * 30
 
     title: qsTr("Project Description")
+
+    parent: Overlay.overlay
+
+    x: (parent.width - width) * 0.5
+    y: (parent.height - height) * 0.5
 
     modal: true
     standardButtons: Dialog.Ok

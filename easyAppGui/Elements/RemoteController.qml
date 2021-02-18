@@ -198,6 +198,35 @@ MouseArea {
         event.mouseClick(item, x, y, button, modifiers, delay)
     }
 
+    function mouseMove(item) {
+        if (item === undefined) {
+            print("Undefined item")
+            return
+        }
+        const x = item.width / 2
+        const y = item.height / 2
+        const button = Qt.NoButton
+        const delay = -1
+
+        event.mouseMove(item, x, y, delay, button)
+    }
+
+    function mouseWheel(item) {
+        if (item === undefined) {
+            print("Undefined item")
+            return
+        }
+        const x = item.width / 2
+        const y = item.height / 2
+        const xDelta = 0
+        const yDelta = 120  // 120 units * 1/8 = 15 degrees
+        const button = Qt.NoButton
+        const modifiers = Qt.NoModifier
+        const delay = -1
+
+        event.mouseWheel(item, x, y, button, modifiers, xDelta, yDelta, delay) // ?
+    }
+
     function typeText(text) {
         const modifiers = Qt.NoModifier
         const delay = -1

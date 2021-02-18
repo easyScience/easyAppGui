@@ -8,6 +8,11 @@ function projectConfig() {
         },
         ci: {
             app: {
+                info: {
+                    date: '01.01.2001',
+                    branch_name: 'master',
+                    commit_sha_short: 'undefined'
+                },
                 tutorials: {
                     video: {
                         fps: 15
