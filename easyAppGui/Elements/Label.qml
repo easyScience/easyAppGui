@@ -17,7 +17,7 @@ T.Label {
         EaAnimations.ThemeChange {}
     }
 
-    linkColor: EaStyle.Colors.linkColor
+    linkColor: hoveredLink ? EaStyle.Colors.linkHovered : EaStyle.Colors.link
     Behavior on linkColor {
         EaAnimations.ThemeChange {}
     }
@@ -31,4 +31,12 @@ T.Label {
             EaAnimations.ThemeChange {}
         }
     }
+
+    MouseArea {
+        anchors.fill: parent
+        acceptedButtons: Qt.NoButton
+        cursorShape: parent.hoveredLink ? Qt.PointingHandCursor : Qt.ArrowCursor
+    }
+
+    onLinkActivated: Qt.openUrlExternally(link)
 }

@@ -34,19 +34,6 @@ QtObject {
     // Screenshots control
     property bool saveScreenshotsRunning: false
 
-    // Links
-    property string essUrl: "https://ess.eu"
-
-    // externally settable variables
-    property string appUrl: ""
-    property string appIconPath: ""
-    property string essIconPath: ""
-    property string eulaUrl: ""
-    property string oslUrl: ""
-    property string appSuffixName: ""
-    property string appPrefixName: ""
-    property string description: ""
-
     // Settings
     property string settingsFile: typeof projectConfig.ci.app.info !== "undefined"
                                   ? projectConfig.ci.app.info.settings_path

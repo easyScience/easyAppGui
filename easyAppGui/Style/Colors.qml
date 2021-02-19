@@ -85,6 +85,10 @@ QtObject {
     property color textViewBackground: themeBackgroundHovered1
     property color textViewBackgroundDisabled: themeBackgroundHovered2
 
+    // Text
+    property color link: themeAccent
+    property color linkHovered: isDarkTheme ? Qt.darker(themeAccent, 1.1) : Qt.lighter(themeAccent, 1.15)
+
     // Charts
     //property var chartForegrounds: ['#00a3e3', '#ff7f50', '#6b8e23']
     property var chartForegrounds: isDarkTheme ? ['#81D4FA', '#FFAB91', '#C5E1A5'] : ['#03A9F4', '#FF5722', '#8BC34A']
@@ -96,7 +100,6 @@ QtObject {
     property color chartMinorGridLine: themeBackground
     property color chartLabels: chartForeground
     property color chartLine: "coral"
-    property color linkColor: themeAccent
 
     // Table
     property color tableHighlight: isDarkTheme ? "#204ec1ef": "#2000a3e3"

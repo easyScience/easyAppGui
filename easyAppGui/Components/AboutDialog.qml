@@ -21,8 +21,13 @@ EaElements.Dialog {
     property string eulaUrl: ""
     property string oslUrl: ""
     property string essIconPath: ""
-    property string essUrl: ""
+    property string essUrl: "https://ess.eu"
     property string description: ""
+
+    property string commit: ''
+    property string commitUrl: ''
+    property string branch: ''
+    property string branchUrl: ''
 
     title: qsTr("About")
 
@@ -41,28 +46,31 @@ EaElements.Dialog {
         // Application icon, name, version container
         Column {
             anchors.horizontalCenter: parent.horizontalCenter
-            spacing: -EaStyle.Sizes.fontPixelSize * 0.5
+            spacing: -EaStyle.Sizes.fontPixelSize * 0.25
 
             Row {
-                // App icon
+                // Application logo
                 EaElements.LinkedImage {
-                    height: EaStyle.Sizes.fontPixelSize * 5
+                    anchors.verticalCenter: parent.verticalCenter
+                    height: EaStyle.Sizes.fontPixelSize * 3.5
                     source: appIconPath
                     link: appUrl
                 }
 
-                // Horizontal spacer
-                Item { width: EaStyle.Sizes.fontPixelSize; height: 1 }
-
-                // App name
+                // Application name
                 EaElements.Label {
-                    text: appPrefixName
+                    anchors.verticalCenter: parent.verticalCenter
+                    bottomPadding: EaStyle.Sizes.fontPixelSize * 0.5
+                    verticalAlignment: Text.AlignVCenter
+                    text: " " + appPrefixName
                     font.family: EaStyle.Fonts.secondCondensedFontFamily
                     font.weight: Font.ExtraLight
                     font.pixelSize: EaStyle.Sizes.fontPixelSize * 3.5
                 }
 
                 EaElements.Label {
+                    anchors.verticalCenter: parent.verticalCenter
+                    bottomPadding: EaStyle.Sizes.fontPixelSize * 0.5
                     text: appSuffixName
                     font.family: EaStyle.Fonts.secondCondensedFontFamily
                     font.pixelSize: EaStyle.Sizes.fontPixelSize * 3.5
@@ -71,9 +79,18 @@ EaElements.Dialog {
 
             // Application version
             EaElements.Label {
-                anchors.right: parent.right
-                font.family: EaStyle.Fonts.secondExpandedFontFamily
-                text: "Version %1 (%2)".arg(appVersion).arg(appDate)
+                anchors.horizontalCenter: parent.horizontalCenter
+                text: branch === 'master'
+                      ? qsTr(`Version ${appVersion} (${appDate})`)
+                      : qsTr(`Version <a href="${commitUrl}">${appVersion}-${commit}</a> (${appDate})`)
+            }
+
+            // Github branch
+            EaElements.Label {
+                visible: branch !== 'master'
+                topPadding: EaStyle.Sizes.fontPixelSize * 0.5
+                anchors.horizontalCenter: parent.horizontalCenter
+                text: qsTr(`Branch <a href="${branchUrl}">${branch}</a>`)
             }
         }
 
@@ -83,19 +100,15 @@ EaElements.Dialog {
             spacing: EaStyle.Sizes.fontPixelSize * 0.5
 
             // EULA
-            EaElements.Button {
+            EaElements.Label {
                 anchors.horizontalCenter: parent.horizontalCenter
-                checked: true
-                text: "End User Licence Agreement"
-                onClicked: Qt.openUrlExternally(eulaUrl)
+                text: qsTr(`<a href="${eulaUrl}">End User Licence Agreement</a>`)
             }
 
             // Licences
-            EaElements.Button {
+            EaElements.Label {
                 anchors.horizontalCenter: parent.horizontalCenter
-                checked: true
-                text: "Dependent Open Source Licenses"
-                onClicked: Qt.openUrlExternally(oslUrl)
+                text: qsTr(`<a href="${oslUrl}">Dependent Open Source Licenses</a>`)
             }
         }
 
@@ -114,7 +127,7 @@ EaElements.Dialog {
             // ESS icon
             EaElements.LinkedImage {
                 anchors.horizontalCenter: parent.horizontalCenter
-                height: EaStyle.Sizes.fontPixelSize * 5
+                height: EaStyle.Sizes.fontPixelSize * 4
                 source: essIconPath
                 link: essUrl
             }
