@@ -1,7 +1,11 @@
 // Common
 
 function headCommon() {
-    return '<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>'
+    const list = [
+              '<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>',
+              '<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=PT+Sans:400">'
+          ]
+    return list.join('\n')
 }
 
 function charthHtml(head, chart) {
@@ -48,16 +52,17 @@ function chemDoodleHeadScripts() {
 
 function chemDoodleHeadStyle() {
     const list = [
-            '<style type="text/css">',
-            '* { ',
-            '    margin: 0;',
-            '    padding: 0;',
-            '    box-sizing: border-box;',
-            '}',
-            'body {',
-            '    overflow: hidden;',
-            '}',
-            '</style>'
+              '<style type="text/css">',
+              '* { ',
+              '    margin: 0;',
+              '    padding: 0;',
+              '    box-sizing: border-box;',
+              '}',
+              'body {',
+              '    overflow: hidden;',
+              '    font-family: "PT Sans", sans-serif;',
+              '}',
+              '</style>'
           ]
     return list.join('\n')
 }
@@ -73,28 +78,28 @@ function chemDoodleHead() {
 
 function chemDoodleChart(cifStr, specs) {
     const list = [
-        'const cifStr = '+cifStr,
-        'const xSuper = 1',
-        'const ySuper = 1',
-        'const zSuper = 1',
-        'const phase = ChemDoodle.readCIF(cifStr, xSuper, ySuper, zSuper)',
-        `const crystalTransformer = new ChemDoodle.TransformCanvas3D("crystalTransformer", ${specs.chartWidth}, ${specs.chartHeight})`,
-        'crystalTransformer.styles.set3DRepresentation("Ball and Stick")',
-        'crystalTransformer.styles.projectionPerspective_3D = true',
-        'crystalTransformer.styles.projectionPerspectiveVerticalFieldOfView_3D = 20',
-        'crystalTransformer.styles.bonds_display = true',
-        'crystalTransformer.styles.bonds_splitColor = true',
-        'crystalTransformer.styles.atoms_displayLabels_3D = true',
-        'crystalTransformer.styles.compass_display = true',
-        'crystalTransformer.styles.compass_type_3D = 0',
-        'crystalTransformer.styles.compass_size_3D = 70',
-        'crystalTransformer.styles.compass_displayText_3D = true',
-        `crystalTransformer.styles.shapes_color = "${specs.chartForegroundColor}"`,
-        'crystalTransformer.styles.text_font_size = 12',
-        'crystalTransformer.styles.text_font_families = ["Helvetica", "Arial", "Dialog"]',
-        `crystalTransformer.styles.backgroundColor = "${specs.chartBackgroundColor}"`,
-        'crystalTransformer.loadContent([phase.molecule],[phase.unitCell])'
-    ]
+              'const cifStr = '+cifStr,
+              'const xSuper = 1',
+              'const ySuper = 1',
+              'const zSuper = 1',
+              'const phase = ChemDoodle.readCIF(cifStr, xSuper, ySuper, zSuper)',
+              `const crystalTransformer = new ChemDoodle.TransformCanvas3D("crystalTransformer", ${specs.chartWidth}, ${specs.chartHeight})`,
+              'crystalTransformer.styles.set3DRepresentation("Ball and Stick")',
+              'crystalTransformer.styles.projectionPerspective_3D = true',
+              'crystalTransformer.styles.projectionPerspectiveVerticalFieldOfView_3D = 20',
+              'crystalTransformer.styles.bonds_display = true',
+              'crystalTransformer.styles.bonds_splitColor = true',
+              'crystalTransformer.styles.atoms_displayLabels_3D = true',
+              'crystalTransformer.styles.compass_display = true',
+              'crystalTransformer.styles.compass_type_3D = 0',
+              'crystalTransformer.styles.compass_size_3D = 70',
+              'crystalTransformer.styles.compass_displayText_3D = true',
+              `crystalTransformer.styles.shapes_color = "${specs.chartForegroundColor}"`,
+              'crystalTransformer.styles.text_font_size = 12',
+              'crystalTransformer.styles.text_font_families = ["PT Sans", "Helvetica", "Arial", "Dialog"]',
+              `crystalTransformer.styles.backgroundColor = "${specs.chartBackgroundColor}"`,
+              'crystalTransformer.loadContent([phase.molecule],[phase.unitCell])'
+          ]
     return list.join('\n')
 }
 
@@ -129,19 +134,20 @@ function bokehHeadScripts() {
 
 function bokehHeadStyle() {
     const list = [
-            '<style type="text/css">',
-            '* { ',
-            '    margin: 0;',
-            '    padding: 0;',
-            '    box-sizing: border-box;',
-            '}',
-            'body {',
-            '    overflow: hidden;',
-            '}',
-            '.bk-logo {',
-            '    display: none !important;',
-            '}',
-            '</style>'
+              '<style type="text/css">',
+              '* { ',
+              '    margin: 0;',
+              '    padding: 0;',
+              '    box-sizing: border-box;',
+              '}',
+              'body {',
+              '    overflow: hidden;',
+              '    font-family: "PT Sans", sans-serif;',
+              '}',
+              '.bk-logo {',
+              '    display: none !important;',
+              '}',
+              '</style>'
           ]
     return list.join('\n')
 }
@@ -175,6 +181,9 @@ function bokehChart(data, specs) {
             'const yaxis2 = new Bokeh.LinearAxis()',
             'plot.add_layout(xaxis2, "above")',
             'plot.add_layout(yaxis2, "right")',
+            'plot.legend.label_text_font = "PT Sans"',
+            'plot.xaxis[0].axis_label_text_font = "PT Sans"',
+            'plot.yaxis[0].axis_label_text_font = "PT Sans"',
             `plot.xaxis[0].axis_label_text_font_style = "normal"`,
             `plot.yaxis[0].axis_label_text_font_style = "normal"`,
             `plot.xaxis[0].axis_label_text_font_size = "${EaStyle.Sizes.fontPixelSize}px"`,
@@ -187,26 +196,28 @@ function bokehChart(data, specs) {
             `plot.yaxis[1].axis_line_color = "${EaStyle.Colors.chartAxis}"`,
             `plot.xaxis[0].axis_label_standoff = ${EaStyle.Sizes.fontPixelSize}`,
             `plot.yaxis[0].axis_label_standoff = ${EaStyle.Sizes.fontPixelSize}`,
+            'plot.xaxis[0].major_label_text_font = "PT Sans"',
+            'plot.yaxis[0].major_label_text_font = "PT Sans"',
             `plot.xaxis[0].major_label_text_font_size = "${EaStyle.Sizes.fontPixelSize}px"`,
             `plot.yaxis[0].major_label_text_font_size = "${EaStyle.Sizes.fontPixelSize}px"`,
             'plot.xaxis[1].major_label_text_font_size = "0px"',
             'plot.yaxis[1].major_label_text_font_size = "0px"',
-            'plot.xaxis[1].major_tick_in = 0',
-            'plot.yaxis[1].major_tick_in = 0',
-            'plot.xaxis[1].major_tick_out = 0',
-            'plot.yaxis[1].major_tick_out = 0',
             `plot.xaxis[0].major_label_text_color = "${EaStyle.Colors.chartForeground}"`,
             `plot.yaxis[0].major_label_text_color = "${EaStyle.Colors.chartForeground}"`,
             `plot.xaxis[0].major_tick_line_color = "${EaStyle.Colors.chartGridLine}"`,
             `plot.yaxis[0].major_tick_line_color = "${EaStyle.Colors.chartGridLine}"`,
             `plot.xaxis[0].minor_tick_line_color = "${EaStyle.Colors.chartMinorGridLine}"`,
             `plot.yaxis[0].minor_tick_line_color = "${EaStyle.Colors.chartMinorGridLine}"`,
+            'plot.xaxis[1].major_tick_in = 0',
+            'plot.yaxis[1].major_tick_in = 0',
+            'plot.xaxis[1].major_tick_out = 0',
+            'plot.yaxis[1].major_tick_out = 0',
             'plot.xaxis[1].minor_tick_out = 0',
             'plot.yaxis[1].minor_tick_out = 0',
             `plot.xgrid[0].grid_line_color = "${EaStyle.Colors.chartGridLine}"`,
             `plot.ygrid[0].grid_line_color = "${EaStyle.Colors.chartGridLine}"`,
             'plot.x_range.range_padding = 0'
-    ]
+        ]
     if (hasMeasuredData) {
         list = list.concat([
             'const experimentSource = new Bokeh.ColumnDataSource({',
