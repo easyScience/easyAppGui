@@ -80,14 +80,14 @@ EaElements.Dialog {
             // Application version
             EaElements.Label {
                 anchors.horizontalCenter: parent.horizontalCenter
-                text: branch === 'master'
-                      ? qsTr(`Version ${appVersion} (${appDate})`)
-                      : qsTr(`Version <a href="${commitUrl}">${appVersion}-${commit}</a> (${appDate})`)
+                text: branch && branch !== 'master'
+                      ? qsTr(`Version <a href="${commitUrl}">${appVersion}-${commit}</a> (${appDate})`)
+                      : qsTr(`Version ${appVersion} (${appDate})`)
             }
 
             // Github branch
             EaElements.Label {
-                visible: branch !== 'master'
+                visible: branch && branch !== 'master'
                 topPadding: EaStyle.Sizes.fontPixelSize * 0.5
                 anchors.horizontalCenter: parent.horizontalCenter
                 text: qsTr(`Branch <a href="${branchUrl}">${branch}</a>`)
