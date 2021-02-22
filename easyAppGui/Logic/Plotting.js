@@ -168,7 +168,7 @@ function bokehChart(data, specs) {
                             && typeof data.calculated.x !== 'undefined'
     let list = [
             'const plot = Bokeh.Plotting.figure({',
-            '    tools: "pan,box_zoom,hover,reset",',
+            '    tools: "reset",',
             `    height: ${specs.chartHeight},`,
             `    width: ${specs.chartWidth},`,
             `    x_axis_label: "${specs.xAxisTitle}",`,
@@ -208,6 +208,12 @@ function bokehChart(data, specs) {
             `plot.yaxis[0].major_tick_line_color = "${EaStyle.Colors.chartGridLine}"`,
             `plot.xaxis[0].minor_tick_line_color = "${EaStyle.Colors.chartMinorGridLine}"`,
             `plot.yaxis[0].minor_tick_line_color = "${EaStyle.Colors.chartMinorGridLine}"`,
+            'plot.xaxis[0].major_tick_in = 0',
+            'plot.yaxis[0].major_tick_in = 0',
+            'plot.xaxis[0].major_tick_out = 0',
+            'plot.yaxis[0].major_tick_out = 0',
+            'plot.xaxis[0].minor_tick_out = 0',
+            'plot.yaxis[0].minor_tick_out = 0',
             'plot.xaxis[1].major_tick_in = 0',
             'plot.yaxis[1].major_tick_in = 0',
             'plot.xaxis[1].major_tick_out = 0',
@@ -216,7 +222,15 @@ function bokehChart(data, specs) {
             'plot.yaxis[1].minor_tick_out = 0',
             `plot.xgrid[0].grid_line_color = "${EaStyle.Colors.chartGridLine}"`,
             `plot.ygrid[0].grid_line_color = "${EaStyle.Colors.chartGridLine}"`,
-            'plot.x_range.range_padding = 0'
+
+            'const tooltip = (',
+            `   '<div><span style="color:${EaStyle.Colors.themeForegroundDisabled}">x:</span> @x{0.00}</div>' +`,
+            `   '<div><span style="color:${EaStyle.Colors.themeForegroundDisabled}">y:</span> @y{0}</div>'`,
+            ')',
+            "plot.add_tools(new Bokeh.HoverTool({tooltips:tooltip, point_policy:'snap_to_data', mode:'mouse'}))",
+            'plot.add_tools(new Bokeh.BoxZoomTool())',
+            'plot.toolbar.active_drag = "box_zoom"',
+            'plot.add_tools(new Bokeh.PanTool())',
         ]
     if (hasMeasuredData) {
         list = list.concat([
