@@ -5,6 +5,8 @@ import easyAppGui.Style 1.0 as EaStyle
 import easyAppGui.Animations 1.0 as EaAnimations
 import easyAppGui.Elements 1.0 as EaElements
 
+import Gui.Globals 1.0 as ExGlobals
+
 Rectangle {
     id: statusBar
 
@@ -23,7 +25,7 @@ Rectangle {
         EaAnimations.ThemeChange {}
     }
 
-    // Status bar content
+    // Status bar main content
     ListView {
         id: listView
 
@@ -48,6 +50,50 @@ Rectangle {
             leftPadding: font.pixelSize
             color: EaStyle.Colors.statusBarForeground
             text: model.label + ": " + model.value
+        }
+    }
+
+    // Fitting label
+    Item {
+        id: fittingLabel
+
+        property string text: "Fitting"
+        property bool running: !ExGlobals.Constants.proxy.isFitFinished
+        property color color: EaStyle.Colors.themeForegroundHovered
+
+        visible: running
+        width: childrenRect.width
+        height: childrenRect.height
+        anchors.right: parent.right
+        anchors.rightMargin: EaStyle.Sizes.fontPixelSize
+        anchors.verticalCenter: parent.verticalCenter
+
+        Row {
+            EaElements.Label { text: fittingLabel.text; color: fittingLabel.color }
+            EaElements.Label { id: dot1; text: '.'; color: fittingLabel.color }
+            EaElements.Label { id: dot2; text: '.'; color: fittingLabel.color }
+            EaElements.Label { id: dot3; text: '.'; color: fittingLabel.color }
+        }
+
+        SequentialAnimation {
+            running: fittingLabel.running
+            loops: Animation.Infinite
+
+            SequentialAnimation {
+                PropertyAnimation { target: dot1; property: 'opacity'; to: 1; duration: 500 }
+                PropertyAnimation { target: dot2; property: 'opacity'; to: 1; duration: 500 }
+                PropertyAnimation { target: dot3; property: 'opacity'; to: 1; duration: 500 }
+            }
+
+            PauseAnimation { duration: 250 }
+
+            ParallelAnimation {
+                PropertyAction { target: dot1; property: 'opacity'; value: 0 }
+                PropertyAction { target: dot2; property: 'opacity'; value: 0 }
+                PropertyAction { target: dot3; property: 'opacity'; value: 0 }
+            }
+
+            PauseAnimation { duration: 250 }
         }
     }
 
