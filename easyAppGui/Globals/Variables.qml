@@ -35,8 +35,7 @@ QtObject {
     property bool saveScreenshotsRunning: false
 
     // Settings
-    property string settingsFile: typeof projectConfig.ci.app.info !== "undefined" && typeof projectConfig.ci.app.info.settings_path !== "undefined"
-                                  ? projectConfig.ci.app.info.settings_path
+    property string settingsFile: typeof _settingsPath !== "undefined" && _settingsPath !== null
+                                  ? _settingsPath
                                   : 'settings.ini'
-
 }
