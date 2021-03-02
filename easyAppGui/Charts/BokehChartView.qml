@@ -17,16 +17,25 @@ Rectangle {
     property var braggData: {'x': undefined, 'y': undefined}
     property var differenceData: {'x': undefined, 'y': undefined}
 
+    property bool hasMeasuredData: typeof measuredData !== 'undefined'
+                                   && typeof measuredData.x !== 'undefined'
+    property bool hasCalculatedData: typeof calculatedData !== 'undefined'
+                                     && typeof calculatedData.x !== 'undefined'
+    property bool hasBraggData: typeof braggData !== 'undefined'
+                                && typeof braggData.x !== 'undefined'
+    property bool hasDifferenceData: typeof differenceData !== 'undefined'
+                                     && typeof differenceData.x !== 'undefined'
+
     property int chartWidth: container.width - webView.anchors.margins * 2
     property int mainChartHeight: container.height
                                   - webView.anchors.margins * 2
                                   - braggChartHeight
                                   - differenceChartHeight
                                   - 30
-    property int braggChartHeight: showBragg
+    property int braggChartHeight: showBragg && hasBraggData
                                    ? 25
                                    : 0
-    property int differenceChartHeight: showDifference
+    property int differenceChartHeight: showDifference && hasDifferenceData
                                         ? 150
                                         : 0
 

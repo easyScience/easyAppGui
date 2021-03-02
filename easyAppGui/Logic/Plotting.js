@@ -162,6 +162,7 @@ function bokehHead() {
 }
 
 function bokehChart(data, specs) {
+    // Has data
     const hasMeasuredData = typeof data.measured !== 'undefined'
                           && typeof data.measured.x !== 'undefined'
     const hasCalculatedData = typeof data.calculated !== 'undefined'
@@ -170,6 +171,28 @@ function bokehChart(data, specs) {
                        && typeof data.bragg.x !== 'undefined'
     const hasDifferenceData = typeof data.difference !== 'undefined'
                             && typeof data.difference.x !== 'undefined'
+
+    // Main chart ranges
+    const mainChartMinX = (hasMeasuredData && specs.showMeasured) && (hasCalculatedData && specs.showCalculated)
+                        ? Math.min(data.measured.min_x, data.calculated.min_x)
+                        : (hasMeasuredData && specs.showMeasured)
+                          ? data.measured.min_x : data.calculated.min_x
+    const mainChartMaxX = (hasMeasuredData && specs.showMeasured) && (hasCalculatedData && specs.showCalculated)
+                        ? Math.max(data.measured.max_x, data.calculated.max_x)
+                        : (hasMeasuredData && specs.showMeasured)
+                          ? data.measured.max_x : data.calculated.max_x
+
+    let mainChartMinY = (hasMeasuredData && specs.showMeasured) && (hasCalculatedData && specs.showCalculated)
+                        ? Math.min(data.measured.min_y, data.calculated.min_y)
+                        : (hasMeasuredData && specs.showMeasured)
+                          ? data.measured.min_y : data.calculated.min_y
+    let mainChartMaxY = (hasMeasuredData && specs.showMeasured) && (hasCalculatedData && specs.showCalculated)
+                        ? Math.max(data.measured.max_y, data.calculated.max_y)
+                        : (hasMeasuredData && specs.showMeasured)
+                          ? data.measured.max_y : data.calculated.max_y
+    const yExtra = 0.1
+    mainChartMinY -= yExtra * mainChartMaxY
+    mainChartMaxY += yExtra * mainChartMaxY
 
     //'plot.legend.label_text_font = "PT Sans"'
 
@@ -199,7 +222,7 @@ function bokehChart(data, specs) {
             'const bragg_tooltip = (',
             `   '<table><tbody>' +`,
             `   '<tr style="color:${EaStyle.Colors.themeForegroundDisabled}"><td style="text-align:right">x:&nbsp;</td><td style="text-align:right">@x_bragg{0.00}</td></tr>' +`,
-            `   '<tr style="color:${specs.braggLineColor}"><td style="text-align:right">hkl:&nbsp;</td><td style="text-align:right">@y_bragg{0.0}</td></tr>' +`,
+            `   '<tr style="color:${specs.calculatedLineColor}"><td style="text-align:right">hkl:&nbsp;</td><td style="text-align:right">@y_bragg{0.0}</td></tr>' +`,
             `   '</tbody></table>'`,
             ')'
         ])
@@ -215,12 +238,12 @@ function bokehChart(data, specs) {
             `   height: ${specs.mainChartHeight},`,
             `   width: ${specs.chartWidth},`,
             `   x_range: new Bokeh.Range1d({`,
-            `       start: Math.min(${data.measured.min_x}, ${data.calculated.min_x}),`,
-            `       end: Math.max(${data.measured.max_x}, ${data.calculated.max_x})`,
+            `       start: ${mainChartMinX},`,
+            `       end: ${mainChartMaxX}`,
             `   }),`,
             `   y_range: new Bokeh.Range1d({`,
-            `       start: Math.min(${data.measured.min_y}, ${data.calculated.min_y}) - 0.1*Math.max(${data.measured.max_y}, ${data.calculated.max_y}),`,
-            `       end: Math.max(${data.measured.max_y}, ${data.calculated.max_y}) + 0.1*Math.max(${data.measured.max_y}, ${data.calculated.max_y})`,
+            `       start: ${mainChartMinY},`,
+            `       end: ${mainChartMaxY}`,
             `   }),`,
             `   x_axis_label: "${specs.xAxisTitle}",`,
             `   y_axis_label: "${specs.yMainAxisTitle}",`,
@@ -239,7 +262,7 @@ function bokehChart(data, specs) {
             'main_chart.yaxis[0].axis_label_text_font = "PT Sans"',
             'main_chart.xaxis[0].axis_label_text_font_style = "normal"',
             'main_chart.yaxis[0].axis_label_text_font_style = "normal"',
-            `main_chart.xaxis[0].axis_label_text_font_size = "${hasBraggData && specs.showBragg ? 0 : specs.fontPixelSize}px"`,
+            `main_chart.xaxis[0].axis_label_text_font_size = "${hasDifferenceData && specs.showDifference ? 0 : specs.fontPixelSize}px"`,
             `main_chart.yaxis[0].axis_label_text_font_size = "${specs.fontPixelSize}px"`,
             `main_chart.xaxis[0].axis_label_text_color = "${specs.chartForegroundColor}"`,
             `main_chart.yaxis[0].axis_label_text_color = "${specs.chartForegroundColor}"`,
@@ -251,7 +274,7 @@ function bokehChart(data, specs) {
 
             'main_chart.xaxis[0].major_label_text_font = "PT Sans"',
             'main_chart.yaxis[0].major_label_text_font = "PT Sans"',
-            `main_chart.xaxis[0].major_label_text_font_size = "${hasBraggData && specs.showBragg ? 0 : specs.fontPixelSize}px"`,
+            `main_chart.xaxis[0].major_label_text_font_size = "${hasDifferenceData && specs.showDifference ? 0 : specs.fontPixelSize}px"`,
             `main_chart.yaxis[0].major_label_text_font_size = "${specs.fontPixelSize}px"`,
             `main_chart.xaxis[0].major_label_text_color = "${specs.chartForegroundColor}"`,
             `main_chart.yaxis[0].major_label_text_color = "${specs.chartForegroundColor}"`,
