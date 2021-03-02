@@ -165,111 +165,324 @@ function bokehChart(data, specs) {
     const hasMeasuredData = typeof data.measured !== 'undefined'
                           && typeof data.measured.x !== 'undefined'
     const hasCalculatedData = typeof data.calculated !== 'undefined'
-                            && typeof data.calculated.x !== 'undefined'
-    let list = [
-            'const plot = Bokeh.Plotting.figure({',
-            '    tools: "reset",',
-            `    height: ${specs.chartHeight},`,
-            `    width: ${specs.chartWidth},`,
-            `    x_axis_label: "${specs.xAxisTitle}",`,
-            `    y_axis_label: "${specs.yAxisTitle}",`,
-            `    background: "${specs.chartBackgroundColor}",`,
-            `    background_fill_color: "${specs.chartBackgroundColor}",`,
-            `    border_fill_color: "${specs.chartBackgroundColor}",`,
-            '})',
-            'const xaxis2 = new Bokeh.LinearAxis()',
-            'const yaxis2 = new Bokeh.LinearAxis()',
-            'plot.add_layout(xaxis2, "above")',
-            'plot.add_layout(yaxis2, "right")',
-            'plot.legend.label_text_font = "PT Sans"',
-            'plot.xaxis[0].axis_label_text_font = "PT Sans"',
-            'plot.yaxis[0].axis_label_text_font = "PT Sans"',
-            `plot.xaxis[0].axis_label_text_font_style = "normal"`,
-            `plot.yaxis[0].axis_label_text_font_style = "normal"`,
-            `plot.xaxis[0].axis_label_text_font_size = "${EaStyle.Sizes.fontPixelSize}px"`,
-            `plot.yaxis[0].axis_label_text_font_size = "${EaStyle.Sizes.fontPixelSize}px"`,
-            `plot.xaxis[0].axis_label_text_color = "${EaStyle.Colors.chartForeground}"`,
-            `plot.yaxis[0].axis_label_text_color = "${EaStyle.Colors.chartForeground}"`,
-            `plot.xaxis[0].axis_line_color = "${EaStyle.Colors.chartAxis}"`,
-            `plot.yaxis[0].axis_line_color = "${EaStyle.Colors.chartAxis}"`,
-            `plot.xaxis[1].axis_line_color = "${EaStyle.Colors.chartAxis}"`,
-            `plot.yaxis[1].axis_line_color = "${EaStyle.Colors.chartAxis}"`,
-            `plot.xaxis[0].axis_label_standoff = ${EaStyle.Sizes.fontPixelSize}`,
-            `plot.yaxis[0].axis_label_standoff = ${EaStyle.Sizes.fontPixelSize}`,
-            'plot.xaxis[0].major_label_text_font = "PT Sans"',
-            'plot.yaxis[0].major_label_text_font = "PT Sans"',
-            `plot.xaxis[0].major_label_text_font_size = "${EaStyle.Sizes.fontPixelSize}px"`,
-            `plot.yaxis[0].major_label_text_font_size = "${EaStyle.Sizes.fontPixelSize}px"`,
-            'plot.xaxis[1].major_label_text_font_size = "0px"',
-            'plot.yaxis[1].major_label_text_font_size = "0px"',
-            `plot.xaxis[0].major_label_text_color = "${EaStyle.Colors.chartForeground}"`,
-            `plot.yaxis[0].major_label_text_color = "${EaStyle.Colors.chartForeground}"`,
-            `plot.xaxis[0].major_tick_line_color = "${EaStyle.Colors.chartGridLine}"`,
-            `plot.yaxis[0].major_tick_line_color = "${EaStyle.Colors.chartGridLine}"`,
-            `plot.xaxis[0].minor_tick_line_color = "${EaStyle.Colors.chartMinorGridLine}"`,
-            `plot.yaxis[0].minor_tick_line_color = "${EaStyle.Colors.chartMinorGridLine}"`,
-            'plot.xaxis[0].major_tick_in = 0',
-            'plot.yaxis[0].major_tick_in = 0',
-            'plot.xaxis[0].major_tick_out = 0',
-            'plot.yaxis[0].major_tick_out = 0',
-            'plot.xaxis[0].minor_tick_out = 0',
-            'plot.yaxis[0].minor_tick_out = 0',
-            'plot.xaxis[1].major_tick_in = 0',
-            'plot.yaxis[1].major_tick_in = 0',
-            'plot.xaxis[1].major_tick_out = 0',
-            'plot.yaxis[1].major_tick_out = 0',
-            'plot.xaxis[1].minor_tick_out = 0',
-            'plot.yaxis[1].minor_tick_out = 0',
-            `plot.xgrid[0].grid_line_color = "${EaStyle.Colors.chartGridLine}"`,
-            `plot.ygrid[0].grid_line_color = "${EaStyle.Colors.chartGridLine}"`,
+                          && typeof data.calculated.x !== 'undefined'
+    const hasBraggData = typeof data.bragg !== 'undefined'
+                       && typeof data.bragg.x !== 'undefined'
+    const hasDifferenceData = typeof data.difference !== 'undefined'
+                            && typeof data.difference.x !== 'undefined'
 
-            'const tooltip = (',
-            `   '<div><span style="color:${EaStyle.Colors.themeForegroundDisabled}">x:</span> @x{0.00}</div>' +`,
-            `   '<div><span style="color:${EaStyle.Colors.themeForegroundDisabled}">y:</span> @y{0}</div>'`,
-            ')',
-            "plot.add_tools(new Bokeh.HoverTool({tooltips:tooltip, point_policy:'snap_to_data', mode:'mouse'}))",
-            'plot.add_tools(new Bokeh.BoxZoomTool())',
-            'plot.toolbar.active_drag = "box_zoom"',
-            'plot.add_tools(new Bokeh.PanTool())',
+    //'plot.legend.label_text_font = "PT Sans"'
+
+    // Chart tooltips
+    let list = [
+            'const main_tooltip = (',
+            `   '<table><tbody>' +`
         ]
-    if (hasMeasuredData) {
+    if (hasMeasuredData && specs.showMeasured) {
+        list.push(`   '<tr style="color:${EaStyle.Colors.themeForegroundDisabled}"><td style="text-align:right">x:&nbsp;</td><td style="text-align:right">@x_meas{0.00}</td></tr>' +`)
+    } else if (hasCalculatedData && specs.showCalculated) {
+        list.push(`   '<tr style="color:${EaStyle.Colors.themeForegroundDisabled}"><td style="text-align:right">x:&nbsp;</td><td style="text-align:right">@x_calc{0.00}</td></tr>' +`)
+    }
+    if (hasMeasuredData && specs.showMeasured) {
+        list.push(`   '<tr style="color:${specs.measuredLineColor}"><td style="text-align:right">meas:&nbsp;</td><td style="text-align:right">@y_meas{0.0}</td></tr>' +`)
+    }
+    if (hasCalculatedData && specs.showCalculated) {
+        list.push(`   '<tr style="color:${specs.calculatedLineColor}"><td style="text-align:right">calc:&nbsp;</td><td style="text-align:right">@y_calc{0.0}</td></tr>' +`)
+    }
+    if (hasDifferenceData  && specs.showDifference) {
+        list.push(`   '<tr style="color:${specs.differenceLineColor}"><td style="text-align:right">diff:&nbsp;</td><td style="text-align:right">@y_diff{0.0}</td></tr>' +`)
+    }
+    list = list.concat([
+            `   '</tbody></table>'`,
+            ')',
+
+            'const bragg_tooltip = (',
+            `   '<table><tbody>' +`,
+            `   '<tr style="color:${EaStyle.Colors.themeForegroundDisabled}"><td style="text-align:right">x:&nbsp;</td><td style="text-align:right">@x_bragg{0.00}</td></tr>' +`,
+            `   '<tr style="color:${specs.braggLineColor}"><td style="text-align:right">hkl:&nbsp;</td><td style="text-align:right">@y_bragg{0.0}</td></tr>' +`,
+            `   '</tbody></table>'`,
+            ')'
+        ])
+
+    // Main chart (top): init
+    list = list.concat([
+            'const source = new Bokeh.ColumnDataSource()',
+
+            'const charts = []',
+
+            'const main_chart = new Bokeh.Plotting.figure({',
+            '   tools: "reset",',
+            `   height: ${specs.mainChartHeight},`,
+            `   width: ${specs.chartWidth},`,
+            `   x_range: new Bokeh.Range1d({`,
+            `       start: Math.min(${data.measured.min_x}, ${data.calculated.min_x}),`,
+            `       end: Math.max(${data.measured.max_x}, ${data.calculated.max_x})`,
+            `   }),`,
+            `   y_range: new Bokeh.Range1d({`,
+            `       start: Math.min(${data.measured.min_y}, ${data.calculated.min_y}) - 0.1*Math.max(${data.measured.max_y}, ${data.calculated.max_y}),`,
+            `       end: Math.max(${data.measured.max_y}, ${data.calculated.max_y}) + 0.1*Math.max(${data.measured.max_y}, ${data.calculated.max_y})`,
+            `   }),`,
+            `   x_axis_label: "${specs.xAxisTitle}",`,
+            `   y_axis_label: "${specs.yMainAxisTitle}",`,
+            `   outline_line_color: "${EaStyle.Colors.chartAxis}",`,
+            `   background: "${specs.chartBackgroundColor}",`,
+            `   background_fill_color: "${specs.chartBackgroundColor}",`,
+            `   border_fill_color: "${specs.chartBackgroundColor}",`,
+            '})',
+
+            'main_chart.add_tools(new Bokeh.HoverTool({tooltips:main_tooltip, point_policy:"snap_to_data", mode:"mouse"}))',
+            'main_chart.add_tools(new Bokeh.BoxZoomTool())',
+            'main_chart.toolbar.active_drag = "box_zoom"',
+            'main_chart.add_tools(new Bokeh.PanTool())',
+
+            'main_chart.xaxis[0].axis_label_text_font = "PT Sans"',
+            'main_chart.yaxis[0].axis_label_text_font = "PT Sans"',
+            'main_chart.xaxis[0].axis_label_text_font_style = "normal"',
+            'main_chart.yaxis[0].axis_label_text_font_style = "normal"',
+            `main_chart.xaxis[0].axis_label_text_font_size = "${hasBraggData && specs.showBragg ? 0 : specs.fontPixelSize}px"`,
+            `main_chart.yaxis[0].axis_label_text_font_size = "${specs.fontPixelSize}px"`,
+            `main_chart.xaxis[0].axis_label_text_color = "${specs.chartForegroundColor}"`,
+            `main_chart.yaxis[0].axis_label_text_color = "${specs.chartForegroundColor}"`,
+            `main_chart.xaxis[0].axis_label_standoff = ${specs.fontPixelSize}`,
+            `main_chart.yaxis[0].axis_label_standoff = ${specs.fontPixelSize}`,
+
+            'main_chart.xaxis[0].axis_line_color = null',
+            'main_chart.yaxis[0].axis_line_color = null',
+
+            'main_chart.xaxis[0].major_label_text_font = "PT Sans"',
+            'main_chart.yaxis[0].major_label_text_font = "PT Sans"',
+            `main_chart.xaxis[0].major_label_text_font_size = "${hasBraggData && specs.showBragg ? 0 : specs.fontPixelSize}px"`,
+            `main_chart.yaxis[0].major_label_text_font_size = "${specs.fontPixelSize}px"`,
+            `main_chart.xaxis[0].major_label_text_color = "${specs.chartForegroundColor}"`,
+            `main_chart.yaxis[0].major_label_text_color = "${specs.chartForegroundColor}"`,
+            `main_chart.xaxis[0].major_tick_line_color = "${specs.chartGridLineColor}"`,
+            `main_chart.yaxis[0].major_tick_line_color = "${specs.chartGridLineColor}"`,
+            `main_chart.xaxis[0].minor_tick_line_color = "${specs.chartMinorGridLineColor}"`,
+            `main_chart.yaxis[0].minor_tick_line_color = "${specs.chartMinorGridLineColor}"`,
+
+            'main_chart.xaxis[0].major_tick_in = 0',
+            'main_chart.yaxis[0].major_tick_in = 0',
+            'main_chart.xaxis[0].major_tick_out = 0',
+            'main_chart.yaxis[0].major_tick_out = 0',
+            'main_chart.xaxis[0].minor_tick_out = 0',
+            'main_chart.yaxis[0].minor_tick_out = 0',
+
+            `main_chart.xgrid[0].grid_line_color = "${specs.chartGridLineColor}"`,
+            `main_chart.ygrid[0].grid_line_color = "${specs.chartGridLineColor}"`,
+
+            'main_chart.min_border = 0',
+
+            'charts.push([main_chart])'
+        ])
+
+    // Main chart (top): Measured area
+    if (hasMeasuredData && specs.showMeasured) {
         list = list.concat([
-            'const experimentSource = new Bokeh.ColumnDataSource({',
-            '    data: {',
-            `        x: ${data.measured.x},`,
-            `        y: ${data.measured.y}`,
-            '    }',
+            `source.data.x_meas = ${data.measured.x}`,
+            `source.data.y_meas = ${data.measured.y}`,
+            `source.data.y_meas_top = ${data.measured.y_top}`,
+            `source.data.y_meas_bottom = ${data.measured.y_bottom}`,
+
+            'const measLineTop = new Bokeh.Line({',
+            '    x: { field: "x_meas" },',
+            '    y: { field: "y_meas_top" },',
+            `    line_color: "${specs.measuredLineColor}",`,
+            `    line_alpha: 0.5,`,
+            `    line_width: ${specs.measuredLineWidth}`,
             '})',
-            'const experimentLine = new Bokeh.Line({',
-            '    x: { field: "x" },',
-            '    y: { field: "y" },',
-            `    line_color: "${specs.experimentLineColor}",`,
-            `    line_width: ${specs.experimentLineWidth},`,
+            'const measLineBottom = new Bokeh.Line({',
+            '    x: { field: "x_meas" },',
+            '    y: { field: "y_meas_bottom" },',
+            `    line_color: "${specs.measuredLineColor}",`,
+            `    line_alpha: 0.5,`,
+            `    line_width: ${specs.measuredLineWidth}`,
             '})',
-            'plot.add_glyph(experimentLine, experimentSource)'
+            'const measArea = new Bokeh.VArea({',
+            '    x: { field: "x_meas" },',
+            '    y1: { field: "y_meas_top" },',
+            '    y2: { field: "y_meas_bottom" },',
+            `    fill_color: "${specs.measuredAreaColor}",`,
+            `    fill_alpha: 0.33`,
+            '})',
+
+            'main_chart.add_glyph(measArea, source)',
+            'main_chart.add_glyph(measLineTop, source)',
+            'main_chart.add_glyph(measLineBottom, source)'
         ])
     }
-    if (hasCalculatedData) {
+
+    // Main chart (top): Calculated curve
+    if (hasCalculatedData && specs.showCalculated) {
         list = list.concat([
-            'const calculatedSource = new Bokeh.ColumnDataSource({',
-            '    data: {',
-            `        x: ${data.calculated.x},`,
-            `        y: ${data.calculated.y}`,
-            '    }',
-            '})',
-            'const calculatedLine = new Bokeh.Line({',
-            '    x: { field: "x" },',
-            '    y: { field: "y" },',
+            `source.data.x_calc = ${data.calculated.x}`,
+            `source.data.y_calc = ${data.calculated.y}`,
+
+            'const calcLine = new Bokeh.Line({',
+            '    x: { field: "x_calc" },',
+            '    y: { field: "y_calc" },',
             `    line_color: "${specs.calculatedLineColor}",`,
             `    line_width: ${specs.calculatedLineWidth},`,
             '})',
-            'plot.add_glyph(calculatedLine, calculatedSource)'
+
+            'main_chart.add_glyph(calcLine, source)'
         ])
     }
-    if (typeof specs.containerId !== 'undefined') {
-        list = list.concat([`Bokeh.Plotting.show(plot, "#${specs.containerId}")`])
-    } else {
-        list = list.concat(['Bokeh.Plotting.show(plot)'])
+
+    // Bragg peaks chart (middle)
+    if (hasBraggData && specs.showBragg) {
+        list = list.concat([
+            'let bragg_chart = new Bokeh.Plotting.figure({',
+            '   tools: "",',
+            `   height: ${specs.braggChartHeight},`,
+            `   width: ${specs.chartWidth},`,
+            '   x_range: main_chart.x_range,',
+            '   y_range: new Bokeh.Range1d({ start: -1, end: 1 }),',
+            '   outline_line_color: null,',
+            `   background: "${specs.chartBackgroundColor}",`,
+            `   background_fill_color: "${specs.chartBackgroundColor}",`,
+            `   border_fill_color: "${specs.chartBackgroundColor}"`,
+            '})',
+
+            'bragg_chart.add_tools(new Bokeh.HoverTool({tooltips:bragg_tooltip, point_policy:"snap_to_data", mode:"mouse"}))',
+
+            'bragg_chart.xaxis[0].axis_line_color = null',
+            'bragg_chart.yaxis[0].axis_line_color = null',
+            'bragg_chart.xaxis[0].major_tick_in = 0',
+            'bragg_chart.yaxis[0].major_tick_in = 0',
+            'bragg_chart.xaxis[0].major_tick_out = 0',
+            'bragg_chart.yaxis[0].major_tick_out = 0',
+            'bragg_chart.xaxis[0].minor_tick_out = 0',
+            'bragg_chart.yaxis[0].minor_tick_out = 0',
+            'bragg_chart.xaxis[0].major_label_text_font_size = "0px"',
+            'bragg_chart.yaxis[0].major_label_text_font_size = "0px"',
+            'bragg_chart.xgrid[0].grid_line_color = null',
+            'bragg_chart.ygrid[0].grid_line_color = null',
+            'bragg_chart.min_border = 0',
+
+            `source.data.x_bragg = ${data.bragg.x}`,
+            `source.data.y_bragg = ${data.bragg.y}`,
+
+            'const braggTicks = new Bokeh.Dash({',
+            '    x: { field: "x_bragg" },',
+            '    y: { field: "y_bragg" },',
+            `    line_color: "${specs.braggTicksColor}",`,
+            `    angle: Math.PI / 2.`,
+            '})',
+
+            'bragg_chart.add_glyph(braggTicks, source)',
+
+            'charts.push([bragg_chart])'
+        ])
     }
+
+    // Difference chart (bottom)
+    if (hasDifferenceData  && specs.showDifference) {
+        list = list.concat([
+            `const ratio = 0.5 * (${specs.differenceChartHeight} - 3*${specs.fontPixelSize}) / (${specs.mainChartHeight} + 30)`,
+            'let diff_chart = new Bokeh.Plotting.figure({',
+            '   tools: "reset",',
+            `   height: ${specs.differenceChartHeight},`,
+            `   width: ${specs.chartWidth},`,
+            '   x_range: main_chart.x_range,',
+            `   y_range: new Bokeh.Range1d({`,
+            `       start: ${data.difference.median_y} - (main_chart.y_range.start - main_chart.y_range.end) * ratio,`,
+            `       end: ${data.difference.median_y} + (main_chart.y_range.start - main_chart.y_range.end) * ratio`,
+            `   }),`,
+            `   x_axis_label: "${specs.xAxisTitle}",`,
+            `   y_axis_label: "${specs.yDifferenceAxisTitle}",`,
+            `   outline_line_color: "${EaStyle.Colors.chartAxis}",`,
+            `   background: "${specs.chartBackgroundColor}",`,
+            `   background_fill_color: "${specs.chartBackgroundColor}",`,
+            `   border_fill_color: "${specs.chartBackgroundColor}"`,
+            '})',
+
+            'diff_chart.add_tools(new Bokeh.HoverTool({tooltips:main_tooltip, point_policy:"snap_to_data", mode:"mouse"}))',
+            'diff_chart.add_tools(new Bokeh.BoxZoomTool())',
+            'diff_chart.toolbar.active_drag = "box_zoom"',
+            'diff_chart.add_tools(new Bokeh.PanTool())',
+
+            'diff_chart.xaxis[0].axis_label_text_font = "PT Sans"',
+            'diff_chart.yaxis[0].axis_label_text_font = "PT Sans"',
+            'diff_chart.xaxis[0].axis_label_text_font_style = "normal"',
+            'diff_chart.yaxis[0].axis_label_text_font_style = "normal"',
+            `diff_chart.xaxis[0].axis_label_text_font_size = "${specs.fontPixelSize}px"`,
+            `diff_chart.yaxis[0].axis_label_text_font_size = "${specs.fontPixelSize}px"`,
+            `diff_chart.xaxis[0].axis_label_text_color = "${specs.chartForegroundColor}"`,
+            `diff_chart.yaxis[0].axis_label_text_color = "${specs.chartForegroundColor}"`,
+            `diff_chart.xaxis[0].axis_label_standoff = ${specs.fontPixelSize}`,
+            `diff_chart.yaxis[0].axis_label_standoff = ${specs.fontPixelSize}`,
+
+            'diff_chart.xaxis[0].axis_line_color = null',
+            'diff_chart.yaxis[0].axis_line_color = null',
+
+            'diff_chart.xaxis[0].major_label_text_font = "PT Sans"',
+            'diff_chart.yaxis[0].major_label_text_font = "PT Sans"',
+            `diff_chart.xaxis[0].major_label_text_font_size = "${specs.fontPixelSize}px"`,
+            `diff_chart.yaxis[0].major_label_text_font_size = "${specs.fontPixelSize}px"`,
+            `diff_chart.xaxis[0].major_label_text_color = "${specs.chartForegroundColor}"`,
+            `diff_chart.yaxis[0].major_label_text_color = "${specs.chartForegroundColor}"`,
+            `diff_chart.xaxis[0].major_tick_line_color = "${specs.chartGridLineColor}"`,
+            `diff_chart.yaxis[0].major_tick_line_color = "${specs.chartGridLineColor}"`,
+            `diff_chart.xaxis[0].minor_tick_line_color = "${specs.chartMinorGridLineColor}"`,
+            `diff_chart.yaxis[0].minor_tick_line_color = "${specs.chartMinorGridLineColor}"`,
+
+            'diff_chart.xaxis[0].major_tick_in = 0',
+            'diff_chart.yaxis[0].major_tick_in = 0',
+            'diff_chart.xaxis[0].major_tick_out = 0',
+            'diff_chart.yaxis[0].major_tick_out = 0',
+            'diff_chart.xaxis[0].minor_tick_out = 0',
+            'diff_chart.yaxis[0].minor_tick_out = 0',
+
+            `diff_chart.xgrid[0].grid_line_color = "${specs.chartGridLineColor}"`,
+            `diff_chart.ygrid[0].grid_line_color = "${specs.chartGridLineColor}"`,
+            'diff_chart.ygrid[0].ticker.desired_num_ticks = 3',
+
+            'diff_chart.min_border = 0',
+
+            `source.data.x_diff = ${data.difference.x}`,
+            `source.data.y_diff = ${data.difference.y}`,
+            `source.data.y_diff_top = ${data.difference.y_top}`,
+            `source.data.y_diff_bottom = ${data.difference.y_bottom}`,
+
+            'const diffLineTop = new Bokeh.Line({',
+            '    x: { field: "x_diff" },',
+            '    y: { field: "y_diff_top" },',
+            `    line_color: "${specs.differenceLineColor}",`,
+            `    line_alpha: 0.5,`,
+            `    line_width: ${specs.differenceLineWidth}`,
+            '})',
+            'const diffLineBottom = new Bokeh.Line({',
+            '    x: { field: "x_diff" },',
+            '    y: { field: "y_diff_bottom" },',
+            `    line_color: "${specs.differenceLineColor}",`,
+            `    line_alpha: 0.5,`,
+            `    line_width: ${specs.differenceLineWidth}`,
+            '})',
+            'const diffArea = new Bokeh.VArea({',
+            '    x: { field: "x_diff" },',
+            '    y1: { field: "y_diff_top" },',
+            '    y2: { field: "y_diff_bottom" },',
+            `    fill_color: "${specs.differenceAreaColor}",`,
+            `    fill_alpha: 0.33`,
+            '})',
+
+            'diff_chart.add_glyph(diffArea, source)',
+            'diff_chart.add_glyph(diffLineTop, source)',
+            'diff_chart.add_glyph(diffLineBottom, source)',
+
+            'charts.push([diff_chart])'
+        ])
+    }
+
+    // Grid layout
+    list = list.concat(['const gridplot = new Bokeh.Plotting.gridplot(charts)'])
+
+    // Show plots
+    if (typeof specs.containerId !== 'undefined') {
+        list = list.concat([`Bokeh.Plotting.show(gridplot, "#${specs.containerId}")`])
+    } else {
+        list = list.concat(['Bokeh.Plotting.show(gridplot)'])
+    }
+
     return list.join('\n')
 }

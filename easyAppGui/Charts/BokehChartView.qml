@@ -7,19 +7,52 @@ import easyAppGui.Logic 1.0 as EaLogic
 Rectangle {
     id: container
 
+    property bool showMeasured: false
+    property bool showCalculated: false
+    property bool showBragg: false
+    property bool showDifference: false
+
     property var measuredData: {'x': undefined, 'y': undefined}
     property var calculatedData: {'x': undefined, 'y': undefined}
+    property var braggData: {'x': undefined, 'y': undefined}
+    property var differenceData: {'x': undefined, 'y': undefined}
+
+    property int chartWidth: container.width - webView.anchors.margins * 2
+    property int mainChartHeight: container.height
+                                  - webView.anchors.margins * 2
+                                  - braggChartHeight
+                                  - differenceChartHeight
+                                  - 30
+    property int braggChartHeight: showBragg
+                                   ? 25
+                                   : 0
+    property int differenceChartHeight: showDifference
+                                        ? 150
+                                        : 0
 
     property string xAxisTitle: ''
-    property string yAxisTitle: ''
-    property color experimentLineColor: 'blue'
-    property color calculatedLineColor: 'red'
-    property color backgroundColor: 'white'
-    property color foregroundColor: 'black'
-    property int experimentLineWidth: 2
-    property int calculatedLineWidth: 2
+    property string yMainAxisTitle: ''
+    property string yDifferenceAxisTitle: ''
 
-    color: backgroundColor
+    property color chartBackgroundColor: EaStyle.Colors.chartPlotAreaBackground
+    property color chartForegroundColor: EaStyle.Colors.chartForeground
+    property color chartGridLineColor: EaStyle.Colors.chartGridLine
+    property color chartMinorGridLineColor: EaStyle.Colors.chartMinorGridLine
+
+    property color measuredLineColor: EaStyle.Colors.chartForegrounds[0]
+    property color measuredAreaColor: measuredLineColor
+    property color calculatedLineColor: EaStyle.Colors.chartForegrounds[1]
+    property color braggTicksColor: calculatedLineColor
+    property color differenceLineColor: EaStyle.Colors.chartForegrounds[2]
+    property color differenceAreaColor: differenceLineColor
+
+    property int measuredLineWidth: 1
+    property int calculatedLineWidth: 2
+    property int differenceLineWidth: 1
+
+    property int fontPixelSize: EaStyle.Sizes.fontPixelSize
+
+    color: chartBackgroundColor
 
     WebEngineView {
         id: webView
@@ -34,21 +67,48 @@ Rectangle {
             // data
             {
                 measured: measuredData,
-                calculated: calculatedData
+                calculated: calculatedData,
+                bragg: braggData,
+                difference: differenceData
             },
             // specs
             {
-                chartWidth: container.width - webView.anchors.margins * 2,
-                chartHeight: container.height - webView.anchors.margins * 2,
-                chartBackgroundColor: backgroundColor,
+                showMeasured: showMeasured,
+                showCalculated: showCalculated,
+                showBragg: showBragg,
+                showDifference: showDifference,
+
+                chartWidth: chartWidth,
+                mainChartHeight: mainChartHeight,
+                braggChartHeight: braggChartHeight,
+                differenceChartHeight: differenceChartHeight,
+
                 xAxisTitle: xAxisTitle,
-                yAxisTitle: yAxisTitle,
-                experimentLineColor: experimentLineColor,
+                yMainAxisTitle: yMainAxisTitle,
+                yDifferenceAxisTitle: yDifferenceAxisTitle,
+
+                chartBackgroundColor: chartBackgroundColor,
+                chartForegroundColor: chartForegroundColor,
+                chartGridLineColor: chartGridLineColor,
+                chartMinorGridLineColor: chartMinorGridLineColor,
+
+                measuredLineColor: measuredLineColor,
+                measuredAreaColor: measuredAreaColor,
                 calculatedLineColor: calculatedLineColor,
-                experimentLineWidth: experimentLineWidth,
-                calculatedLineWidth: calculatedLineWidth
+                braggTicksColor: braggTicksColor,
+                differenceLineColor: differenceLineColor,
+                differenceAreaColor: differenceAreaColor,
+
+                measuredLineWidth: measuredLineWidth,
+                calculatedLineWidth: calculatedLineWidth,
+                differenceLineWidth: differenceLineWidth,
+
+                fontPixelSize: fontPixelSize
             }
             )
 
-    onHtmlChanged: webView.loadHtml(html)
+    onHtmlChanged: {
+        print("+++++++++++++++++++", html)
+        webView.loadHtml(html)
+    }
 }
