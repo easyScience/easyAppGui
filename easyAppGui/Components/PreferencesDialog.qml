@@ -37,7 +37,6 @@ EaElements.Dialog {
             }
 
             EaElements.ComboBox {
-                id: themeSelector
                 width: EaStyle.Sizes.fontPixelSize * 12
                 model: [qsTr("Light"), qsTr("Dark"), qsTr("System")]
                 onActivated: {
@@ -49,7 +48,7 @@ EaElements.Dialog {
                         EaStyle.Colors.theme = EaStyle.Colors.SystemTheme
                 }
                 Component.onCompleted: {
-                    ExGlobals.Variables.themeSelector = themeSelector
+                    ExGlobals.Variables.themeSelector = this
                     if (EaStyle.Colors.theme === EaStyle.Colors.LightTheme)
                         currentIndex = 0
                     else if (EaStyle.Colors.theme === EaStyle.Colors.DarkTheme)
