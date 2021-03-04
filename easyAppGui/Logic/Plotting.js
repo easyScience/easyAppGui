@@ -165,34 +165,20 @@ function bokehChart(data, specs) {
     // Has data
     const hasMeasuredData = typeof data.measured !== 'undefined'
                           && typeof data.measured.x !== 'undefined'
+                          && data.measured.x.length
     const hasCalculatedData = typeof data.calculated !== 'undefined'
                           && typeof data.calculated.x !== 'undefined'
+                          && data.calculated.x.length
     const hasBraggData = typeof data.bragg !== 'undefined'
                        && typeof data.bragg.x !== 'undefined'
+                       && data.bragg.x.length
     const hasDifferenceData = typeof data.difference !== 'undefined'
                             && typeof data.difference.x !== 'undefined'
+                            && data.difference.x.length
 
-    // Main chart ranges
-    const mainChartMinX = (hasMeasuredData && specs.showMeasured) && (hasCalculatedData && specs.showCalculated)
-                        ? Math.min(data.measured.min_x, data.calculated.min_x)
-                        : (hasMeasuredData && specs.showMeasured)
-                          ? data.measured.min_x : data.calculated.min_x
-    const mainChartMaxX = (hasMeasuredData && specs.showMeasured) && (hasCalculatedData && specs.showCalculated)
-                        ? Math.max(data.measured.max_x, data.calculated.max_x)
-                        : (hasMeasuredData && specs.showMeasured)
-                          ? data.measured.max_x : data.calculated.max_x
-
-    let mainChartMinY = (hasMeasuredData && specs.showMeasured) && (hasCalculatedData && specs.showCalculated)
-                        ? Math.min(data.measured.min_y, data.calculated.min_y)
-                        : (hasMeasuredData && specs.showMeasured)
-                          ? data.measured.min_y : data.calculated.min_y
-    let mainChartMaxY = (hasMeasuredData && specs.showMeasured) && (hasCalculatedData && specs.showCalculated)
-                        ? Math.max(data.measured.max_y, data.calculated.max_y)
-                        : (hasMeasuredData && specs.showMeasured)
-                          ? data.measured.max_y : data.calculated.max_y
-    const yExtra = 0.1
-    mainChartMinY -= yExtra * mainChartMaxY
-    mainChartMaxY += yExtra * mainChartMaxY
+    if (!hasMeasuredData && !hasCalculatedData && typeof data.ranges === 'undefined') {
+        return
+    }
 
     //'plot.legend.label_text_font = "PT Sans"'
 
@@ -202,18 +188,18 @@ function bokehChart(data, specs) {
             `   '<table><tbody>' +`
         ]
     if (hasMeasuredData && specs.showMeasured) {
-        list.push(`   '<tr style="color:${EaStyle.Colors.themeForegroundDisabled}"><td style="text-align:right">x:&nbsp;</td><td style="text-align:right">@x_meas{0.00}</td></tr>' +`)
+        list.push(`   '<tr style="color:${EaStyle.Colors.themeForegroundDisabled}"><td style="text-align:right">x:&nbsp;</td><td style="text-align:right">@x_meas{0.00}</td><td></td></tr>' +`)
     } else if (hasCalculatedData && specs.showCalculated) {
-        list.push(`   '<tr style="color:${EaStyle.Colors.themeForegroundDisabled}"><td style="text-align:right">x:&nbsp;</td><td style="text-align:right">@x_calc{0.00}</td></tr>' +`)
+        list.push(`   '<tr style="color:${EaStyle.Colors.themeForegroundDisabled}"><td style="text-align:right">x:&nbsp;</td><td style="text-align:right">@x_calc{0.00}</td><td></td></tr>' +`)
     }
     if (hasMeasuredData && specs.showMeasured) {
-        list.push(`   '<tr style="color:${specs.measuredLineColor}"><td style="text-align:right">meas:&nbsp;</td><td style="text-align:right">@y_meas{0.0}</td></tr>' +`)
+        list.push(`   '<tr style="color:${specs.measuredLineColor}"><td style="text-align:right">meas:&nbsp;</td><td style="text-align:right">@y_meas{0.0}</td><td>(@sy_meas{0.0})</td></tr>' +`)
     }
     if (hasCalculatedData && specs.showCalculated) {
-        list.push(`   '<tr style="color:${specs.calculatedLineColor}"><td style="text-align:right">calc:&nbsp;</td><td style="text-align:right">@y_calc{0.0}</td></tr>' +`)
+        list.push(`   '<tr style="color:${specs.calculatedLineColor}"><td style="text-align:right">calc:&nbsp;</td><td style="text-align:right">@y_calc{0.0}</td><td></td></tr>' +`)
     }
     if (hasDifferenceData  && specs.showDifference) {
-        list.push(`   '<tr style="color:${specs.differenceLineColor}"><td style="text-align:right">diff:&nbsp;</td><td style="text-align:right">@y_diff{0.0}</td></tr>' +`)
+        list.push(`   '<tr style="color:${specs.differenceLineColor}"><td style="text-align:right">diff:&nbsp;</td><td style="text-align:right">@y_diff{0.0}</td><td></td></tr>' +`)
     }
     list = list.concat([
             `   '</tbody></table>'`,
@@ -238,12 +224,12 @@ function bokehChart(data, specs) {
             `   height: ${specs.mainChartHeight},`,
             `   width: ${specs.chartWidth},`,
             `   x_range: new Bokeh.Range1d({`,
-            `       start: ${mainChartMinX},`,
-            `       end: ${mainChartMaxX}`,
+            `       start: ${data.ranges.min_x},`,
+            `       end: ${data.ranges.max_x}`,
             `   }),`,
             `   y_range: new Bokeh.Range1d({`,
-            `       start: ${mainChartMinY},`,
-            `       end: ${mainChartMaxY}`,
+            `       start: ${data.ranges.min_y},`,
+            `       end: ${data.ranges.max_y}`,
             `   }),`,
             `   x_axis_label: "${specs.xAxisTitle}",`,
             `   y_axis_label: "${specs.yMainAxisTitle}",`,
@@ -301,29 +287,30 @@ function bokehChart(data, specs) {
     // Main chart (top): Measured area
     if (hasMeasuredData && specs.showMeasured) {
         list = list.concat([
-            `source.data.x_meas = ${data.measured.x}`,
-            `source.data.y_meas = ${data.measured.y}`,
-            `source.data.y_meas_top = ${data.measured.y_top}`,
-            `source.data.y_meas_bottom = ${data.measured.y_bottom}`,
+            `source.data.x_meas = [${data.measured.x}]`,
+            `source.data.y_meas = [${data.measured.y}]`,
+            `source.data.sy_meas = [${data.measured.sy}]`,
+            `source.data.y_meas_upper = [${data.measured.y_upper}]`,
+            `source.data.y_meas_lower = [${data.measured.y_lower}]`,
 
             'const measLineTop = new Bokeh.Line({',
             '    x: { field: "x_meas" },',
-            '    y: { field: "y_meas_top" },',
+            '    y: { field: "y_meas_upper" },',
             `    line_color: "${specs.measuredLineColor}",`,
             `    line_alpha: 0.5,`,
             `    line_width: ${specs.measuredLineWidth}`,
             '})',
             'const measLineBottom = new Bokeh.Line({',
             '    x: { field: "x_meas" },',
-            '    y: { field: "y_meas_bottom" },',
+            '    y: { field: "y_meas_lower" },',
             `    line_color: "${specs.measuredLineColor}",`,
             `    line_alpha: 0.5,`,
             `    line_width: ${specs.measuredLineWidth}`,
             '})',
             'const measArea = new Bokeh.VArea({',
             '    x: { field: "x_meas" },',
-            '    y1: { field: "y_meas_top" },',
-            '    y2: { field: "y_meas_bottom" },',
+            '    y1: { field: "y_meas_upper" },',
+            '    y2: { field: "y_meas_lower" },',
             `    fill_color: "${specs.measuredAreaColor}",`,
             `    fill_alpha: 0.33`,
             '})',
@@ -337,14 +324,14 @@ function bokehChart(data, specs) {
     // Main chart (top): Calculated curve
     if (hasCalculatedData && specs.showCalculated) {
         list = list.concat([
-            `source.data.x_calc = ${data.calculated.x}`,
-            `source.data.y_calc = ${data.calculated.y}`,
+            `source.data.x_calc = [${data.calculated.x}]`,
+            `source.data.y_calc = [${data.calculated.y}]`,
 
             'const calcLine = new Bokeh.Line({',
             '    x: { field: "x_calc" },',
             '    y: { field: "y_calc" },',
             `    line_color: "${specs.calculatedLineColor}",`,
-            `    line_width: ${specs.calculatedLineWidth},`,
+            `    line_width: ${specs.calculatedLineWidth}`,
             '})',
 
             'main_chart.add_glyph(calcLine, source)'
@@ -382,8 +369,8 @@ function bokehChart(data, specs) {
             'bragg_chart.ygrid[0].grid_line_color = null',
             'bragg_chart.min_border = 0',
 
-            `source.data.x_bragg = ${data.bragg.x}`,
-            `source.data.y_bragg = ${data.bragg.y}`,
+            `source.data.x_bragg = [${data.bragg.x}]`,
+            `source.data.y_bragg = [${data.bragg.y}]`,
 
             'const braggTicks = new Bokeh.Dash({',
             '    x: { field: "x_bragg" },',
@@ -462,29 +449,29 @@ function bokehChart(data, specs) {
 
             'diff_chart.min_border = 0',
 
-            `source.data.x_diff = ${data.difference.x}`,
-            `source.data.y_diff = ${data.difference.y}`,
-            `source.data.y_diff_top = ${data.difference.y_top}`,
-            `source.data.y_diff_bottom = ${data.difference.y_bottom}`,
+            `source.data.x_diff = [${data.measured.x}]`,
+            `source.data.y_diff = [${data.difference.y}]`,
+            `source.data.y_diff_upper = [${data.difference.y_upper}]`,
+            `source.data.y_diff_lower = [${data.difference.y_lower}]`,
 
             'const diffLineTop = new Bokeh.Line({',
             '    x: { field: "x_diff" },',
-            '    y: { field: "y_diff_top" },',
+            '    y: { field: "y_diff_upper" },',
             `    line_color: "${specs.differenceLineColor}",`,
             `    line_alpha: 0.5,`,
             `    line_width: ${specs.differenceLineWidth}`,
             '})',
             'const diffLineBottom = new Bokeh.Line({',
             '    x: { field: "x_diff" },',
-            '    y: { field: "y_diff_bottom" },',
+            '    y: { field: "y_diff_lower" },',
             `    line_color: "${specs.differenceLineColor}",`,
             `    line_alpha: 0.5,`,
             `    line_width: ${specs.differenceLineWidth}`,
             '})',
             'const diffArea = new Bokeh.VArea({',
             '    x: { field: "x_diff" },',
-            '    y1: { field: "y_diff_top" },',
-            '    y2: { field: "y_diff_bottom" },',
+            '    y1: { field: "y_diff_upper" },',
+            '    y2: { field: "y_diff_lower" },',
             `    fill_color: "${specs.differenceAreaColor}",`,
             `    fill_alpha: 0.33`,
             '})',

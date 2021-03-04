@@ -26,6 +26,8 @@ Rectangle {
     property bool hasDifferenceData: typeof differenceData !== 'undefined'
                                      && typeof differenceData.x !== 'undefined'
 
+    property var plotRanges: ({})
+
     property int chartWidth: container.width - webView.anchors.margins * 2
     property int mainChartHeight: container.height
                                   - webView.anchors.margins * 2
@@ -78,7 +80,8 @@ Rectangle {
                 measured: measuredData,
                 calculated: calculatedData,
                 bragg: braggData,
-                difference: differenceData
+                difference: differenceData,
+                ranges: plotRanges
             },
             // specs
             {
