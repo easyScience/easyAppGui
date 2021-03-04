@@ -33,12 +33,12 @@ Rectangle {
                                   - webView.anchors.margins * 2
                                   - braggChartHeight
                                   - differenceChartHeight
-                                  - 30
+                                  - 30 // chart button size in px
     property int braggChartHeight: showBragg && hasBraggData
-                                   ? 25
+                                   ? EaStyle.Sizes.fontPixelSize * (7 - 4 * +(differenceChartHeight>0))
                                    : 0
     property int differenceChartHeight: showDifference && hasDifferenceData
-                                        ? 150
+                                        ? EaStyle.Sizes.fontPixelSize * 12
                                         : 0
 
     property string xAxisTitle: ''
@@ -120,7 +120,7 @@ Rectangle {
             )
 
     onHtmlChanged: {
-        print("+++++++++++++++++++", html)
+        //print("+++++++++++++++++++", html)
         webView.loadHtml(html)
     }
 }

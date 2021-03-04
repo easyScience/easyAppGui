@@ -180,6 +180,17 @@ function bokehChart(data, specs) {
         return
     }
 
+    let mainChartXAxisFontSizePx = 0
+    let braggChartXAxisFontSizePx = 0
+    let differenceChartXAxisFontSizePx = 0
+    if (hasDifferenceData && specs.showDifference) {
+        differenceChartXAxisFontSizePx = specs.fontPixelSize
+    } else if (hasBraggData && specs.showBragg) {
+        braggChartXAxisFontSizePx = specs.fontPixelSize
+    } else {
+        mainChartXAxisFontSizePx = specs.fontPixelSize
+    }
+
     //'plot.legend.label_text_font = "PT Sans"'
 
     // Chart tooltips
@@ -236,7 +247,7 @@ function bokehChart(data, specs) {
             `   outline_line_color: "${EaStyle.Colors.chartAxis}",`,
             `   background: "${specs.chartBackgroundColor}",`,
             `   background_fill_color: "${specs.chartBackgroundColor}",`,
-            `   border_fill_color: "${specs.chartBackgroundColor}",`,
+            `   border_fill_color: "${specs.chartBackgroundColor}"`,
             '})',
 
             'main_chart.add_tools(new Bokeh.HoverTool({tooltips:main_tooltip, point_policy:"snap_to_data", mode:"mouse"}))',
@@ -245,38 +256,35 @@ function bokehChart(data, specs) {
             'main_chart.add_tools(new Bokeh.PanTool())',
 
             'main_chart.xaxis[0].axis_label_text_font = "PT Sans"',
-            'main_chart.yaxis[0].axis_label_text_font = "PT Sans"',
             'main_chart.xaxis[0].axis_label_text_font_style = "normal"',
-            'main_chart.yaxis[0].axis_label_text_font_style = "normal"',
-            `main_chart.xaxis[0].axis_label_text_font_size = "${hasDifferenceData && specs.showDifference ? 0 : specs.fontPixelSize}px"`,
-            `main_chart.yaxis[0].axis_label_text_font_size = "${specs.fontPixelSize}px"`,
+            `main_chart.xaxis[0].axis_label_text_font_size = "${mainChartXAxisFontSizePx}px"`,
             `main_chart.xaxis[0].axis_label_text_color = "${specs.chartForegroundColor}"`,
-            `main_chart.yaxis[0].axis_label_text_color = "${specs.chartForegroundColor}"`,
             `main_chart.xaxis[0].axis_label_standoff = ${specs.fontPixelSize}`,
-            `main_chart.yaxis[0].axis_label_standoff = ${specs.fontPixelSize}`,
-
             'main_chart.xaxis[0].axis_line_color = null',
-            'main_chart.yaxis[0].axis_line_color = null',
-
             'main_chart.xaxis[0].major_label_text_font = "PT Sans"',
-            'main_chart.yaxis[0].major_label_text_font = "PT Sans"',
-            `main_chart.xaxis[0].major_label_text_font_size = "${hasDifferenceData && specs.showDifference ? 0 : specs.fontPixelSize}px"`,
-            `main_chart.yaxis[0].major_label_text_font_size = "${specs.fontPixelSize}px"`,
+            `main_chart.xaxis[0].major_label_text_font_size = "${mainChartXAxisFontSizePx}px"`,
             `main_chart.xaxis[0].major_label_text_color = "${specs.chartForegroundColor}"`,
             `main_chart.yaxis[0].major_label_text_color = "${specs.chartForegroundColor}"`,
             `main_chart.xaxis[0].major_tick_line_color = "${specs.chartGridLineColor}"`,
-            `main_chart.yaxis[0].major_tick_line_color = "${specs.chartGridLineColor}"`,
             `main_chart.xaxis[0].minor_tick_line_color = "${specs.chartMinorGridLineColor}"`,
-            `main_chart.yaxis[0].minor_tick_line_color = "${specs.chartMinorGridLineColor}"`,
-
             'main_chart.xaxis[0].major_tick_in = 0',
-            'main_chart.yaxis[0].major_tick_in = 0',
             'main_chart.xaxis[0].major_tick_out = 0',
-            'main_chart.yaxis[0].major_tick_out = 0',
             'main_chart.xaxis[0].minor_tick_out = 0',
-            'main_chart.yaxis[0].minor_tick_out = 0',
-
             `main_chart.xgrid[0].grid_line_color = "${specs.chartGridLineColor}"`,
+
+            'main_chart.yaxis[0].axis_label_text_font = "PT Sans"',
+            'main_chart.yaxis[0].axis_label_text_font_style = "normal"',
+            `main_chart.yaxis[0].axis_label_text_font_size = "${specs.fontPixelSize}px"`,
+            `main_chart.yaxis[0].axis_label_text_color = "${specs.chartForegroundColor}"`,
+            `main_chart.yaxis[0].axis_label_standoff = ${specs.fontPixelSize}`,
+            'main_chart.yaxis[0].axis_line_color = null',
+            'main_chart.yaxis[0].major_label_text_font = "PT Sans"',
+            `main_chart.yaxis[0].major_label_text_font_size = "${specs.fontPixelSize}px"`,
+            `main_chart.yaxis[0].major_tick_line_color = "${specs.chartGridLineColor}"`,
+            `main_chart.yaxis[0].minor_tick_line_color = "${specs.chartMinorGridLineColor}"`,
+            'main_chart.yaxis[0].major_tick_in = 0',
+            'main_chart.yaxis[0].major_tick_out = 0',
+            'main_chart.yaxis[0].minor_tick_out = 0',
             `main_chart.ygrid[0].grid_line_color = "${specs.chartGridLineColor}"`,
 
             'main_chart.min_border = 0',
@@ -341,13 +349,14 @@ function bokehChart(data, specs) {
     // Bragg peaks chart (middle)
     if (hasBraggData && specs.showBragg) {
         list = list.concat([
-            'let bragg_chart = new Bokeh.Plotting.figure({',
+            'const bragg_chart = new Bokeh.Plotting.figure({',
             '   tools: "",',
             `   height: ${specs.braggChartHeight},`,
             `   width: ${specs.chartWidth},`,
             '   x_range: main_chart.x_range,',
             '   y_range: new Bokeh.Range1d({ start: -1, end: 1 }),',
-            '   outline_line_color: null,',
+            `   x_axis_label: "${specs.xAxisTitle}",`,
+            `   outline_line_color: "${EaStyle.Colors.chartAxis}",`,
             `   background: "${specs.chartBackgroundColor}",`,
             `   background_fill_color: "${specs.chartBackgroundColor}",`,
             `   border_fill_color: "${specs.chartBackgroundColor}"`,
@@ -355,28 +364,43 @@ function bokehChart(data, specs) {
 
             'bragg_chart.add_tools(new Bokeh.HoverTool({tooltips:bragg_tooltip, point_policy:"snap_to_data", mode:"mouse"}))',
 
+            'bragg_chart.xaxis[0].axis_label_text_font = "PT Sans"',
+            'bragg_chart.xaxis[0].axis_label_text_font_style = "normal"',
+            `bragg_chart.xaxis[0].axis_label_text_font_size = "${braggChartXAxisFontSizePx}px"`,
+            `bragg_chart.xaxis[0].axis_label_text_color = "${specs.chartForegroundColor}"`,
+            `bragg_chart.xaxis[0].axis_label_standoff = ${specs.fontPixelSize}`,
             'bragg_chart.xaxis[0].axis_line_color = null',
-            'bragg_chart.yaxis[0].axis_line_color = null',
+            'bragg_chart.xaxis[0].major_label_text_font = "PT Sans"',
+            `bragg_chart.xaxis[0].major_label_text_font_size = "${braggChartXAxisFontSizePx}px"`,
+            `bragg_chart.xaxis[0].major_label_text_color = "${specs.chartForegroundColor}"`,
+            `bragg_chart.yaxis[0].major_label_text_color = "${specs.chartForegroundColor}"`,
+            `bragg_chart.xaxis[0].major_tick_line_color = "${specs.chartGridLineColor}"`,
+            `bragg_chart.xaxis[0].minor_tick_line_color = "${specs.chartMinorGridLineColor}"`,
             'bragg_chart.xaxis[0].major_tick_in = 0',
-            'bragg_chart.yaxis[0].major_tick_in = 0',
             'bragg_chart.xaxis[0].major_tick_out = 0',
-            'bragg_chart.yaxis[0].major_tick_out = 0',
             'bragg_chart.xaxis[0].minor_tick_out = 0',
+            `bragg_chart.xgrid[0].grid_line_color = "${specs.chartGridLineColor}"`,
+
+            'bragg_chart.yaxis[0].axis_line_color = null',
+            'bragg_chart.yaxis[0].major_tick_in = 0',
+            'bragg_chart.yaxis[0].major_tick_out = 0',
             'bragg_chart.yaxis[0].minor_tick_out = 0',
-            'bragg_chart.xaxis[0].major_label_text_font_size = "0px"',
             'bragg_chart.yaxis[0].major_label_text_font_size = "0px"',
-            'bragg_chart.xgrid[0].grid_line_color = null',
             'bragg_chart.ygrid[0].grid_line_color = null',
+
             'bragg_chart.min_border = 0',
+            `bragg_chart.min_border_top = Math.max(${braggChartXAxisFontSizePx}, ${differenceChartXAxisFontSizePx})`,
 
             `source.data.x_bragg = [${data.bragg.x}]`,
             `source.data.y_bragg = [${data.bragg.y}]`,
 
-            'const braggTicks = new Bokeh.Dash({',
-            '    x: { field: "x_bragg" },',
-            '    y: { field: "y_bragg" },',
-            `    line_color: "${specs.braggTicksColor}",`,
-            `    angle: Math.PI / 2.`,
+            'const braggTicks = new Bokeh.Scatter({',
+            '   x: { field: "x_bragg" },',
+            '   y: { field: "y_bragg" },',
+            '   marker: "dash",',
+            `   size: ${specs.fontPixelSize} * 1.5,`,
+            `   line_color: "${specs.braggTicksColor}",`,
+            `   angle: Math.PI / 2.`,
             '})',
 
             'bragg_chart.add_glyph(braggTicks, source)',
@@ -389,7 +413,7 @@ function bokehChart(data, specs) {
     if (hasDifferenceData  && specs.showDifference) {
         list = list.concat([
             `const ratio = 0.5 * (${specs.differenceChartHeight} - 3*${specs.fontPixelSize}) / (${specs.mainChartHeight} + 30)`,
-            'let diff_chart = new Bokeh.Plotting.figure({',
+            'const diff_chart = new Bokeh.Plotting.figure({',
             '   tools: "reset",',
             `   height: ${specs.differenceChartHeight},`,
             `   width: ${specs.chartWidth},`,
@@ -412,44 +436,42 @@ function bokehChart(data, specs) {
             'diff_chart.add_tools(new Bokeh.PanTool())',
 
             'diff_chart.xaxis[0].axis_label_text_font = "PT Sans"',
-            'diff_chart.yaxis[0].axis_label_text_font = "PT Sans"',
             'diff_chart.xaxis[0].axis_label_text_font_style = "normal"',
-            'diff_chart.yaxis[0].axis_label_text_font_style = "normal"',
-            `diff_chart.xaxis[0].axis_label_text_font_size = "${specs.fontPixelSize}px"`,
-            `diff_chart.yaxis[0].axis_label_text_font_size = "${specs.fontPixelSize}px"`,
+            `diff_chart.xaxis[0].axis_label_text_font_size = "${differenceChartXAxisFontSizePx}px"`,
             `diff_chart.xaxis[0].axis_label_text_color = "${specs.chartForegroundColor}"`,
-            `diff_chart.yaxis[0].axis_label_text_color = "${specs.chartForegroundColor}"`,
             `diff_chart.xaxis[0].axis_label_standoff = ${specs.fontPixelSize}`,
-            `diff_chart.yaxis[0].axis_label_standoff = ${specs.fontPixelSize}`,
-
             'diff_chart.xaxis[0].axis_line_color = null',
-            'diff_chart.yaxis[0].axis_line_color = null',
-
             'diff_chart.xaxis[0].major_label_text_font = "PT Sans"',
-            'diff_chart.yaxis[0].major_label_text_font = "PT Sans"',
-            `diff_chart.xaxis[0].major_label_text_font_size = "${specs.fontPixelSize}px"`,
-            `diff_chart.yaxis[0].major_label_text_font_size = "${specs.fontPixelSize}px"`,
+            `diff_chart.xaxis[0].major_label_text_font_size = "${differenceChartXAxisFontSizePx}px"`,
             `diff_chart.xaxis[0].major_label_text_color = "${specs.chartForegroundColor}"`,
-            `diff_chart.yaxis[0].major_label_text_color = "${specs.chartForegroundColor}"`,
             `diff_chart.xaxis[0].major_tick_line_color = "${specs.chartGridLineColor}"`,
-            `diff_chart.yaxis[0].major_tick_line_color = "${specs.chartGridLineColor}"`,
             `diff_chart.xaxis[0].minor_tick_line_color = "${specs.chartMinorGridLineColor}"`,
-            `diff_chart.yaxis[0].minor_tick_line_color = "${specs.chartMinorGridLineColor}"`,
-
             'diff_chart.xaxis[0].major_tick_in = 0',
-            'diff_chart.yaxis[0].major_tick_in = 0',
             'diff_chart.xaxis[0].major_tick_out = 0',
-            'diff_chart.yaxis[0].major_tick_out = 0',
             'diff_chart.xaxis[0].minor_tick_out = 0',
-            'diff_chart.yaxis[0].minor_tick_out = 0',
-
             `diff_chart.xgrid[0].grid_line_color = "${specs.chartGridLineColor}"`,
+
+            'diff_chart.yaxis[0].axis_label_text_font = "PT Sans"',
+            'diff_chart.yaxis[0].axis_label_text_font_style = "normal"',
+            `diff_chart.yaxis[0].axis_label_text_font_size = "${specs.fontPixelSize}px"`,
+            `diff_chart.yaxis[0].axis_label_text_color = "${specs.chartForegroundColor}"`,
+            `diff_chart.yaxis[0].axis_label_standoff = ${specs.fontPixelSize}`,
+            'diff_chart.yaxis[0].axis_line_color = null',
+            'diff_chart.yaxis[0].major_label_text_font = "PT Sans"',
+            `diff_chart.yaxis[0].major_label_text_font_size = "${specs.fontPixelSize}px"`,
+            `diff_chart.yaxis[0].major_label_text_color = "${specs.chartForegroundColor}"`,
+            `diff_chart.yaxis[0].major_tick_line_color = "${specs.chartGridLineColor}"`,
+            `diff_chart.yaxis[0].minor_tick_line_color = "${specs.chartMinorGridLineColor}"`,
+            'diff_chart.yaxis[0].major_tick_in = 0',
+            'diff_chart.yaxis[0].major_tick_out = 0',
+            'diff_chart.yaxis[0].minor_tick_out = 0',
             `diff_chart.ygrid[0].grid_line_color = "${specs.chartGridLineColor}"`,
             'diff_chart.ygrid[0].ticker.desired_num_ticks = 3',
 
             'diff_chart.min_border = 0',
+            `diff_chart.min_border_top = ${differenceChartXAxisFontSizePx}`,
 
-            `source.data.x_diff = [${data.measured.x}]`,
+            `source.data.x_diff = [${data.difference.x}]`,
             `source.data.y_diff = [${data.difference.y}]`,
             `source.data.y_diff_upper = [${data.difference.y_upper}]`,
             `source.data.y_diff_lower = [${data.difference.y_lower}]`,
