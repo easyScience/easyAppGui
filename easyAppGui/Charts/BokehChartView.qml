@@ -7,26 +7,25 @@ import easyAppGui.Logic 1.0 as EaLogic
 Rectangle {
     id: container
 
-    property bool showMeasured: false
-    property bool showCalculated: false
-    property bool showBragg: false
-    property bool showDifference: false
-
-    property var measuredData: {'x': undefined, 'y': undefined}
-    property var calculatedData: {'x': undefined, 'y': undefined}
-    property var braggData: {'x': undefined, 'y': undefined}
-    property var differenceData: {'x': undefined, 'y': undefined}
+    property var measuredData: ({})
+    property var calculatedData: ({})
+    property var differenceData: ({})
+    property var braggData: ({})
+    property var plotRanges: ({})
 
     property bool hasMeasuredData: typeof measuredData !== 'undefined'
                                    && typeof measuredData.x !== 'undefined'
+                                   && measuredData.x.length
     property bool hasCalculatedData: typeof calculatedData !== 'undefined'
                                      && typeof calculatedData.x !== 'undefined'
-    property bool hasBraggData: typeof braggData !== 'undefined'
-                                && typeof braggData.x !== 'undefined'
+                                     && calculatedData.x.length
     property bool hasDifferenceData: typeof differenceData !== 'undefined'
                                      && typeof differenceData.x !== 'undefined'
-
-    property var plotRanges: ({})
+                                     && differenceData.x.length
+    property bool hasBraggData: typeof braggData !== 'undefined'
+                                && typeof braggData.x !== 'undefined'
+                                && braggData.x.length
+    property bool hasPlotRangesData: typeof plotRanges !== 'undefined'
 
     property int chartWidth: container.width - webView.anchors.margins * 2
     property int mainChartHeight: container.height
@@ -34,10 +33,10 @@ Rectangle {
                                   - braggChartHeight
                                   - differenceChartHeight
                                   - 30 // chart button size in px
-    property int braggChartHeight: showBragg && hasBraggData
+    property int braggChartHeight: hasBraggData
                                    ? EaStyle.Sizes.fontPixelSize * (7 - 4 * +(differenceChartHeight>0))
                                    : 0
-    property int differenceChartHeight: showDifference && hasDifferenceData
+    property int differenceChartHeight: hasDifferenceData
                                         ? EaStyle.Sizes.fontPixelSize * 12
                                         : 0
 
@@ -63,33 +62,24 @@ Rectangle {
 
     property int fontPixelSize: EaStyle.Sizes.fontPixelSize
 
-    color: chartBackgroundColor
-
-    WebEngineView {
-        id: webView
-
-        anchors.fill: parent
-        anchors.margins: EaStyle.Sizes.fontPixelSize * 1.5
-        backgroundColor: backgroundColor
-    }
-
     property string html:
         EaLogic.Plotting.bokehHtml(
             // data
             {
                 measured: measuredData,
                 calculated: calculatedData,
-                bragg: braggData,
                 difference: differenceData,
-                ranges: plotRanges
+                bragg: braggData,
+                ranges: plotRanges,
+
+                hasMeasured: hasMeasuredData,
+                hasCalculated: hasCalculatedData,
+                hasBragg: hasBraggData,
+                hasDifference: hasDifferenceData,
+                hasPlotRanges: hasPlotRangesData
             },
             // specs
             {
-                showMeasured: showMeasured,
-                showCalculated: showCalculated,
-                showBragg: showBragg,
-                showDifference: showDifference,
-
                 chartWidth: chartWidth,
                 mainChartHeight: mainChartHeight,
                 braggChartHeight: braggChartHeight,
@@ -123,4 +113,15 @@ Rectangle {
         //print("+++++++++++++++++++", html)
         webView.loadHtml(html)
     }
+
+    color: chartBackgroundColor
+
+    WebEngineView {
+        id: webView
+
+        anchors.fill: parent
+        anchors.margins: EaStyle.Sizes.fontPixelSize * 1.5
+        backgroundColor: backgroundColor
+    }
+
 }
