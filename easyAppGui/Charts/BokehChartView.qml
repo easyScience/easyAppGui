@@ -110,7 +110,7 @@ Rectangle {
             )
 
     onHtmlChanged: {
-        //print("+++++++++++++++++++", html)
+        //print(html)
         webView.loadHtml(html)
     }
 

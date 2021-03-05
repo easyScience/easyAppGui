@@ -1,4 +1,6 @@
+/////////
 // Common
+/////////
 
 function headCommon() {
     const list = [
@@ -25,7 +27,9 @@ function charthHtml(head, chart) {
     return list.join('\n')
 }
 
+/////////////
 // ChemDoodle
+/////////////
 
 function chemDoodleInfo() {
     return {
@@ -103,7 +107,9 @@ function chemDoodleChart(cifStr, specs) {
     return list.join('\n')
 }
 
+////////
 // Bokeh
+////////
 
 function bokehInfo() {
     const version = '2.2.3'
@@ -182,8 +188,8 @@ function bokehChart(data, specs) {
     let chart = []
 
     // Tooltips
-    chart.push(addMainTooltip(data, specs))
-    chart.push(addBraggTooltip(specs))
+    chart.push(bokehAddMainTooltip(data, specs))
+    chart.push(bokehAddBraggTooltip(specs))
 
     // Data source
     chart.push('const source = new Bokeh.ColumnDataSource()')
@@ -192,38 +198,38 @@ function bokehChart(data, specs) {
     chart.push('const charts = []')
 
     // Main chart (top)
-    chart.push(...createMainChart(data, specs))
-    chart.push(...addMainTools('main_chart'))
-    chart.push(...addVisibleXAxis('main_chart', specs, mainChartXAxisFontSizePx))
-    chart.push(...addVisibleYAxis('main_chart', specs))
+    chart.push(...bokehCreateMainChart(data, specs))
+    chart.push(...bokehAddMainTools('main_chart'))
+    chart.push(...bokehAddVisibleXAxis('main_chart', specs, mainChartXAxisFontSizePx))
+    chart.push(...bokehAddVisibleYAxis('main_chart', specs))
     if (data.hasMeasured) {
-        chart.push(...addMeasuredDataToMainChart(data, specs))
+        chart.push(...bokehAddMeasuredDataToMainChart(data, specs))
     }
     if (data.hasCalculated) {
-        chart.push(...addCalculatedDataToMainChart(data, specs))
+        chart.push(...bokehAddCalculatedDataToMainChart(data, specs))
     }
     chart.push(`charts.push([main_chart])`)
 
     // Bragg peaks chart (middle)
     if (data.hasBragg) {
-        chart.push(...createBraggChart(data, specs))
-        chart.push(...addBraggTools())
-        chart.push(...addVisibleXAxis('bragg_chart', specs, braggChartXAxisFontSizePx))
-        chart.push(...addHiddenYAxis('bragg_chart'))
+        chart.push(...bokehCreateBraggChart(data, specs))
+        chart.push(...bokehAddBraggTools())
+        chart.push(...bokehAddVisibleXAxis('bragg_chart', specs, braggChartXAxisFontSizePx))
+        chart.push(...bokehAddHiddenYAxis('bragg_chart'))
         chart.push(`bragg_chart.min_border_top = Math.max(${braggChartXAxisFontSizePx}, ${differenceChartXAxisFontSizePx})`)
-        chart.push(...addDataToBraggChart(data, specs))
+        chart.push(...bokehAddDataToBraggChart(data, specs))
         chart.push(`charts.push([bragg_chart])`)
     }
 
     // Difference chart (bottom)
     if (data.hasDifference) {
-        chart.push(...createDiffChart(data, specs))
-        chart.push(...addMainTools('diff_chart'))
-        chart.push(...addVisibleXAxis('diff_chart', specs, differenceChartXAxisFontSizePx))
-        chart.push(...addVisibleYAxis('diff_chart', specs))
+        chart.push(...bokehCreateDiffChart(data, specs))
+        chart.push(...bokehAddMainTools('diff_chart'))
+        chart.push(...bokehAddVisibleXAxis('diff_chart', specs, differenceChartXAxisFontSizePx))
+        chart.push(...bokehAddVisibleYAxis('diff_chart', specs))
         chart.push(`diff_chart.ygrid[0].ticker.desired_num_ticks = 3`)
         chart.push(`diff_chart.min_border_top = ${differenceChartXAxisFontSizePx}`)
-        chart.push(...addDataToDiffChart(data, specs))
+        chart.push(...bokehAddDataToDiffChart(data, specs))
         chart.push(`charts.push([diff_chart])`)
     }
 
@@ -241,7 +247,7 @@ function bokehChart(data, specs) {
     return chart.join('\n')
 }
 
-function createMainChart(data, specs) {
+function bokehCreateMainChart(data, specs) {
     return [`const main_chart = new Bokeh.Plotting.figure({`,
             `   tools: "reset",`,
 
@@ -269,7 +275,7 @@ function createMainChart(data, specs) {
             `main_chart.min_border = 0`]
 }
 
-function createBraggChart(data, specs) {
+function bokehCreateBraggChart(data, specs) {
     return [`const bragg_chart = new Bokeh.Plotting.figure({`,
             `   tools: "",`,
 
@@ -290,7 +296,7 @@ function createBraggChart(data, specs) {
             `bragg_chart.min_border = 0`]
 }
 
-function createDiffChart(data, specs) {
+function bokehCreateDiffChart(data, specs) {
     const ratio = 0.5 * (specs.differenceChartHeight - 3 * specs.fontPixelSize) / (specs.mainChartHeight + 30)
     return [`const diff_chart = new Bokeh.Plotting.figure({`,
             `   tools: "reset",`,
@@ -316,7 +322,7 @@ function createDiffChart(data, specs) {
             `diff_chart.min_border = 0`]
 }
 
-function addMeasuredDataToMainChart(data, specs) {
+function bokehAddMeasuredDataToMainChart(data, specs) {
     return [`source.data.x_meas = [${data.measured.x}]`,
             `source.data.y_meas = [${data.measured.y}]`,
             `source.data.sy_meas = [${data.measured.sy}]`,
@@ -350,7 +356,7 @@ function addMeasuredDataToMainChart(data, specs) {
             `main_chart.add_glyph(measLineBottom, source)`]
 }
 
-function addCalculatedDataToMainChart(data, specs) {
+function bokehAddCalculatedDataToMainChart(data, specs) {
     return [`source.data.x_calc = [${data.calculated.x}]`,
             `source.data.y_calc = [${data.calculated.y}]`,
 
@@ -364,7 +370,7 @@ function addCalculatedDataToMainChart(data, specs) {
             'main_chart.add_glyph(calcLine, source)']
 }
 
-function addDataToBraggChart(data, specs) {
+function bokehAddDataToBraggChart(data, specs) {
     return [`source.data.x_bragg = [${data.bragg.x}]`,
             `source.data.y_bragg = [${data.bragg.y}]`,
 
@@ -380,7 +386,7 @@ function addDataToBraggChart(data, specs) {
             `bragg_chart.add_glyph(braggTicks, source)`]
 }
 
-function addDataToDiffChart(data, specs) {
+function bokehAddDataToDiffChart(data, specs) {
     return [`source.data.x_diff = [${data.difference.x}]`,
             `source.data.y_diff = [${data.difference.y}]`,
             `source.data.y_diff_upper = [${data.difference.y_upper}]`,
@@ -413,18 +419,18 @@ function addDataToDiffChart(data, specs) {
             `diff_chart.add_glyph(diffLineBottom, source)`]
 }
 
-function addMainTools(chart) {
+function bokehAddMainTools(chart) {
     return [`${chart}.add_tools(new Bokeh.HoverTool({tooltips:main_tooltip, point_policy:"snap_to_data", mode:"mouse"}))`,
             `${chart}.add_tools(new Bokeh.BoxZoomTool())`,
             `${chart}.toolbar.active_drag = "box_zoom"`,
             `${chart}.add_tools(new Bokeh.PanTool())`]
 }
 
-function addBraggTools() {
+function bokehAddBraggTools() {
     return [`bragg_chart.add_tools(new Bokeh.HoverTool({tooltips:bragg_tooltip, point_policy:"snap_to_data", mode:"mouse"}))`]
 }
 
-function mainTooltipRow(color, label, value, sigma='') {
+function bokehMainTooltipRow(color, label, value, sigma='') {
     return [`<tr style="color:${color}">`,
             `   <td style="text-align:right">${label}:&nbsp;</td>`,
             `   <td style="text-align:right">${value}</td>`,
@@ -432,12 +438,12 @@ function mainTooltipRow(color, label, value, sigma='') {
             `</tr>`]
 }
 
-function addMainTooltip(data, specs) {
-    const x_meas = mainTooltipRow(EaStyle.Colors.themeForegroundDisabled, 'x', '@x_meas{0.00}')
-    const x_calc = mainTooltipRow(EaStyle.Colors.themeForegroundDisabled, 'x', '@x_calc{0.00}')
-    const y_meas = mainTooltipRow(specs.measuredLineColor, 'meas', '@y_meas{0.0}', '&#177;&nbsp;@sy_meas{0.0}')
-    const y_calc = mainTooltipRow(specs.calculatedLineColor, 'calc', '@y_calc{0.0}')
-    const y_diff = mainTooltipRow(specs.differenceLineColor, 'diff', '@y_diff{0.0}')
+function bokehAddMainTooltip(data, specs) {
+    const x_meas = bokehMainTooltipRow(EaStyle.Colors.themeForegroundDisabled, 'x', '@x_meas{0.00}')
+    const x_calc = bokehMainTooltipRow(EaStyle.Colors.themeForegroundDisabled, 'x', '@x_calc{0.00}')
+    const y_meas = bokehMainTooltipRow(specs.measuredLineColor, 'meas', '@y_meas{0.0}', '&#177;&nbsp;@sy_meas{0.0}')
+    const y_calc = bokehMainTooltipRow(specs.calculatedLineColor, 'calc', '@y_calc{0.0}')
+    const y_diff = bokehMainTooltipRow(specs.differenceLineColor, 'diff', '@y_diff{0.0}')
 
     let table = []
     table.push(...[`<table>`, `<tbody>`])
@@ -463,9 +469,9 @@ function addMainTooltip(data, specs) {
     return `const main_tooltip = (${tooltip})`
 }
 
-function addBraggTooltip(specs) {
-    const x_bragg = mainTooltipRow(EaStyle.Colors.themeForegroundDisabled, 'x', '@x_bragg{0.00}')
-    const y_bragg = mainTooltipRow(specs.calculatedLineColor, 'hkl', '@y_bragg{0.00}')
+function bokehAddBraggTooltip(specs) {
+    const x_bragg = bokehMainTooltipRow(EaStyle.Colors.themeForegroundDisabled, 'x', '@x_bragg{0.00}')
+    const y_bragg = bokehMainTooltipRow(specs.calculatedLineColor, 'hkl', '@y_bragg{0.00}')
 
     let table = []
     table.push(...[`<table>`, `<tbody>`])
@@ -477,7 +483,7 @@ function addBraggTooltip(specs) {
     return `const bragg_tooltip = (${tooltip})`
 }
 
-function addVisibleXAxis(chart, specs, xAxisFontSizePx) {
+function bokehAddVisibleXAxis(chart, specs, xAxisFontSizePx) {
     return [`${chart}.xaxis[0].axis_label_text_font = "PT Sans"`,
             `${chart}.xaxis[0].axis_label_text_font_style = "normal"`,
             `${chart}.xaxis[0].axis_label_text_font_size = "${xAxisFontSizePx}px"`,
@@ -497,7 +503,7 @@ function addVisibleXAxis(chart, specs, xAxisFontSizePx) {
             `${chart}.xgrid[0].grid_line_color = "${specs.chartGridLineColor}"`]
 }
 
-function addVisibleYAxis(chart, specs) {
+function bokehAddVisibleYAxis(chart, specs) {
     return [`${chart}.yaxis[0].axis_label_text_font = "PT Sans"`,
             `${chart}.yaxis[0].axis_label_text_font_style = "normal"`,
             `${chart}.yaxis[0].axis_label_text_font_size = "${specs.fontPixelSize}px"`,
@@ -517,7 +523,7 @@ function addVisibleYAxis(chart, specs) {
             `${chart}.ygrid[0].grid_line_color = "${specs.chartGridLineColor}"`]
 }
 
-function addHiddenYAxis(chart) {
+function bokehAddHiddenYAxis(chart) {
     return [`${chart}.yaxis[0].axis_line_color = null`,
 
             `${chart}.yaxis[0].major_tick_in = 0`,
