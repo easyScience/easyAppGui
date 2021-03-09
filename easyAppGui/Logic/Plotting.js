@@ -120,7 +120,7 @@ function bokehInfo() {
 }
 
 function bokehHtml(data, specs) {
-    const head = bokehHead()
+    const head = bokehHead(specs)
     const chart = bokehChart(data, specs)
     const html = charthHtml(head, chart)
     return html
@@ -138,7 +138,7 @@ function bokehHeadScripts() {
     return list.join('\n')
 }
 
-function bokehHeadStyle() {
+function bokehHeadStyle(specs) {
     const list = [
               '<style type="text/css">',
               '* { ',
@@ -153,16 +153,19 @@ function bokehHeadStyle() {
               '.bk-logo {',
               '    display: none !important;',
               '}',
+              '.bk-toolbar.bk-above  {',
+              `    margin-right: ${2.0 * specs.fontPixelSize}px;`,
+              '}',
               '</style>'
           ]
     return list.join('\n')
 }
 
-function bokehHead() {
+function bokehHead(specs) {
     const list = [
             headCommon(),
             bokehHeadScripts(),
-            bokehHeadStyle()
+            bokehHeadStyle(specs)
           ]
     return list.join('\n')
 }
@@ -234,7 +237,11 @@ function bokehChart(data, specs) {
     }
 
     // Charts array grid layout
-    chart.push(`const gridplot = new Bokeh.Plotting.gridplot(charts)`)
+    chart.push(`const grid_options = {toolbar_location: "above"}`)
+    chart.push(`const gridplot = new Bokeh.Plotting.gridplot(charts, grid_options)`)
+
+    //chart.push(`gridplot.margin[3] = -${specs.fontPixelSize}`) // adjust toolbarbox
+    chart.push(`gridplot.margin[3] = ${0.5 * specs.fontPixelSize}`) // adjust toolbarbox left margin
 
     // Show charts
     if (typeof specs.containerId !== 'undefined') {
@@ -269,10 +276,13 @@ function bokehCreateMainChart(data, specs) {
             `   outline_line_color: "${EaStyle.Colors.chartAxis}",`,
             `   background: "${specs.chartBackgroundColor}",`,
             `   background_fill_color: "${specs.chartBackgroundColor}",`,
-            `   border_fill_color: "${specs.chartBackgroundColor}"`,
-            `})`,
+            `   border_fill_color: "${specs.chartBackgroundColor}",`,
 
-            `main_chart.min_border = 0`]
+            `   //min_border: ${specs.fontPixelSize},`,
+            `   min_border_right: ${2.0 * specs.fontPixelSize},`,
+            `   min_border_top: 0,`,
+            `   min_border_bottom: 0`,
+            `})`]
 }
 
 function bokehCreateBraggChart(data, specs) {
@@ -290,10 +300,10 @@ function bokehCreateBraggChart(data, specs) {
             `   outline_line_color: "${EaStyle.Colors.chartAxis}",`,
             `   background: "${specs.chartBackgroundColor}",`,
             `   background_fill_color: "${specs.chartBackgroundColor}",`,
-            `   border_fill_color: "${specs.chartBackgroundColor}"`,
-            `})`,
+            `   border_fill_color: "${specs.chartBackgroundColor}",`,
 
-            `bragg_chart.min_border = 0`]
+            `   min_border_bottom: 0`,
+            `})`]
 }
 
 function bokehCreateDiffChart(data, specs) {
@@ -306,8 +316,8 @@ function bokehCreateDiffChart(data, specs) {
 
             `   x_range: main_chart.x_range,`,
             `   y_range: new Bokeh.Range1d({`,
-            `       start: ${data.difference.median_y} - (main_chart.y_range.start - main_chart.y_range.end) * ${ratio},`,
-            `       end: ${data.difference.median_y} + (main_chart.y_range.start - main_chart.y_range.end) * ${ratio}`,
+            `       start: ${data.difference.median_y} - (main_chart.y_range.end - main_chart.y_range.start) * ${ratio},`,
+            `       end: ${data.difference.median_y} + (main_chart.y_range.end - main_chart.y_range.start) * ${ratio}`,
             `   }),`,
 
             `   x_axis_label: "${specs.xAxisTitle}",`,
@@ -316,13 +326,18 @@ function bokehCreateDiffChart(data, specs) {
             `   outline_line_color: "${EaStyle.Colors.chartAxis}",`,
             `   background: "${specs.chartBackgroundColor}",`,
             `   background_fill_color: "${specs.chartBackgroundColor}",`,
-            `   border_fill_color: "${specs.chartBackgroundColor}"`,
-            `})`,
+            `   border_fill_color: "${specs.chartBackgroundColor}",`,
 
-            `diff_chart.min_border = 0`]
+            `   min_border_bottom: 0`,
+            `})`]
 }
 
 function bokehAddMeasuredDataToMainChart(data, specs) {
+    //print("--data.measured.x", data.measured.x)
+    //print("--data.measured.y", data.measured.y)
+    //print("--data.measured.sy", data.measured.sy)
+    //print("--data.measured.y_upper", data.measured.y_upper)
+    //print("--data.measured.y_lower", data.measured.y_lower)
     return [`source.data.x_meas = [${data.measured.x}]`,
             `source.data.y_meas = [${data.measured.y}]`,
             `source.data.sy_meas = [${data.measured.sy}]`,
@@ -357,6 +372,8 @@ function bokehAddMeasuredDataToMainChart(data, specs) {
 }
 
 function bokehAddCalculatedDataToMainChart(data, specs) {
+    //print("--data.calculated.x", data.calculated.x)
+    //print("--data.calculated.y", data.calculated.y)
     return [`source.data.x_calc = [${data.calculated.x}]`,
             `source.data.y_calc = [${data.calculated.y}]`,
 
@@ -387,6 +404,10 @@ function bokehAddDataToBraggChart(data, specs) {
 }
 
 function bokehAddDataToDiffChart(data, specs) {
+    //print("--data.difference.x", data.difference.x)
+    //print("--data.difference.y", data.difference.y)
+    //print("--data.difference.y_upper", data.difference.y_upper)
+    //print("--data.difference.y_lower", data.difference.y_lower)
     return [`source.data.x_diff = [${data.difference.x}]`,
             `source.data.y_diff = [${data.difference.y}]`,
             `source.data.y_diff_upper = [${data.difference.y_upper}]`,

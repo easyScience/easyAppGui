@@ -14,6 +14,7 @@ T.ToolTip {
     property color borderColor: EaStyle.Colors.themePrimary
     property int borderRadius: 2
     property real backgroundOpacity: 0.9
+    property int textFormat: Text.RichText
 
     x: parent ? (parent.width - implicitWidth) / 2 : 0
     y: -implicitHeight - EaStyle.Sizes.fontPixelSize
@@ -39,6 +40,8 @@ T.ToolTip {
         text: control.text
 
         color: control.textColor
+
+        textFormat: control.textFormat
     }
 
     background: Rectangle {

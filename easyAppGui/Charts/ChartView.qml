@@ -3,6 +3,7 @@ import QtCharts 2.13
 
 import easyAppGui.Style 1.0 as EaStyle
 import easyAppGui.Animations 1.0 as EaAnimations
+import easyAppGui.Elements 1.0 as EaElements
 
 ChartView {
     id: chart
@@ -54,20 +55,15 @@ ChartView {
     }
 
     // Plot axes rect
-    /*
     Rectangle {
         x: plotArea.x
         y: plotArea.y
         height: 1
         width: plotArea.width
 
-        visible: false
-
-        //opacity: chart.opacity
-
-        color: Globals.Colors.appBorder
+        color: EaStyle.Colors.chartAxis
         Behavior on color {
-            Animations.ThemeChange {}
+            EaAnimations.ThemeChange {}
         }
     }
     Rectangle {
@@ -76,13 +72,9 @@ ChartView {
         height: 1
         width: plotArea.width
 
-        visible: false
-
-        //opacity: chart.opacity
-
-        color: Globals.Colors.appBorder
+        color: EaStyle.Colors.chartAxis
         Behavior on color {
-            Animations.ThemeChange {}
+            EaAnimations.ThemeChange {}
         }
     }
     Rectangle {
@@ -91,13 +83,9 @@ ChartView {
         height: plotArea.height
         width: 1
 
-        visible: false
-
-        //opacity: chart.opacity
-
-        color: Globals.Colors.appBorder
+        color: EaStyle.Colors.chartAxis
         Behavior on color {
-            Animations.ThemeChange {}
+            EaAnimations.ThemeChange {}
         }
     }
     Rectangle {
@@ -106,16 +94,11 @@ ChartView {
         height: plotArea.height
         width: 1
 
-        visible: false
-
-        //opacity: chart.opacity
-
-        color: Globals.Colors.appBorder
+        color: EaStyle.Colors.chartAxis
         Behavior on color {
-            Animations.ThemeChange {}
+            EaAnimations.ThemeChange {}
         }
     }
-    */
 
     // Zoom rectangle
     Rectangle{
@@ -127,15 +110,15 @@ ChartView {
         visible: false
         transform: Scale { origin.x: 0; origin.y: 0; xScale: recZoom.xScaleZoom; yScale: recZoom.yScaleZoom}
 
-        border.color: EaStyle.Colors.themeAccent
+        border.color: EaStyle.Colors.appBorder
         border.width: 1
 
-        opacity: 0.5
+        opacity: 0.9
         color: "transparent"
         Rectangle {
             anchors.fill: parent
-            opacity: 0.3
-            color: EaStyle.Colors.themeAccent
+            opacity: 0.5
+            color: EaStyle.Colors.appBorder
         }
     }
 
