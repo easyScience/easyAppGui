@@ -5,6 +5,8 @@ import easyAppGui.Style 1.0 as EaStyle
 import easyAppGui.Animations 1.0 as EaAnimations
 import easyAppGui.Elements 1.0 as EaElements
 
+import Gui.Globals 1.0 as ExGlobals
+
 Rectangle {
     id: statusBar
 
@@ -23,7 +25,7 @@ Rectangle {
         EaAnimations.ThemeChange {}
     }
 
-    // Status bar content
+    // Status bar main content
     ListView {
         id: listView
 
@@ -49,6 +51,12 @@ Rectangle {
             color: EaStyle.Colors.statusBarForeground
             text: model.label + ": " + model.value
         }
+    }
+
+    // Fitting label
+    EaElements.RunningLabel {
+        text: "Fitting"
+        running: !ExGlobals.Constants.proxy.isFitFinished
     }
 
     // Status bar top border
