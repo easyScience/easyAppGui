@@ -1,4 +1,4 @@
-module Components
+module Charts
 
 LineSeries 1.0 LineSeries.qml
 AreaSeries 1.0 AreaSeries.qml

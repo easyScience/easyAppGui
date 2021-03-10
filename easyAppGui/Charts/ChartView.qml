@@ -8,6 +8,7 @@ import easyAppGui.Elements 1.0 as EaElements
 ChartView {
     id: chart
 
+    property bool showAxesRect: true
     property bool allowZoom: true
 
     margins.top: 0
@@ -56,6 +57,7 @@ ChartView {
 
     // Plot axes rect
     Rectangle {
+        visible: showAxesRect
         x: plotArea.x
         y: plotArea.y
         height: 1
@@ -67,6 +69,7 @@ ChartView {
         }
     }
     Rectangle {
+        visible: showAxesRect
         x: plotArea.x
         y: plotArea.y + plotArea.height
         height: 1
@@ -78,6 +81,7 @@ ChartView {
         }
     }
     Rectangle {
+        visible: showAxesRect
         x: plotArea.x
         y: plotArea.y
         height: plotArea.height
@@ -89,6 +93,7 @@ ChartView {
         }
     }
     Rectangle {
+        visible: showAxesRect
         y: plotArea.y
         x: plotArea.x + plotArea.width
         height: plotArea.height

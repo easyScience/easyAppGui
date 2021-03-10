@@ -29,18 +29,20 @@ Rectangle {
                                  (typeof braggData.xy !== 'undefined' && braggData.xy.length))
     property bool hasPlotRangesData: typeof plotRanges !== 'undefined'
 
-    property int chartWidth: container.width - paddings * 2
+    property int chartWidth: container.width - 2 * paddings
     property int mainChartHeight: container.height
-                                  - paddings * 2
+                                  - 2 * paddings
                                   - braggChartHeight
                                   - differenceChartHeight
                                   - chartToolButtonsHeight
+                                  - xAxisChartHeight
     property int braggChartHeight: hasBraggData
-                                   ? EaStyle.Sizes.fontPixelSize * (7.5 - 2 * hasDifferenceData)
+                                   ? 3 * EaStyle.Sizes.fontPixelSize
                                    : 0
     property int differenceChartHeight: hasDifferenceData
-                                        ? EaStyle.Sizes.fontPixelSize * 10
+                                        ? 8 * EaStyle.Sizes.fontPixelSize
                                         : 0
+    property int xAxisChartHeight: 3 * EaStyle.Sizes.fontPixelSize
 
     property string xAxisTitle: ''
     property string yMainAxisTitle: ''

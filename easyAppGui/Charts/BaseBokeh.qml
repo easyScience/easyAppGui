@@ -6,59 +6,62 @@ import easyAppGui.Logic 1.0 as EaLogic
 import easyAppGui.Charts 1.0 as EaCharts
 
 EaCharts.BasePlot {
+    id: plot
 
     WebEngineView {
         id: chartView
 
         anchors.fill: parent
-        anchors.margins: paddings//EaStyle.Sizes.fontPixelSize * 1.5
-        backgroundColor: backgroundColor
+        anchors.margins: plot.paddings
+        anchors.topMargin: plot.paddings - 0.25 * plot.fontPixelSize
+        backgroundColor: plot.backgroundColor
     }
 
     property string html:
         EaLogic.Plotting.bokehHtml(
             // data
             {
-                measured: measuredData,
-                calculated: calculatedData,
-                difference: differenceData,
-                bragg: braggData,
-                ranges: plotRanges,
+                measured: plot.measuredData,
+                calculated: plot.calculatedData,
+                difference: plot.differenceData,
+                bragg: plot.braggData,
+                ranges: plot.plotRanges,
 
-                hasMeasured: hasMeasuredData,
-                hasCalculated: hasCalculatedData,
-                hasBragg: hasBraggData,
-                hasDifference: hasDifferenceData,
-                hasPlotRanges: hasPlotRangesData
+                hasMeasured: plot.hasMeasuredData,
+                hasCalculated: plot.hasCalculatedData,
+                hasBragg: plot.hasBraggData,
+                hasDifference: plot.hasDifferenceData,
+                hasPlotRanges: plot.hasPlotRangesData
             },
             // specs
             {
-                chartWidth: chartWidth,
-                mainChartHeight: mainChartHeight,
-                braggChartHeight: braggChartHeight,
-                differenceChartHeight: differenceChartHeight,
+                chartWidth: plot.chartWidth,
+                mainChartHeight: plot.mainChartHeight,
+                braggChartHeight: plot.braggChartHeight,
+                differenceChartHeight: plot.differenceChartHeight,
+                xAxisChartHeight: plot.xAxisChartHeight,
 
-                xAxisTitle: xAxisTitle,
-                yMainAxisTitle: yMainAxisTitle,
-                yDifferenceAxisTitle: yDifferenceAxisTitle,
+                xAxisTitle: plot.xAxisTitle,
+                yMainAxisTitle: plot.yMainAxisTitle,
+                yDifferenceAxisTitle: plot.yDifferenceAxisTitle,
 
-                chartBackgroundColor: chartBackgroundColor,
-                chartForegroundColor: chartForegroundColor,
-                chartGridLineColor: chartGridLineColor,
-                chartMinorGridLineColor: chartMinorGridLineColor,
+                chartBackgroundColor: plot.chartBackgroundColor,
+                chartForegroundColor: plot.chartForegroundColor,
+                chartGridLineColor: plot.chartGridLineColor,
+                chartMinorGridLineColor: plot.chartMinorGridLineColor,
 
-                measuredLineColor: measuredLineColor,
-                measuredAreaColor: measuredAreaColor,
-                calculatedLineColor: calculatedLineColor,
-                braggTicksColor: braggTicksColor,
-                differenceLineColor: differenceLineColor,
-                differenceAreaColor: differenceAreaColor,
+                measuredLineColor: plot.measuredLineColor,
+                measuredAreaColor: plot.measuredAreaColor,
+                calculatedLineColor: plot.calculatedLineColor,
+                braggTicksColor: plot.braggTicksColor,
+                differenceLineColor: plot.differenceLineColor,
+                differenceAreaColor: plot.differenceAreaColor,
 
-                measuredLineWidth: measuredLineWidth,
-                calculatedLineWidth: calculatedLineWidth,
-                differenceLineWidth: differenceLineWidth,
+                measuredLineWidth: plot.measuredLineWidth,
+                calculatedLineWidth: plot.calculatedLineWidth,
+                differenceLineWidth: plot.differenceLineWidth,
 
-                fontPixelSize: fontPixelSize
+                fontPixelSize: plot.fontPixelSize
             }
             )
 

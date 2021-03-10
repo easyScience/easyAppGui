@@ -10,12 +10,14 @@ import easyAppGui.Charts 1.0 as EaCharts
 import Gui.Globals 1.0 as ExGlobals
 
 EaCharts.BasePlot {
+    id: plot
+
     property int chartExtraMargin: -12
     property int chartVMargin: chartExtraMargin
-    property int chartHMargin: chartExtraMargin + 0.5 * fontPixelSize
+    property int chartHMargin: chartExtraMargin
 
     Column {
-        anchors.centerIn: parent
+        anchors.horizontalCenter: parent.horizontalCenter
         spacing: 0
 
         ///////////////////////////
@@ -24,7 +26,7 @@ EaCharts.BasePlot {
 
         Item {
             width: 1
-            height: chartToolButtonsHeight
+            height: plot.chartToolButtonsHeight + 0.6 * plot.fontPixelSize
         }
 
         /////////////
@@ -32,41 +34,42 @@ EaCharts.BasePlot {
         /////////////
 
         Item {
-            width: chartWidth
-            height: mainChartHeight
+            width: plot.chartWidth
+            height: plot.mainChartHeight + plot.fontPixelSize
 
             EaCharts.ChartView {
                 id: mainChart
 
                 property bool allowHover: true
+                property int initialized: 0
 
                 anchors.fill: parent
-                anchors.topMargin: chartVMargin
-                anchors.bottomMargin: chartVMargin
-                anchors.leftMargin: chartHMargin
-                anchors.rightMargin: chartHMargin
+                anchors.topMargin: plot.chartVMargin
+                anchors.bottomMargin: plot.chartVMargin
+                anchors.leftMargin: plot.chartHMargin
+                anchors.rightMargin: plot.chartHMargin
 
-                backgroundColor: 'transparent' //'#250000ff'
+                backgroundColor: 'transparent'  //'#250000ff'
 
                 EaCharts.ValueAxis {
                     id: mainAxisX
 
-                    title: xAxisTitle
+                    title: plot.xAxisTitle
 
-                    titleVisible: !hasBraggData && !hasDifferenceData
-                    labelsVisible: !hasBraggData && !hasDifferenceData
+                    titleVisible: false
+                    labelsVisible: false
 
-                    min: plotRanges.min_x
-                    max: plotRanges.max_x
+                    min: plot.plotRanges.min_x
+                    max: plot.plotRanges.max_x
                 }
 
                 EaCharts.ValueAxis {
                     id: mainAxisY
 
-                    title: yMainAxisTitle
+                    title: plot.yMainAxisTitle
 
-                    min: plotRanges.min_y
-                    max: plotRanges.max_y
+                    min: plot.plotRanges.min_y
+                    max: plot.plotRanges.max_y
 
                     onRangeChanged: {
                         adjustDifferenceChartRangeY()
@@ -82,22 +85,22 @@ EaCharts.BasePlot {
                     axisY: mainAxisY
 
                     lowerSeries: EaCharts.LineSeries {
-                        customPoints: measuredData.xy_lower
+                        customPoints: plot.measuredData.xy_lower
                     }
 
                     upperSeries: EaCharts.LineSeries {
-                        customPoints: measuredData.xy_upper
+                        customPoints: plot.measuredData.xy_upper
                     }
                 }
 
                 // Calculated curve
                 EaCharts.LineSeries {
-                    color: calculatedLineColor
+                    color: plot.calculatedLineColor
 
                     axisX: mainAxisX
                     axisY: mainAxisY
 
-                    customPoints: calculatedData.xy
+                    customPoints: plot.calculatedData.xy
                 }
 
                 // Hidden measured points for tooltips
@@ -106,11 +109,11 @@ EaCharts.BasePlot {
                     axisY: mainAxisY
 
                     markerShape: ScatterSeries.MarkerShapeCircle
-                    markerSize: fontPixelSize * 2
+                    markerSize: plot.fontPixelSize * 2
                     color: "transparent"
                     borderColor: "transparent"
 
-                    customPoints: measuredData.xy
+                    customPoints: plot.measuredData.xy
 
                     onHovered: showMainTooltip(mainChart, 'y_meas', point, state)
                 }
@@ -121,21 +124,23 @@ EaCharts.BasePlot {
                     axisY: mainAxisY
 
                     markerShape: ScatterSeries.MarkerShapeCircle
-                    markerSize: fontPixelSize * 2
+                    markerSize: plot.fontPixelSize * 2
                     color: "transparent"
                     borderColor: "transparent"
 
-                    customPoints: calculatedData.xy
+                    customPoints: plot.calculatedData.xy
 
                     onHovered: showMainTooltip(mainChart, 'y_calc', point, state)
                 }
 
-                /*
                 onPlotAreaChanged: {
+                    if (mainChart.initialized > 4) {
+                        return
+                    }
+                    mainChart.initialized += 1
                     adjustDifferenceChartRangeY()
                     adjustLeftAxesAnchor()
                 }
-                */
             }
 
             /////////////////////
@@ -143,14 +148,20 @@ EaCharts.BasePlot {
             /////////////////////
 
             Row {
-                x: mainChart.plotArea.x + mainChart.plotArea.width - childrenRect.width - 4
-                y: -childrenRect.height + fontPixelSize - 3
+                x: mainChart.plotArea.x
+                   + mainChart.plotArea.width
+                   + plot.chartHMargin
+                   - childrenRect.width
+                   + 1
+                y: -childrenRect.height
+                   + fontPixelSize
+                   - 4
 
                 EaElements.TabButton {
                     checked: mainChart.allowZoom
                     autoExclusive: false
-                    height: chartToolButtonsHeight
-                    width: chartToolButtonsHeight
+                    height: plot.chartToolButtonsHeight
+                    width: plot.chartToolButtonsHeight
                     borderColor: EaStyle.Colors.chartGridLine
                     fontIcon: "expand"
                     ToolTip.text: qsTr("Box zoom")
@@ -159,8 +170,8 @@ EaCharts.BasePlot {
 
                 EaElements.TabButton {
                     checkable: false
-                    height: chartToolButtonsHeight
-                    width: chartToolButtonsHeight
+                    height: plot.chartToolButtonsHeight
+                    width: plot.chartToolButtonsHeight
                     borderColor: EaStyle.Colors.chartGridLine
                     fontIcon: "sync-alt"
                     ToolTip.text: qsTr("Reset")
@@ -170,8 +181,8 @@ EaCharts.BasePlot {
                 EaElements.TabButton {
                     checked: mainChart.allowHover
                     autoExclusive: false
-                    height: chartToolButtonsHeight
-                    width: chartToolButtonsHeight
+                    height: plot.chartToolButtonsHeight
+                    width: plot.chartToolButtonsHeight
                     borderColor: EaStyle.Colors.chartGridLine
                     fontIcon: "comment-alt"
                     ToolTip.text: qsTr("Hover")
@@ -191,29 +202,31 @@ EaCharts.BasePlot {
         Item {
             visible: hasBraggData
 
-            width: chartWidth
-            height: braggChartHeight
+            width: plot.chartWidth
+            height: plot.braggChartHeight + 0.2 * plot.fontPixelSize
 
             EaCharts.ChartView {
                 id: braggChart
 
+                z: -1
+
                 anchors.fill: parent
-                anchors.topMargin: chartVMargin - fontPixelSize * 1.5
-                anchors.bottomMargin: chartVMargin
-                anchors.leftMargin: chartHMargin
-                anchors.rightMargin: chartHMargin
+                anchors.topMargin: plot.chartVMargin - 1.5 * plot.fontPixelSize
+                anchors.bottomMargin: plot.chartVMargin
+                anchors.leftMargin: plot.chartHMargin
+                anchors.rightMargin: plot.chartHMargin
 
                 allowZoom: false
 
-                backgroundColor: 'transparent' //'#2500ff00'
+                backgroundColor: 'transparent'  //'#2500ff00'
 
                 EaCharts.ValueAxis {
                     id: braggAxisX
 
-                    title: xAxisTitle
+                    title: plot.xAxisTitle
 
-                    titleVisible: hasBraggData && !hasDifferenceData
-                    labelsVisible: hasBraggData && !hasDifferenceData
+                    titleVisible: false
+                    labelsVisible: false
 
                     min: mainAxisX.min
                     max: mainAxisX.max
@@ -227,7 +240,7 @@ EaCharts.BasePlot {
 
                     tickCount: 2
 
-                    min: -1
+                    min: -0.83
                     max: 1
                 }
 
@@ -236,10 +249,10 @@ EaCharts.BasePlot {
                     axisY: braggAxisY
 
                     markerShape: ScatterSeries.MarkerShapeRectangle
-                    markerSize: fontPixelSize * 2
-                    brush: ExGlobals.Constants.proxy.qtCharts.brush(markerSize, calculatedLineColor)
+                    markerSize: 1.5 * fontPixelSize
+                    brush: ExGlobals.Constants.proxy.qtCharts.verticalLine(markerSize, plot.calculatedLineColor)
 
-                    customPoints: braggData.xy
+                    customPoints: plot.braggData.xy
 
                     onHovered: {
                         if (!mainChart.allowHover) {
@@ -267,31 +280,30 @@ EaCharts.BasePlot {
 
         Item {
             visible: hasDifferenceData
-            z: 10
 
-            width: chartWidth
-            height: differenceChartHeight
+            width: plot.chartWidth
+            height: plot.differenceChartHeight + 0.35 * plot.fontPixelSize
 
             EaCharts.ChartView {
                 id: differenceChart
 
-                backgroundColor: 'transparent' //'#25ff0000'
+                backgroundColor: 'transparent'  //'#25ff0000'
 
                 anchors.fill: parent
-                anchors.topMargin: chartVMargin - fontPixelSize * 1.5
-                anchors.bottomMargin: chartVMargin
-                anchors.leftMargin: chartHMargin
-                anchors.rightMargin: chartHMargin
+                anchors.topMargin: plot.chartVMargin - 1.5 * fontPixelSize
+                anchors.bottomMargin: plot.chartVMargin
+                anchors.leftMargin: plot.chartHMargin
+                anchors.rightMargin: plot.chartHMargin
 
                 allowZoom: false
 
                 EaCharts.ValueAxis {
                     id: differenceAxisX
 
-                    title: xAxisTitle
+                    title: plot.xAxisTitle
 
-                    titleVisible: hasDifferenceData
-                    labelsVisible: hasDifferenceData
+                    titleVisible: false
+                    labelsVisible: false
 
                     min: mainAxisX.min
                     max: mainAxisX.max
@@ -300,7 +312,7 @@ EaCharts.BasePlot {
                 EaCharts.ValueAxis {
                     id: differenceAxisY
 
-                    title: yDifferenceAxisTitle
+                    title: plot.yDifferenceAxisTitle
 
                     tickType: ValueAxis.TicksFixed
                     tickCount: 3
@@ -314,11 +326,11 @@ EaCharts.BasePlot {
                     axisY: differenceAxisY
 
                     lowerSeries: EaCharts.LineSeries {
-                        customPoints: differenceData.xy_lower
+                        customPoints: plot.differenceData.xy_lower
                     }
 
                     upperSeries: EaCharts.LineSeries {
-                        customPoints: differenceData.xy_upper
+                        customPoints: plot.differenceData.xy_upper
                     }
                 }
 
@@ -328,11 +340,11 @@ EaCharts.BasePlot {
                     axisY: differenceAxisY
 
                     markerShape: ScatterSeries.MarkerShapeCircle
-                    markerSize: fontPixelSize * 2
+                    markerSize: 2 * plot.fontPixelSize
                     color: "transparent"
                     borderColor: "transparent"
 
-                    customPoints: differenceData.xy
+                    customPoints: plot.differenceData.xy
 
                     onHovered: showMainTooltip(differenceChart, 'y_diff', point, state)
                 }
@@ -343,16 +355,73 @@ EaCharts.BasePlot {
         // Difference chart end
         ///////////////////////
 
+        ///////////////////
+        // xAxisChart chart
+        ///////////////////
+
+        Item {
+            width: plot.chartWidth
+            height: 58 + 3.5 * plot.fontPixelSize + plot.xAxisChartHeight
+
+            z: -1
+
+            EaCharts.ChartView {
+                id: xAxisChart
+
+                backgroundColor: 'transparent'  //'#2500ffff'
+
+                anchors.fill: parent
+                anchors.topMargin: -anchors.bottomMargin
+                anchors.bottomMargin: parent.height - 2.5 * plot.fontPixelSize
+                anchors.leftMargin: plot.chartHMargin
+                anchors.rightMargin: plot.chartHMargin
+
+                showAxesRect: false
+                allowZoom: false
+
+                EaCharts.ValueAxis {
+                    id: xAxisChartAxisX
+
+                    title: plot.xAxisTitle
+
+                    lineVisible: false
+                    gridVisible: false
+
+                    min: mainAxisX.min
+                    max: mainAxisX.max
+                }
+
+                EaCharts.ValueAxis {
+                    id: xAxisChartAxisY
+
+                    visible: false
+                }
+
+                EaCharts.ScatterSeries {
+                    axisX: xAxisChartAxisX
+                    axisY: xAxisChartAxisY
+                }
+            }
+        }
+
+        ///////////////////////
+        // xAxisChart chart end
+        ///////////////////////
+
+        ///////////
+        // ToolTips
+        ///////////
+
         EaElements.ToolTip {
             id: mainInfoToolTip
-            backgroundColor: chartBackgroundColor
-            borderColor: chartGridLineColor
+            backgroundColor: plot.chartBackgroundColor
+            borderColor: plot.chartGridLineColor
         }
 
         EaElements.ToolTip {
             id: braggInfoToolTip
-            backgroundColor: chartBackgroundColor
-            borderColor: chartGridLineColor
+            backgroundColor: plot.chartBackgroundColor
+            borderColor: plot.chartGridLineColor
         }
 
     }
@@ -361,10 +430,10 @@ EaCharts.BasePlot {
 
     function mainToolTipData(point) {
         let xy = []
-        if (hasMeasuredData) {
-            xy = measuredData.xy
-        } else if (hasCalculatedData) {
-            xy = calculatedData.xy
+        if (plot.hasMeasuredData) {
+            xy = plot.measuredData.xy
+        } else if (plot.hasCalculatedData) {
+            xy = plot.calculatedData.xy
         } else {
             return null
         }
@@ -372,15 +441,15 @@ EaCharts.BasePlot {
         for (let i in xy) {
             if (Math.abs(point.x - xy[i].x) <= 0.01) {
                 data.x = xy[i].x
-                if (hasMeasuredData) {
-                    data.y_meas = measuredData.xy[i].y
-                    data.sy_meas = measuredData.xy_upper[i].y - measuredData.xy[i].y
+                if (plot.hasMeasuredData) {
+                    data.y_meas = plot.measuredData.xy[i].y
+                    data.sy_meas = plot.measuredData.xy_upper[i].y - plot.measuredData.xy[i].y
                 }
-                if (hasCalculatedData) {
-                    data.y_calc = calculatedData.xy[i].y
+                if (plot.hasCalculatedData) {
+                    data.y_calc = plot.calculatedData.xy[i].y
                 }
-                if (hasDifferenceData) {
-                    data.y_diff = differenceData.xy[i].y
+                if (plot.hasDifferenceData) {
+                    data.y_diff = plot.differenceData.xy[i].y
                 }
                 return data
             }
@@ -418,16 +487,16 @@ EaCharts.BasePlot {
 
         const x = mainTooltipRow(EaStyle.Colors.themeForegroundDisabled, 'x', `${data.x.toFixed(2)}`)
         table.push(...x)
-        if (hasMeasuredData) {
-            const y_meas = mainTooltipRow(measuredLineColor, 'meas', `${data.y_meas.toFixed(1)}`, `&#177;&nbsp;${data.sy_meas.toFixed(1)}`)
+        if (plot.hasMeasuredData) {
+            const y_meas = mainTooltipRow(plot.measuredLineColor, 'meas', `${data.y_meas.toFixed(1)}`, `&#177;&nbsp;${data.sy_meas.toFixed(1)}`)
             table.push(...y_meas)
         }
-        if (hasCalculatedData) {
-            const y_calc = mainTooltipRow(calculatedLineColor, 'calc', `${data.y_calc.toFixed(1)}`)
+        if (plot.hasCalculatedData) {
+            const y_calc = mainTooltipRow(plot.calculatedLineColor, 'calc', `${data.y_calc.toFixed(1)}`)
             table.push(...y_calc)
         }
-        if (hasDifferenceData) {
-            const y_diff = mainTooltipRow(differenceLineColor, 'diff', `${data.y_diff.toFixed(1)}`)
+        if (plot.hasDifferenceData) {
+            const y_diff = mainTooltipRow(plot.differenceLineColor, 'diff', `${data.y_diff.toFixed(1)}`)
             table.push(...y_diff)
         }
 
@@ -439,9 +508,9 @@ EaCharts.BasePlot {
 
     function differenceChartMeanY() {
         let ySum = 0, yCount = 0
-        for (let i in differenceData.xy) {
-            if (differenceAxisX.min <= differenceData.xy[i].x && differenceData.xy[i].x <= differenceAxisX.max) {
-                ySum += differenceData.xy[i].y
+        for (let i in plot.differenceData.xy) {
+            if (differenceAxisX.min <= plot.differenceData.xy[i].x && plot.differenceData.xy[i].x <= differenceAxisX.max) {
+                ySum += plot.differenceData.xy[i].y
                 yCount += 1
             }
         }
@@ -453,19 +522,26 @@ EaCharts.BasePlot {
 
     function differenceChartHalfRangeY() {
         const mainChartRangeY = mainAxisY.max - mainAxisY.min
-        const differenceToMainChartHeightRatio = (differenceChartHeight - 2 * fontPixelSize) / ( mainChartHeight )
+        const differenceToMainChartHeightRatio = differenceChart.plotArea.height / mainChart.plotArea.height
         const differenceChartRangeY = mainChartRangeY * differenceToMainChartHeightRatio
         return 0.5 * differenceChartRangeY
     }
 
     function adjustDifferenceChartRangeY() {
-        differenceAxisY.min = differenceChartMeanY() - differenceChartHalfRangeY()
-        differenceAxisY.max = differenceChartMeanY() + differenceChartHalfRangeY()
+        if (hasDifferenceData) {
+            differenceAxisY.min = differenceChartMeanY() - differenceChartHalfRangeY()
+            differenceAxisY.max = differenceChartMeanY() + differenceChartHalfRangeY()
+        }
     }
 
     function adjustLeftAxesAnchor() {
-        differenceChart.anchors.leftMargin = chartHMargin + (mainChart.plotArea.x - differenceChart.plotArea.x)
-        braggChart.anchors.leftMargin = chartHMargin + (mainChart.plotArea.x - braggChart.plotArea.x)
+        xAxisChart.anchors.leftMargin = plot.chartHMargin + (mainChart.plotArea.x - xAxisChart.plotArea.x)
+        if (hasDifferenceData) {
+            differenceChart.anchors.leftMargin = plot.chartHMargin + (mainChart.plotArea.x - differenceChart.plotArea.x)
+        }
+        if (hasBraggData) {
+            braggChart.anchors.leftMargin = plot.chartHMargin + (mainChart.plotArea.x - braggChart.plotArea.x)
+        }
     }
 
     function axisLabelFormat(range) {
