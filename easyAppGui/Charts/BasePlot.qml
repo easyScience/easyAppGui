@@ -15,19 +15,16 @@ Rectangle {
     property var braggData: ({})
     property var plotRanges: ({})
 
-    property bool hasMeasuredData: typeof measuredData !== 'undefined' &&
-                                   ((typeof measuredData.x !== 'undefined' && measuredData.x.length) ||
-                                    (typeof measuredData.xy_upper !== 'undefined' && measuredData.xy_upper.length))
-    property bool hasCalculatedData: typeof calculatedData !== 'undefined' &&
-                                     ((typeof calculatedData.x !== 'undefined' && calculatedData.x.length) ||
-                                      (typeof calculatedData.xy !== 'undefined' && calculatedData.xy.length))
-    property bool hasDifferenceData: typeof differenceData !== 'undefined' &&
-                                     ((typeof differenceData.x !== 'undefined' && differenceData.x.length) ||
-                                      (typeof differenceData.xy_upper !== 'undefined' && differenceData.xy_upper.length))
-    property bool hasBraggData: typeof braggData !== 'undefined' &&
-                                ((typeof braggData.x !== 'undefined' && braggData.x.length) ||
-                                 (typeof braggData.xy !== 'undefined' && braggData.xy.length))
+    property bool hasMeasuredData: typeof measuredData !== 'undefined'
+                                   && Object.keys(measuredData).length
+    property bool hasCalculatedData: typeof calculatedData !== 'undefined'
+                                     && Object.keys(calculatedData).length
+    property bool hasDifferenceData: typeof differenceData !== 'undefined'
+                                     && Object.keys(differenceData).length
+    property bool hasBraggData: typeof braggData !== 'undefined'
+                                && Object.keys(braggData).length
     property bool hasPlotRangesData: typeof plotRanges !== 'undefined'
+                                     && Object.keys(plotRanges).length
 
     property int chartWidth: container.width - 2 * paddings
     property int mainChartHeight: container.height

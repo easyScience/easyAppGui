@@ -59,8 +59,8 @@ EaCharts.BasePlot {
                     titleVisible: false
                     labelsVisible: false
 
-                    min: plot.plotRanges.min_x
-                    max: plot.plotRanges.max_x
+                    min: plot.hasPlotRangesData ? plot.plotRanges.min_x : 0
+                    max: plot.hasPlotRangesData ? plot.plotRanges.max_x : 1
                 }
 
                 EaCharts.ValueAxis {
@@ -68,8 +68,8 @@ EaCharts.BasePlot {
 
                     title: plot.yMainAxisTitle
 
-                    min: plot.plotRanges.min_y
-                    max: plot.plotRanges.max_y
+                    min: plot.hasPlotRangesData ? plot.plotRanges.min_y : 0
+                    max: plot.hasPlotRangesData ? plot.plotRanges.max_y : 1
 
                     onRangeChanged: {
                         adjustDifferenceChartRangeY()
@@ -207,8 +207,6 @@ EaCharts.BasePlot {
 
             EaCharts.ChartView {
                 id: braggChart
-
-                z: -1
 
                 anchors.fill: parent
                 anchors.topMargin: plot.chartVMargin - 1.5 * plot.fontPixelSize
