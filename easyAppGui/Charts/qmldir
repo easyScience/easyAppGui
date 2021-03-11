@@ -11,4 +11,4 @@ BasePlot 1.0 BasePlot.qml
 BaseBokeh 1.0 BaseBokeh.qml
 BaseQtCharts 1.0 BaseQtCharts.qml
 
-ChemDoodleChartView 1.0 ChemDoodleChartView.qml
+BaseChemDoodle 1.0 BaseChemDoodle.qml

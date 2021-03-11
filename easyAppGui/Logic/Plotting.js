@@ -33,7 +33,7 @@ function charthHtml(head, chart) {
 
 function chemDoodleInfo() {
     return {
-        version: '9.1.0',
+        version: '9.2.0',
         url: 'https://web.chemdoodle.com'
     }
 }
@@ -91,7 +91,7 @@ function chemDoodleChart(cifStr, specs) {
               'crystalTransformer.styles.set3DRepresentation("Ball and Stick")',
               'crystalTransformer.styles.projectionPerspective_3D = true',
               'crystalTransformer.styles.projectionPerspectiveVerticalFieldOfView_3D = 20',
-              'crystalTransformer.styles.bonds_display = true',
+              `crystalTransformer.styles.bonds_display = ${specs.showBonds}`,
               'crystalTransformer.styles.bonds_splitColor = true',
               'crystalTransformer.styles.atoms_displayLabels_3D = true',
               'crystalTransformer.styles.compass_display = true',
