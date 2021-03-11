@@ -17,6 +17,8 @@ Rectangle {
 
     property bool hasMeasuredData: typeof measuredData !== 'undefined'
                                    && Object.keys(measuredData).length
+                                   && (measuredData.x.length || measuredData.xy.length)
+
     property bool hasCalculatedData: typeof calculatedData !== 'undefined'
                                      && Object.keys(calculatedData).length
     property bool hasDifferenceData: typeof differenceData !== 'undefined'
@@ -25,6 +27,9 @@ Rectangle {
                                 && Object.keys(braggData).length
     property bool hasPlotRangesData: typeof plotRanges !== 'undefined'
                                      && Object.keys(plotRanges).length
+
+    property int chartContainerWidth: container.width
+    property int chartContainerHeight: container.height
 
     property int chartWidth: container.width - 2 * paddings
     property int mainChartHeight: container.height
