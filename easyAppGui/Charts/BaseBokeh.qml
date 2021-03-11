@@ -61,6 +61,10 @@ EaCharts.BasePlot {
         anchors.margins: plot.paddings
         anchors.topMargin: plot.paddings - 0.25 * plot.fontPixelSize
         backgroundColor: plot.chartBackgroundColor
+
+        onContextMenuRequested: {
+            request.accepted = true
+        }
     }
 
     onHtmlChanged: {
