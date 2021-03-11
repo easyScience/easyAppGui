@@ -581,7 +581,7 @@ function bokehAddMainTooltip(data, specs) {
     const y_diff = bokehMainTooltipRow(specs.differenceLineColor, 'diff', '@y_diff{0.0}')
 
     let table = []
-    table.push(...[`<table>`, `<tbody>`])
+    table.push(...[`<div style="padding:2px">`, `<table>`, `<tbody>`])
     // x
     if (data.hasMeasured) {
         table.push(...x_meas)
@@ -598,21 +598,25 @@ function bokehAddMainTooltip(data, specs) {
     if (data.hasDifference) {
         table.push(...y_diff)
     }
-    table.push(...[`</tbody>`, `</table>`])
+    table.push(...[`</tbody>`, `</table>`, `</div>`])
 
     const tooltip = JSON.stringify(table.join('\n'))
     return `const main_tooltip = (${tooltip})`
 }
 
-function bokehAddBraggTooltip(specs) {
-    const x_bragg = bokehMainTooltipRow(EaStyle.Colors.themeForegroundDisabled, 'x', '@x_bragg{0.00}')
-    const y_bragg = bokehMainTooltipRow(specs.calculatedLineColor, 'hkl', '@y_bragg{0.00}')
+function bokehBraggTooltipSpan(color, label, value) {
+    return `<span style="color:${color}">${label}:&nbsp;${value}</span>`
+}
 
-    let table = []
-    table.push(...[`<table>`, `<tbody>`])
-    table.push(...x_bragg)
-    table.push(...y_bragg)
-    table.push(...[`</tbody>`, `</table>`])
+function bokehAddBraggTooltip(specs) {
+    const x_bragg = bokehBraggTooltipSpan(EaStyle.Colors.themeForegroundDisabled, 'x', '@x_bragg{0.00}')
+    const hkl_bragg = bokehBraggTooltipSpan(specs.calculatedLineColor, 'hkl', '@y_bragg{0.00}')
+
+    const table = [`<div style="padding:2px">`,
+                   x_bragg,
+                   '&nbsp;',
+                   hkl_bragg,
+                   `</div>`]
 
     const tooltip = JSON.stringify(table.join('\n'))
     return `const bragg_tooltip = (${tooltip})`

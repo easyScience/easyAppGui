@@ -155,14 +155,15 @@ EaCharts.BasePlot {
                    + 1
                 y: -childrenRect.height
                    + fontPixelSize
-                   - 4
+                   - 7
+                spacing: 3
 
                 EaElements.TabButton {
                     checked: mainChart.allowZoom
                     autoExclusive: false
                     height: plot.chartToolButtonsHeight
                     width: plot.chartToolButtonsHeight
-                    borderColor: EaStyle.Colors.chartGridLine
+                    borderColor: EaStyle.Colors.chartAxis
                     fontIcon: "expand"
                     ToolTip.text: qsTr("Box zoom")
                     onClicked: mainChart.allowZoom = !mainChart.allowZoom
@@ -172,7 +173,7 @@ EaCharts.BasePlot {
                     checkable: false
                     height: plot.chartToolButtonsHeight
                     width: plot.chartToolButtonsHeight
-                    borderColor: EaStyle.Colors.chartGridLine
+                    borderColor: EaStyle.Colors.chartAxis
                     fontIcon: "sync-alt"
                     ToolTip.text: qsTr("Reset")
                     onClicked: mainChart.zoomReset()
@@ -183,7 +184,7 @@ EaCharts.BasePlot {
                     autoExclusive: false
                     height: plot.chartToolButtonsHeight
                     width: plot.chartToolButtonsHeight
-                    borderColor: EaStyle.Colors.chartGridLine
+                    borderColor: EaStyle.Colors.chartAxis
                     fontIcon: "comment-alt"
                     ToolTip.text: qsTr("Hover")
                     onClicked: mainChart.allowHover = !mainChart.allowHover
@@ -257,7 +258,11 @@ EaCharts.BasePlot {
                             return
                         }
                         const p = braggChart.mapToPosition(point)
-                        const text = qsTr("x: %1<br>hkl: %2").arg(point.x).arg(point.y)
+                        const text = [`<div>`,
+                                      `<span style="color:${EaStyle.Colors.themeForegroundDisabled}">x:&nbsp;${point.x}</span>`,
+                                      '&nbsp;',
+                                      `<span style="color:${plot.calculatedLineColor}">hkl:&nbsp;${point.y}</span>`,
+                                      `</div>`].join('\n')
                         braggInfoToolTip.parent = braggChart
                         braggInfoToolTip.visible = state
                         braggInfoToolTip.x = p.x

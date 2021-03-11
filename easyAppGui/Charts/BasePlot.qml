@@ -17,8 +17,8 @@ Rectangle {
 
     property bool hasMeasuredData: typeof measuredData !== 'undefined'
                                    && Object.keys(measuredData).length
-                                   && (measuredData.x.length || measuredData.xy.length)
-
+                                   && (typeof measuredData.x !== 'undefined'
+                                       || typeof measuredData.xy !== 'undefined')
     property bool hasCalculatedData: typeof calculatedData !== 'undefined'
                                      && Object.keys(calculatedData).length
     property bool hasDifferenceData: typeof differenceData !== 'undefined'
