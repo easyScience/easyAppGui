@@ -25,7 +25,7 @@ Rectangle {
                                      control.checked ?
                                          control.color :
                                          control.hovered ? EaStyle.Colors.themeForegroundHovered :
-                                                           EaStyle.Colors.isDarkTheme ? "#bbb" : "#999"
+                                                           EaStyle.Colors.appBarComboBoxBorder
     Behavior on border.color {
         EaAnimations.ThemeChange {}
     }
