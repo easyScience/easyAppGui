@@ -6,8 +6,6 @@ import easyAppGui.Style 1.0 as EaStyle
 import Gui.Globals 1.0 as ExGlobals
 
 LineSeries {
-    id: series
-
     property var customPoints: [] //[Qt.point(0, -1), Qt.point(10, 6)] //[{"x":0,"y":-1},{"x":10,"y":6}]
 
     width: 2.0
@@ -15,16 +13,10 @@ LineSeries {
 
     onCustomPointsChanged: customReplacePoints()
 
-    Component.onCompleted: customAppend()
-
     // Python-based logic
 
-    function customAppend() {
-        ExGlobals.Constants.proxy.plotting1d.lineSeriesCustomReplace(series, customPoints)
-    }
-
     function customReplacePoints() {
-        ExGlobals.Constants.proxy.plotting1d.lineSeriesCustomReplace(series, customPoints)
+        ExGlobals.Constants.proxy.plotting1d.lineSeriesCustomReplace(this, customPoints)
     }
 
     // JS logic
