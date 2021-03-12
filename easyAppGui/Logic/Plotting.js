@@ -517,6 +517,9 @@ function bokehAddCalculatedDataToMainChart(data, specs) {
 function bokehAddDataToBraggChart(data, specs) {
     return [`bragg_source.data.x_bragg = [${data.bragg.x}]`,
             `bragg_source.data.y_bragg = [${data.bragg.y}]`,
+            `bragg_source.data.h_bragg = [${data.bragg.h}]`,
+            `bragg_source.data.k_bragg = [${data.bragg.k}]`,
+            `bragg_source.data.l_bragg = [${data.bragg.l}]`,
 
             `const braggTicks = new Bokeh.Scatter({`,
             `   x: { field: "x_bragg" },`,
@@ -610,7 +613,7 @@ function bokehBraggTooltipSpan(color, label, value) {
 
 function bokehAddBraggTooltip(specs) {
     const x_bragg = bokehBraggTooltipSpan(EaStyle.Colors.themeForegroundDisabled, 'x', '@x_bragg{0.00}')
-    const hkl_bragg = bokehBraggTooltipSpan(specs.calculatedLineColor, 'hkl', '@y_bragg{0.00}')
+    const hkl_bragg = bokehBraggTooltipSpan(specs.calculatedLineColor, 'hkl', '(@h_bragg @k_bragg @l_bragg)')
 
     const table = [`<div style="padding:2px">`,
                    x_bragg,
