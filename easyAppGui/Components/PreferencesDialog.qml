@@ -120,11 +120,11 @@ EaElements.Dialog {
 
              EaElements.ComboBox {
                 width: EaStyle.Sizes.fontPixelSize * 12
-                model: ExGlobals.Constants.proxy.plotting1dLibs
-                onActivated: ExGlobals.Constants.proxy.current1dPlottingLib = currentValue
+                model: ExGlobals.Constants.proxy.plotting1d.libs
+                onActivated: ExGlobals.Constants.proxy.plotting1d.currentLib = currentValue
 
                 Component.onCompleted: {
-                    currentIndex = model.indexOf(ExGlobals.Constants.proxy.current1dPlottingLib)
+                    currentIndex = model.indexOf(ExGlobals.Constants.proxy.plotting1d.currentLib)
                 }
             }
         }

@@ -249,7 +249,7 @@ EaCharts.BasePlot {
 
                     markerShape: ScatterSeries.MarkerShapeRectangle
                     markerSize: 1.5 * fontPixelSize
-                    brush: ExGlobals.Constants.proxy.qtCharts.verticalLine(markerSize, plot.calculatedLineColor)
+                    brush: ExGlobals.Constants.proxy.plotting1d.verticalLine(markerSize, plot.calculatedLineColor)
 
                     customPoints: plot.braggData.xy
 

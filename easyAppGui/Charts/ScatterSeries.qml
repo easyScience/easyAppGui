@@ -19,10 +19,10 @@ ScatterSeries {
     // Python-based logic
 
     function customAppend() {
-        ExGlobals.Constants.proxy.qtCharts.lineSeriesCustomReplace(series, customPoints)
+        ExGlobals.Constants.proxy.plotting1d.lineSeriesCustomReplace(series, customPoints)
     }
 
     function customReplacePoints() {
-        ExGlobals.Constants.proxy.qtCharts.lineSeriesCustomReplace(series, customPoints)
+        ExGlobals.Constants.proxy.plotting1d.lineSeriesCustomReplace(series, customPoints)
     }
 }
