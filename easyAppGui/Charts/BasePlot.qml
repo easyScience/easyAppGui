@@ -13,6 +13,7 @@ Rectangle {
     property var calculatedData: ({})
     property var differenceData: ({})
     property var braggData: ({})
+    property var backgroundData: ({})
     property var plotRanges: ({})
 
     property bool hasMeasuredData: typeof measuredData !== 'undefined'
@@ -25,6 +26,8 @@ Rectangle {
                                      && Object.keys(differenceData).length
     property bool hasBraggData: typeof braggData !== 'undefined'
                                 && Object.keys(braggData).length
+    property bool hasBackgroundData: typeof backgroundData !== 'undefined'
+                                && Object.keys(backgroundData).length
     property bool hasPlotRangesData: typeof plotRanges !== 'undefined'
                                      && Object.keys(plotRanges).length
 
@@ -58,13 +61,15 @@ Rectangle {
     property color measuredLineColor: EaStyle.Colors.chartForegrounds[0]
     property color measuredAreaColor: measuredLineColor
     property color calculatedLineColor: EaStyle.Colors.chartForegrounds[1]
-    property color braggTicksColor: calculatedLineColor
     property color differenceLineColor: EaStyle.Colors.chartForegrounds[2]
+    property color braggTicksColor: calculatedLineColor
+    property color backgroundLineColor: EaStyle.Colors.chartAxis
     property color differenceAreaColor: differenceLineColor
 
     property int measuredLineWidth: 1
     property int calculatedLineWidth: 2
     property int differenceLineWidth: 1
+    property int backgroundLineWidth: 2
 
     property int fontPixelSize: EaStyle.Sizes.fontPixelSize
 

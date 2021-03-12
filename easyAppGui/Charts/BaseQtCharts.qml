@@ -77,6 +77,18 @@ EaCharts.BasePlot {
                     }
                 }
 
+                // Background curve
+                EaCharts.LineSeries {
+                    color: plot.backgroundLineColor
+                    width: plot.backgroundLineWidth
+                    style: Qt.DotLine
+
+                    axisX: mainAxisX
+                    axisY: mainAxisY
+
+                    customPoints: plot.backgroundData.xy
+                }
+
                 // Measured data
                 EaCharts.AreaSeries {
                     color: measuredLineColor
@@ -96,6 +108,7 @@ EaCharts.BasePlot {
                 // Calculated curve
                 EaCharts.LineSeries {
                     color: plot.calculatedLineColor
+                    width: plot.calculatedLineWidth
 
                     axisX: mainAxisX
                     axisY: mainAxisY

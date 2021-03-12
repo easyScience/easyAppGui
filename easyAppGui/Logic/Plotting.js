@@ -188,6 +188,7 @@ function bokehChart(data, specs) {
     // Data sources
     chart.push('const main_source = new Bokeh.ColumnDataSource()')
     chart.push('const bragg_source = new Bokeh.ColumnDataSource()')
+    chart.push('const background_source = new Bokeh.ColumnDataSource()')
 
     // Charts array
     chart.push('const charts = []')
@@ -197,6 +198,9 @@ function bokehChart(data, specs) {
     chart.push(...bokehAddMainTools('main_chart'))
     chart.push(...bokehAddHiddenXAxis('main_chart', specs))
     chart.push(...bokehAddVisibleYAxis('main_chart', specs))
+    if (data.hasBackground) {
+        chart.push(...bokehAddBackgroundDataToMainChart(data, specs))
+    }
     if (data.hasMeasured) {
         chart.push(...bokehAddMeasuredDataToMainChart(data, specs))
     }
@@ -466,6 +470,21 @@ function bokehAddHiddenYAxis(chart) {
 
 // Bokeh data
 
+function bokehAddBackgroundDataToMainChart(data, specs) {
+    return [`background_source.data.x_bkg = [${data.background.x}]`,
+            `background_source.data.y_bkg = [${data.background.y}]`,
+
+            'const bkgLine = new Bokeh.Line({',
+            '    x: { field: "x_bkg" },',
+            '    y: { field: "y_bkg" },',
+            `    line_color: "${specs.backgroundLineColor}",`,
+            `    line_dash: [4, 2],`,
+            `    line_width: ${specs.backgroundLineWidth},`,
+            '})',
+
+            'main_chart.add_glyph(bkgLine, background_source)']
+}
+
 function bokehAddMeasuredDataToMainChart(data, specs) {
     return [`main_source.data.x_meas = [${data.measured.x}]`,
             `main_source.data.y_meas = [${data.measured.y}]`,
@@ -525,7 +544,7 @@ function bokehAddDataToBraggChart(data, specs) {
             `   x: { field: "x_bragg" },`,
             `   y: { field: "y_bragg" },`,
             `   marker: "dash",`,
-            `   size: ${specs.fontPixelSize * 1.5},`,
+            `   size: ${1.5 * specs.fontPixelSize},`,
             `   line_color: "${specs.braggTicksColor}",`,
             `   angle: ${Math.PI / 2.}`,
             `})`,

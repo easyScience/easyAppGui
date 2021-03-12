@@ -13,12 +13,14 @@ EaCharts.BasePlot {
         'calculated': plot.calculatedData,
         'difference': plot.differenceData,
         'bragg': plot.braggData,
+        'background': plot.backgroundData,
         'ranges': plot.plotRanges,
 
         'hasMeasured': plot.hasMeasuredData,
         'hasCalculated': plot.hasCalculatedData,
-        'hasBragg': plot.hasBraggData,
         'hasDifference': plot.hasDifferenceData,
+        'hasBragg': plot.hasBraggData,
+        'hasBackground': plot.hasBackgroundData,
         'hasPlotRanges': plot.hasPlotRangesData
     }
 
@@ -41,13 +43,15 @@ EaCharts.BasePlot {
         'measuredLineColor': plot.measuredLineColor,
         'measuredAreaColor': plot.measuredAreaColor,
         'calculatedLineColor': plot.calculatedLineColor,
-        'braggTicksColor': plot.braggTicksColor,
         'differenceLineColor': plot.differenceLineColor,
+        'braggTicksColor': plot.braggTicksColor,
+        'backgroundLineColor': plot.backgroundLineColor,
         'differenceAreaColor': plot.differenceAreaColor,
 
         'measuredLineWidth': plot.measuredLineWidth,
         'calculatedLineWidth': plot.calculatedLineWidth,
         'differenceLineWidth': plot.differenceLineWidth,
+        'backgroundLineWidth': plot.backgroundLineWidth,
 
         'fontPixelSize': plot.fontPixelSize
     }
