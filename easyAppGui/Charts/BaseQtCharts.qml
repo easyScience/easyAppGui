@@ -266,22 +266,7 @@ EaCharts.BasePlot {
 
                     customPoints: plot.braggData.xy
 
-                    onHovered: {
-                        if (!mainChart.allowHover) {
-                            return
-                        }
-                        const p = braggChart.mapToPosition(point)
-                        const text = [`<div>`,
-                                      `<span style="color:${EaStyle.Colors.themeForegroundDisabled}">x:&nbsp;${point.x}</span>`,
-                                      '&nbsp;',
-                                      `<span style="color:${plot.calculatedLineColor}">hkl:&nbsp;${point.y}</span>`,
-                                      `</div>`].join('\n')
-                        braggInfoToolTip.parent = braggChart
-                        braggInfoToolTip.visible = state
-                        braggInfoToolTip.x = p.x
-                        braggInfoToolTip.y = p.y - braggInfoToolTip.height
-                        braggInfoToolTip.text = text
-                    }
+                    onHovered: showBraggTooltip(point, state)
                 }
             }
         }
@@ -442,36 +427,65 @@ EaCharts.BasePlot {
 
     }
 
+    ////////
     // Logic
+    ////////
 
-    function mainToolTipData(point) {
-        let xy = []
-        if (plot.hasMeasuredData) {
-            xy = plot.measuredData.xy
-        } else if (plot.hasCalculatedData) {
-            xy = plot.calculatedData.xy
-        } else {
+    // Bragg chart tooltip
+
+    function showBraggTooltip(point, state) {
+        if (!mainChart.allowHover) {
+            return
+        }
+        braggInfoToolTip.parent = braggChart
+        braggInfoToolTip.visible = state
+        const data = braggToolTipData(point)
+        if (data === null) {
+            return
+        }
+        const pos = braggChart.mapToPosition(point)
+        braggInfoToolTip.x = pos.x
+        braggInfoToolTip.y = pos.y - braggInfoToolTip.height
+        braggInfoToolTip.text = braggTooltip(data)
+    }
+
+    function braggToolTipData(point) {
+        if (!plot.hasBraggData) {
             return null
         }
-        let data = {}
-        for (let i in xy) {
-            if (Math.abs(point.x - xy[i].x) <= 0.01) {
-                data.x = xy[i].x
-                if (plot.hasMeasuredData) {
-                    data.y_meas = plot.measuredData.xy[i].y
-                    data.sy_meas = plot.measuredData.xy_upper[i].y - plot.measuredData.xy[i].y
-                }
-                if (plot.hasCalculatedData) {
-                    data.y_calc = plot.calculatedData.xy[i].y
-                }
-                if (plot.hasDifferenceData) {
-                    data.y_diff = plot.differenceData.xy[i].y
-                }
+        let data = { 'x': [], 'h': [], 'k': [], 'l': [] }
+        for (let i in plot.braggData.xy) {
+            if (point.x === plot.braggData.xy[i].x) {
+                data.x.push(plot.braggData.xy[i].x)
+                data.h.push(plot.braggData.h[i])
+                data.k.push(plot.braggData.k[i])
+                data.l.push(plot.braggData.l[i])
                 return data
             }
         }
         return null
     }
+
+    function braggTooltip(data) {
+        let table = []
+        for (let i in data.x) {
+            table.push(`<div>`)
+            const x = braggTooltipRow(EaStyle.Colors.themeForegroundDisabled, 'x', `${data.x[i].toFixed(2)}`)
+            table.push(x)
+            table.push('&nbsp;')
+            const hkl = braggTooltipRow(plot.calculatedLineColor, 'hkl', `(${data.h[i]} ${data.k[i]} ${data.l[i]})`)
+            table.push(hkl)
+            table.push(`</div>`)
+        }
+        const tooltip = table.join('\n')
+        return tooltip
+    }
+
+    function braggTooltipRow(color, label, value, sigma='') {
+        return `<span style="color:${color}">${label}:&nbsp;${value}</span>`
+    }
+
+    // Main chart tooltip
 
     function showMainTooltip(chart, line, point, state) {
         if (!mainChart.allowHover) {
@@ -489,12 +503,33 @@ EaCharts.BasePlot {
         mainInfoToolTip.text = mainTooltip(data)
     }
 
-    function mainTooltipRow(color, label, value, sigma='') {
-        return [`<tr style="color:${color}">`,
-                `   <td style="text-align:right">${label}:&nbsp;</td>`,
-                `   <td style="text-align:right">${value}</td>`,
-                `   <td>${sigma}</td>`,
-                `</tr>`]
+    function mainToolTipData(point) {
+        let xy = []
+        if (plot.hasMeasuredData) {
+            xy = plot.measuredData.xy
+        } else if (plot.hasCalculatedData) {
+            xy = plot.calculatedData.xy
+        } else {
+            return null
+        }
+        let data = {}
+        for (let i in xy) {
+            if (point.x === xy[i].x) {
+                data.x = xy[i].x
+                if (plot.hasMeasuredData) {
+                    data.y_meas = plot.measuredData.xy[i].y
+                    data.sy_meas = plot.measuredData.xy_upper[i].y - plot.measuredData.xy[i].y
+                }
+                if (plot.hasCalculatedData) {
+                    data.y_calc = plot.calculatedData.xy[i].y
+                }
+                if (plot.hasDifferenceData) {
+                    data.y_diff = plot.differenceData.xy[i].y
+                }
+                return data
+            }
+        }
+        return null
     }
 
     function mainTooltip(data) {
@@ -521,6 +556,16 @@ EaCharts.BasePlot {
         const tooltip = table.join('\n')
         return tooltip
     }
+
+    function mainTooltipRow(color, label, value, sigma='') {
+        return [`<tr style="color:${color}">`,
+                `   <td style="text-align:right">${label}:&nbsp;</td>`,
+                `   <td style="text-align:right">${value}</td>`,
+                `   <td>${sigma}</td>`,
+                `</tr>`]
+    }
+
+    // Misc
 
     function differenceChartMeanY() {
         let ySum = 0, yCount = 0
