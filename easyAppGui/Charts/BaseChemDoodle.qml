@@ -20,7 +20,9 @@ Rectangle {
         'chartWidth': container.width.toString(),
         'chartHeight': container.height.toString(),
         'chartBackgroundColor': backgroundColor,
-        'chartForegroundColor': foregroundColor
+        'chartForegroundColor': foregroundColor,
+
+        'fontPixelSize': EaStyle.Sizes.fontPixelSize
     }
 
     property string html: EaLogic.Plotting.chemDoodleHtml(cifStr, chartSpecs)
@@ -31,6 +33,10 @@ Rectangle {
         anchors.fill: parent
         anchors.margins: 0
         backgroundColor: backgroundColor
+
+        onContextMenuRequested: {
+            request.accepted = true
+        }
     }
 
     onHtmlChanged: {

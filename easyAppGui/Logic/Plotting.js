@@ -10,7 +10,7 @@ function headCommon() {
     return list.join('\n')
 }
 
-function charthHtml(head, chart) {
+function chartHtml(head, chart, toolbar='') {
     const list = [
               '<!DOCTYPE html>',
               '<html>',
@@ -18,6 +18,7 @@ function charthHtml(head, chart) {
               head,
               '</head>',
               '<body>',
+              toolbar,
               '<script>',
               chart,
               '</script>',
@@ -39,9 +40,10 @@ function chemDoodleInfo() {
 }
 
 function chemDoodleHtml(cifStr, specs) {
-    const head = chemDoodleHead()
+    const head = chemDoodleHead(specs)
     const chart = chemDoodleChart(cifStr, specs)
-    const html = charthHtml(head, chart)
+    const toolbar = chemDoodleToolbar()
+    const html = chartHtml(head, chart, toolbar)
     return html
 }
 
@@ -54,28 +56,56 @@ function chemDoodleHeadScripts() {
     return list.join('\n')
 }
 
-function chemDoodleHeadStyle() {
+function chemDoodleHeadStyle(specs) {
     const list = [
-              '<style type="text/css">',
-              '* { ',
-              '    margin: 0;',
-              '    padding: 0;',
-              '    box-sizing: border-box;',
-              '}',
-              'body {',
-              '    overflow: hidden;',
-              '    font-family: "PT Sans", sans-serif;',
-              '}',
-              '</style>'
+              `<style type="text/css">`,
+              `* { `,
+              `    margin: 0;`,
+              `    padding: 0;`,
+              `    box-sizing: border-box;`,
+              `}`,
+              `body {`,
+              `    overflow: hidden;`,
+              `    font-family: "PT Sans", sans-serif;`,
+              `}`,
+              `button {`,
+              `    margin-left: ${0.5 * specs.fontPixelSize}px;`,
+              `    padding: ${0.5 * specs.fontPixelSize}px ${0.5 * specs.fontPixelSize}px;`,
+              `    color: ${EaStyle.Colors.themeForeground};`,
+              `    background: ${EaStyle.Colors.contentBackground};`,
+              `    border: 1px solid ${EaStyle.Colors.chartAxis};`,
+              `}`,
+              `button:hover {`,
+              `    color: ${EaStyle.Colors.themeForegroundHovered};`,
+              `    background: ${EaStyle.Colors.themeBackgroundHovered1};`,
+              `}`,
+              `button:focus {`,
+              `    outline: 0;`,
+              `}`,
+              `#toolbar {`,
+              `    position: absolute;`,
+              `    top: 0px;`,
+              `    right: 0px;`,
+              `    margin-top: ${0.5 * specs.fontPixelSize}px;`,
+              `    margin-right: ${0.5 * specs.fontPixelSize}px;`,
+              `}`,
+              `</style>`
           ]
     return list.join('\n')
 }
 
-function chemDoodleHead() {
+function chemDoodleHead(specs) {
     const list = [
             headCommon(),
             chemDoodleHeadScripts(),
-            chemDoodleHeadStyle()
+            chemDoodleHeadStyle(specs)
+          ]
+    return list.join('\n')
+}
+
+function chemDoodleToolbar() {
+    const list = [
+              '<div id="toolbar"></div>'
           ]
     return list.join('\n')
 }
@@ -87,22 +117,101 @@ function chemDoodleChart(cifStr, specs) {
               'const ySuper = 1',
               'const zSuper = 1',
               'const phase = ChemDoodle.readCIF(cifStr, xSuper, ySuper, zSuper)',
+
               `const crystalTransformer = new ChemDoodle.TransformCanvas3D("crystalTransformer", ${specs.chartWidth}, ${specs.chartHeight})`,
+
               'crystalTransformer.styles.set3DRepresentation("Ball and Stick")',
-              'crystalTransformer.styles.projectionPerspective_3D = true',
+
+              'crystalTransformer.styles.projectionPerspective_3D = true',  // true - perspective, false - orthographic
               'crystalTransformer.styles.projectionPerspectiveVerticalFieldOfView_3D = 20',
+
+              'crystalTransformer.styles.atoms_display = true',
+              'crystalTransformer.styles.atoms_displayLabels_3D = true',
+              'crystalTransformer.styles.atoms_useJMOLColors = true',
+              'crystalTransformer.styles.atoms_usePYMOLColors = false',
+
               `crystalTransformer.styles.bonds_display = ${specs.showBonds}`,
               'crystalTransformer.styles.bonds_splitColor = true',
-              'crystalTransformer.styles.atoms_displayLabels_3D = true',
+              'crystalTransformer.styles.bonds_cylinderDiameter_3D = 0.2',
+
               'crystalTransformer.styles.compass_display = true',
-              'crystalTransformer.styles.compass_type_3D = 0',
+              'crystalTransformer.styles.compass_type_3D = 0', // 0 - corner, 1 - origin
               'crystalTransformer.styles.compass_size_3D = 70',
               'crystalTransformer.styles.compass_displayText_3D = true',
-              `crystalTransformer.styles.shapes_color = "${specs.chartForegroundColor}"`,
-              'crystalTransformer.styles.text_font_size = 12',
+
               'crystalTransformer.styles.text_font_families = ["PT Sans", "Helvetica", "Arial", "Dialog"]',
+              'crystalTransformer.styles.text_font_size = 12',
+
+              `crystalTransformer.styles.shapes_color = "${specs.chartForegroundColor}"`,
               `crystalTransformer.styles.backgroundColor = "${specs.chartBackgroundColor}"`,
-              'crystalTransformer.loadContent([phase.molecule],[phase.unitCell])'
+
+              'crystalTransformer.loadContent([phase.molecule], [phase.unitCell])',
+
+              'crystalTransformer.rotationMatrix = [0.9703,0,-0.2419,0,0,1,0,0,0.2419,0,0.9703,0,0,0,0,1]',
+              'crystalTransformer.camera.zoomOut()',
+              'crystalTransformer.setupScene()',
+              'crystalTransformer.repaint()',
+
+              'const perspective_view = document.createElement("button")',
+              'perspective_view.innerHTML = "Perspective"',
+
+              'const reset_view = document.createElement("button")',
+              'reset_view.innerHTML = "Reset view"',
+
+              'const a_view = document.createElement("button")',
+              'a_view.innerHTML = "x"',
+              'const b_view = document.createElement("button")',
+              'b_view.innerHTML = "y"',
+              'const c_view = document.createElement("button")',
+              'c_view.innerHTML = "z"',
+
+              'const show_bonds = document.createElement("button")',
+              'show_bonds.innerHTML = "Show bonds"',
+
+              'const show_labels = document.createElement("button")',
+              'show_labels.innerHTML = "Show labels"',
+
+              'const toolbar = document.getElementById("toolbar")',
+              'toolbar.appendChild(show_bonds)',
+              'toolbar.appendChild(show_labels)',
+              'toolbar.appendChild(perspective_view)',
+              'toolbar.appendChild(a_view)',
+              'toolbar.appendChild(b_view)',
+              'toolbar.appendChild(c_view)',
+              'toolbar.appendChild(reset_view)',
+
+              'perspective_view.addEventListener ("click", function() {',
+              '    crystalTransformer.styles.projectionPerspective_3D = !crystalTransformer.styles.projectionPerspective_3D',
+              '    crystalTransformer.setupScene()',
+              '    crystalTransformer.repaint()',
+              '})',
+
+              'a_view.addEventListener ("click", function() {',
+              '    crystalTransformer.rotationMatrix = [ 0,0,1,0,1,0,0,0,0,1,0,0,0,0,0,1]',
+              '    crystalTransformer.repaint()',
+              '})',
+              'b_view.addEventListener ("click", function() {',
+              '    crystalTransformer.rotationMatrix = [0,1,0,0,0,0,1,0,1,0,0,0,0,0,0,1]',
+              '    crystalTransformer.repaint()',
+              '})',
+              'c_view.addEventListener ("click", function() {',
+              '    crystalTransformer.rotationMatrix = [1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1]',
+              '    crystalTransformer.repaint()',
+              '})',
+
+              'reset_view.addEventListener ("click", function() {',
+              '    location.reload()',
+              '})',
+
+              'show_bonds.addEventListener ("click", function() {',
+              '    crystalTransformer.styles.bonds_display = !crystalTransformer.styles.bonds_display',
+              '    crystalTransformer.repaint()',
+              '})',
+
+              'show_labels.addEventListener ("click", function() {',
+              '    crystalTransformer.styles.atoms_displayLabels_3D = !crystalTransformer.styles.atoms_displayLabels_3D',
+              '    crystalTransformer.repaint()',
+              '})',
           ]
     return list.join('\n')
 }
@@ -122,7 +231,7 @@ function bokehInfo() {
 function bokehHtml(data, specs) {
     const head = bokehHead(specs)
     const chart = bokehChart(data, specs)
-    const html = charthHtml(head, chart)
+    const html = chartHtml(head, chart)
     return html
 }
 
