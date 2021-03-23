@@ -12,7 +12,7 @@ Rectangle {
     id: container
 
     property string cifStr: ""
-    onCifStrChanged: chartView.runJavaScript(`reloadCif(${cifStr})`)
+    onCifStrChanged: structureView.runJavaScript(`reloadCif(${cifStr})`)
 
     //property int size: Math.min(width, height)
     //onWidthChanged: setChartSizes()
@@ -27,7 +27,15 @@ Rectangle {
     color: EaStyle.Colors.chartPlotAreaBackground
 
     WebEngineView {
-        id: chartView
+        id: structureView
+
+        property var info: {
+            'version': '9.2.0',
+            'url': 'https://web.chemdoodle.com',
+            'baseSrc': 'http://easyscience.apptimity.com/easyDiffraction/libs'
+        }
+        property string src: `${structureView.info.baseSrc}/ChemDoodleWeb-${structureView.info.version}.min.js`
+        property string headScript: `<script type="text/javascript" src="${structureView.src}"></script>`
 
         anchors.fill: parent
         anchors.margins: 0
@@ -72,8 +80,9 @@ Rectangle {
             width: EaStyle.Sizes.toolButtonHeight
             borderColor: EaStyle.Colors.chartAxis
             fontIcon: "bone"
-            ToolTip.text: checked ? qsTr("Hide bonds") : qsTr("Show bonds")
-            onClicked: chartView.runJavaScript("showBondsAction()")
+            ToolTip.text: qsTr("Show/hide bonds") //checked ? qsTr("Hide bonds") : qsTr("Show bonds")
+            onClicked: structureView.runJavaScript("showBondsAction()")
+            Component.onCompleted: ExGlobals.Variables.showBondsButton = this
         }
 
         EaElements.TabButton {
@@ -83,8 +92,9 @@ Rectangle {
             width: EaStyle.Sizes.toolButtonHeight
             borderColor: EaStyle.Colors.chartAxis
             fontIcon: "tag"
-            ToolTip.text: checked ? qsTr("Hide labels") : qsTr("Show labels")
-            onClicked: chartView.runJavaScript("showLabelsAction()")
+            ToolTip.text: qsTr("Show/hide labels") //checked ? qsTr("Hide labels") : qsTr("Show labels")
+            onClicked: structureView.runJavaScript("showLabelsAction()")
+            Component.onCompleted: ExGlobals.Variables.showLabelsButton = this
         }
 
         Item {
@@ -99,8 +109,9 @@ Rectangle {
             width: EaStyle.Sizes.toolButtonHeight
             borderColor: EaStyle.Colors.chartAxis
             fontIcon: "cube"
-            ToolTip.text: checked ? qsTr("Set orthographic view") : qsTr("Set perspective view")
-            onClicked: chartView.runJavaScript("changeProjectionTypeAction()")
+            ToolTip.text: qsTr("Set perspective/orthographic view") //checked ? qsTr("Set orthographic view") : qsTr("Set perspective view")
+            onClicked: structureView.runJavaScript("changeProjectionTypeAction()")
+            Component.onCompleted: ExGlobals.Variables.projectionTypeButton = this
         }
 
         Item {
@@ -116,7 +127,8 @@ Rectangle {
             borderColor: EaStyle.Colors.chartAxis
             fontIcon: "x"
             ToolTip.text: qsTr("View along the x axis")
-            onClicked: chartView.runJavaScript("xProjectionAction()")
+            onClicked: structureView.runJavaScript("xProjectionAction()")
+            Component.onCompleted: ExGlobals.Variables.xProjectionButton = this
         }
 
         EaElements.TabButton {
@@ -127,7 +139,8 @@ Rectangle {
             borderColor: EaStyle.Colors.chartAxis
             fontIcon: "y"
             ToolTip.text: qsTr("View along the y axis")
-            onClicked: chartView.runJavaScript("yProjectionAction()")
+            onClicked: structureView.runJavaScript("yProjectionAction()")
+            Component.onCompleted: ExGlobals.Variables.yProjectionButton = this
         }
 
         EaElements.TabButton {
@@ -138,7 +151,8 @@ Rectangle {
             borderColor: EaStyle.Colors.chartAxis
             fontIcon: "z"
             ToolTip.text: qsTr("View along the z axis")
-            onClicked: chartView.runJavaScript("zProjectionAction()")
+            onClicked: structureView.runJavaScript("zProjectionAction()")
+            Component.onCompleted: ExGlobals.Variables.zProjectionButton = this
         }
 
         EaElements.TabButton {
@@ -149,7 +163,8 @@ Rectangle {
             borderColor: EaStyle.Colors.chartAxis
             fontIcon: "home"
             ToolTip.text: qsTr("Reset to default view")
-            onClicked: chartView.runJavaScript("defaultViewAction()")
+            onClicked: structureView.runJavaScript("defaultViewAction()")
+            Component.onCompleted: ExGlobals.Variables.defaultViewButton = this
         }
     }
 
@@ -157,28 +172,28 @@ Rectangle {
 
     function getSource(){
         var js = "document.documentElement.outerHTML"
-        chartView.runJavaScript(js, function(result){console.log(result)})
+        structureView.runJavaScript(js, function(result){console.log(result)})
     }
 
     function hideChartToolbar() {
-        chartView.runJavaScript(`showToolbar(false)`)
+        structureView.runJavaScript(`showToolbar(false)`)
     }
 
     function reloadCif() {
-        chartView.runJavaScript(`reloadCif(${cifStr})`)
+        structureView.runJavaScript(`reloadCif(${cifStr})`)
     }
 
     function setChartSizes() {
         const sizes = {
-            '--chartWidth': chartView.width,
-            '--chartHeight': chartView.height,
+            '--chartWidth': structureView.width,
+            '--chartHeight': structureView.height,
             '--fontPixelSize': EaStyle.Sizes.fontPixelSize,
             '--toolButtonHeight': EaStyle.Sizes.toolButtonHeight
         }
         for (let key in sizes) {
-            chartView.runJavaScript(`document.documentElement.style.setProperty('${key}', '${sizes[key]}')`)
+            structureView.runJavaScript(`document.documentElement.style.setProperty('${key}', '${sizes[key]}')`)
         }
-        chartView.runJavaScript(`setChartSizesExtra()`)
+        structureView.runJavaScript(`setChartSizesExtra()`)
     }
 
     function setChartColors() {
@@ -195,9 +210,9 @@ Rectangle {
             '--tooltipBorderColor': EaStyle.Colors.themePrimary
         }
         for (let key in colors) {
-            chartView.runJavaScript(`document.documentElement.style.setProperty('${key}', '${colors[key]}')`)
+            structureView.runJavaScript(`document.documentElement.style.setProperty('${key}', '${colors[key]}')`)
         }
-        chartView.runJavaScript(`setChartColorsExtra()`)
+        structureView.runJavaScript(`setChartColorsExtra()`)
     }
 
 }
