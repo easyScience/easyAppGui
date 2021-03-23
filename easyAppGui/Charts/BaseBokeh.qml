@@ -1,7 +1,9 @@
 import QtQuick 2.13
+import QtQuick.Controls 2.13
 import QtWebEngine 1.10
 
 import easyAppGui.Style 1.0 as EaStyle
+import easyAppGui.Elements 1.0 as EaElements
 import easyAppGui.Logic 1.0 as EaLogic
 import easyAppGui.Charts 1.0 as EaCharts
 
@@ -70,6 +72,62 @@ EaCharts.BasePlot {
             request.accepted = true
         }
     }
+
+    /////////////////////
+    // Chart tool buttons
+    /////////////////////
+
+    /*
+    Row {
+        anchors.top: parent.top
+        anchors.right: parent.right
+
+        anchors.topMargin: plot.fontPixelSize
+        anchors.rightMargin: plot.fontPixelSize
+
+        spacing: 3
+
+        EaElements.TabButton {
+            //checked: mainChart.allowZoom
+            autoExclusive: false
+            height: plot.chartToolButtonsHeight
+            width: plot.chartToolButtonsHeight
+            borderColor: EaStyle.Colors.chartAxis
+            fontIcon: "expand"
+            ToolTip.text: qsTr("Box zoom")
+            //onClicked: mainChart.allowZoom = !mainChart.allowZoom
+        }
+
+        EaElements.TabButton {
+            checkable: false
+            height: plot.chartToolButtonsHeight
+            width: plot.chartToolButtonsHeight
+            borderColor: EaStyle.Colors.chartAxis
+            fontIcon: "sync-alt"
+            ToolTip.text: qsTr("Reset")
+            //onClicked: mainChart.zoomReset()
+            onClicked: chartView.runJavaScript("OnClick()", function(result) {
+                console.log(result);
+                //var button = document.querySelector(".bk-tool-icon-reset");
+                //console.log("!!!!!!!!!!!!!!!!!", button)
+                //if (button) {
+                //  button.click();
+                //}
+            });
+        }
+
+        EaElements.TabButton {
+            //checked: mainChart.allowHover
+            autoExclusive: false
+            height: plot.chartToolButtonsHeight
+            width: plot.chartToolButtonsHeight
+            borderColor: EaStyle.Colors.chartAxis
+            fontIcon: "comment-alt"
+            ToolTip.text: qsTr("Hover")
+            //onClicked: mainChart.allowHover = !mainChart.allowHover
+        }
+    }
+    */
 
     onHtmlChanged: {
         //print(html)

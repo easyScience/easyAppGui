@@ -6,7 +6,7 @@ import easyAppGui.Logic 1.0 as EaLogic
 Rectangle {
     id: container
 
-    property int chartToolButtonsHeight: 30
+    property int chartToolButtonsHeight: EaStyle.Sizes.toolButtonHeight
     property int paddings: EaStyle.Sizes.fontPixelSize
 
     property var measuredData: ({})

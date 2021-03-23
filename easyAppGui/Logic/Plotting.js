@@ -5,7 +5,8 @@
 function headCommon() {
     const list = [
               '<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>',
-              '<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=PT+Sans:400">'
+              '<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=PT+Sans:400">',
+              '<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">'
           ]
     return list.join('\n')
 }
@@ -39,92 +40,11 @@ function chemDoodleInfo() {
     }
 }
 
-function chemDoodleHtml(cifStr, specs) {
-    const head = chemDoodleHead(specs)
-    const chart = chemDoodleChart(cifStr, specs)
-    const toolbar = chemDoodleToolbar()
-    const html = chartHtml(head, chart, toolbar)
-    return html
-}
-
 function chemDoodleHeadScripts() {
     const baseSrc = 'http://easyscience.apptimity.com/easyDiffraction/libs'
     const version = chemDoodleInfo().version
     const list = [
               `<script type="text/javascript" src="${baseSrc}/ChemDoodleWeb-${version}.js"></script>`
-          ]
-    return list.join('\n')
-}
-
-function chemDoodleHeadStyle(specs) {
-    const list = [
-              `<style type="text/css">`,
-              `* { `,
-              `    margin: 0;`,
-              `    padding: 0;`,
-              `    box-sizing: border-box;`,
-              `}`,
-              `body {`,
-              `    overflow: hidden;`,
-              `    font-family: "PT Sans", sans-serif;`,
-              `}`,
-              `button {`,
-              `    margin-left: ${0.5 * specs.fontPixelSize}px;`,
-              `    padding: ${0.5 * specs.fontPixelSize}px ${0.5 * specs.fontPixelSize}px;`,
-              `    color: ${EaStyle.Colors.themeForeground};`,
-              `    background: ${EaStyle.Colors.contentBackground};`,
-              `    border: 1px solid ${EaStyle.Colors.chartAxis};`,
-              `}`,
-              `button:hover {`,
-              `    color: ${EaStyle.Colors.themeForegroundHovered};`,
-              `    background: ${EaStyle.Colors.themeBackgroundHovered1};`,
-              `}`,
-              `button:focus {`,
-              `    outline: 0;`,
-              `}`,
-              `[data-tooltip]:before {`,
-              `    content: attr(data-tooltip);`,
-              `    position: absolute;`,
-              `    opacity: 0;`,
-              `    transition: all 0.15s ease;`,
-              `    padding: ${0.5 * specs.fontPixelSize}px;`,
-              `    color: ${EaStyle.Colors.themeForeground};`,
-              `}`,
-              `[data-tooltip]:hover:before {`,
-              `    opacity: 1;`,
-              `    top: 100%;`,
-              `    margin-top: ${0.5 * specs.fontPixelSize}px;`,
-              `    margin-left: ${-3.0 * specs.fontPixelSize}px;`,
-              `    background: ${EaStyle.Colors.dialogBackground};`,
-              `    border: 1px solid ${EaStyle.Colors.themePrimary};`,
-              `}`,
-              `[data-tooltip]:not([data-tooltip-persistent]):before {`,
-              `    pointer-events: none;`,
-              `}`,
-              `#toolbar {`,
-              `    position: absolute;`,
-              `    top: 0px;`,
-              `    right: 0px;`,
-              `    margin-top: ${0.5 * specs.fontPixelSize}px;`,
-              `    margin-right: ${0.5 * specs.fontPixelSize}px;`,
-              `}`,
-              `</style>`
-          ]
-    return list.join('\n')
-}
-
-function chemDoodleHead(specs) {
-    const list = [
-            headCommon(),
-            chemDoodleHeadScripts(),
-            chemDoodleHeadStyle(specs)
-          ]
-    return list.join('\n')
-}
-
-function chemDoodleToolbar() {
-    const list = [
-              '<div id="toolbar"></div>'
           ]
     return list.join('\n')
 }
@@ -182,9 +102,11 @@ function chemDoodleChart(cifStr, specs) {
               'const a_view = document.createElement("button")',
               'a_view.innerHTML = "x"',
               'a_view.setAttribute("data-tooltip", "View along the x axis")',
+
               'const b_view = document.createElement("button")',
               'b_view.innerHTML = "y"',
               'b_view.setAttribute("data-tooltip", "View along the y axis")',
+
               'const c_view = document.createElement("button")',
               'c_view.innerHTML = "z"',
               'c_view.setAttribute("data-tooltip", "View along the z axis")',
@@ -241,6 +163,46 @@ function chemDoodleChart(cifStr, specs) {
               '    crystalTransformer.repaint()',
               '    show_labels.innerHTML = crystalTransformer.styles.bonds_display ? "Hide labels": "Show labels"',
               '})',
+
+
+              'function showBonds() {',
+              '    show_bonds.click()',
+              '}',
+              'function showLabels() {',
+              '    show_labels.click()',
+              '}',
+              'function perspectiveView() {',
+              '    perspective_view.click()',
+              '}',
+              'function aView() {',
+              '    a_view.click()',
+              '}',
+              'function bView() {',
+              '    b_view.click()',
+              '}',
+              'function cView() {',
+              '    c_view.click()',
+              '}',
+              'function resetView() {',
+              '    reset_view.click()',
+              '}',
+
+              'show_bonds.style.display = "none"',
+              'show_labels.style.display = "none"',
+              'perspective_view.style.display = "none"',
+              'a_view.style.display = "none"',
+              'b_view.style.display = "none"',
+              'c_view.style.display = "none"',
+              'reset_view.style.display = "none"',
+
+              'function reloadCif(cifStr) {',
+              '    console.log("22222222222222222", cifStr)',
+              '    const phase = ChemDoodle.readCIF(cifStr, xSuper, ySuper, zSuper)',
+              '    crystalTransformer.loadContent([phase.molecule], [phase.unitCell])',
+              '    crystalTransformer.setupScene()',
+              '    crystalTransformer.repaint()',
+              '}'
+
           ]
     return list.join('\n')
 }
@@ -378,6 +340,17 @@ function bokehChart(data, specs) {
     // Charts array grid layout
     chart.push(`const grid_options = {toolbar_location: "above"}`)
     chart.push(`const gridplot = new Bokeh.Plotting.gridplot(charts, grid_options)`)
+
+
+    chart.push(...[
+                   'function OnClick() {',
+                   'main_chart.reset.emit()',
+                   '//console.log("AAA", document.querySelector(".bk-tool-icon-reset"))',
+                   '//console.log("BBB", document.getElementById("bk-tool-icon-reset"))',
+                   '    //document.getElementById("bk-tool-icon-reset").click()',
+                   '    document.querySelector(".bk-tool-icon-reset").click()',
+                   '}'
+               ])
 
     // Show charts
     if (typeof specs.containerId !== 'undefined') {

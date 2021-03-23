@@ -17,7 +17,7 @@ T.ToolTip {
     property int textFormat: Text.RichText
 
     x: parent ? (parent.width - implicitWidth) / 2 : 0
-    y: -implicitHeight - EaStyle.Sizes.fontPixelSize
+    y: -implicitHeight - 0.75 * EaStyle.Sizes.fontPixelSize
 
     implicitWidth: Math.max(implicitBackgroundWidth + leftInset + rightInset,
                             contentWidth + leftPadding + rightPadding)
