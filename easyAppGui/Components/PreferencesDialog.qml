@@ -37,7 +37,6 @@ EaElements.Dialog {
             }
 
             EaElements.ComboBox {
-                id: themeSelector
                 width: EaStyle.Sizes.fontPixelSize * 12
                 model: [qsTr("Light"), qsTr("Dark"), qsTr("System")]
                 onActivated: {
@@ -49,7 +48,7 @@ EaElements.Dialog {
                         EaStyle.Colors.theme = EaStyle.Colors.SystemTheme
                 }
                 Component.onCompleted: {
-                    ExGlobals.Variables.themeSelector = themeSelector
+                    ExGlobals.Variables.themeSelector = this
                     if (EaStyle.Colors.theme === EaStyle.Colors.LightTheme)
                         currentIndex = 0
                     else if (EaStyle.Colors.theme === EaStyle.Colors.DarkTheme)
@@ -121,11 +120,11 @@ EaElements.Dialog {
 
              EaElements.ComboBox {
                 width: EaStyle.Sizes.fontPixelSize * 12
-                model: ExGlobals.Constants.proxy.plotting1dLibs
-                onActivated: ExGlobals.Constants.proxy.current1dPlottingLib = currentValue
+                model: ExGlobals.Constants.proxy.plotting1d.libs
+                onActivated: ExGlobals.Constants.proxy.plotting1d.currentLib = currentValue
 
                 Component.onCompleted: {
-                    currentIndex = model.indexOf(ExGlobals.Constants.proxy.current1dPlottingLib)
+                    currentIndex = model.indexOf(ExGlobals.Constants.proxy.plotting1d.currentLib)
                 }
             }
         }
@@ -156,13 +155,14 @@ EaElements.Dialog {
             EaElements.Label {
                width: EaStyle.Sizes.fontPixelSize * 9.3
                anchors.verticalCenter: parent.verticalCenter
-               text: qsTr("Tool tips") + ":"
+               text: qsTr("Enable tool tips") + ":"
             }
 
             EaElements.CheckBox {
                 //text: qsTr("Enable tool tips")
                 checked: EaGlobals.Variables.showToolTips
                 onCheckedChanged: EaGlobals.Variables.showToolTips = checked
+                Component.onCompleted: ExGlobals.Variables.enableToolTipsCheckBox = this
             }
         }
     }

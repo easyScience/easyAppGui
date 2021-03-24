@@ -12,11 +12,12 @@ T.ToolTip {
     property color textColor: EaStyle.Colors.themeForeground
     property color backgroundColor: EaStyle.Colors.dialogBackground
     property color borderColor: EaStyle.Colors.themePrimary
-    property int borderRadius: 2
-    property real backgroundOpacity: 0.9
+    property int borderRadius: 0.25 * EaStyle.Sizes.fontPixelSize
+    property real backgroundOpacity: 1.0 //0.9
+    property int textFormat: Text.RichText
 
     x: parent ? (parent.width - implicitWidth) / 2 : 0
-    y: -implicitHeight - EaStyle.Sizes.fontPixelSize
+    y: -implicitHeight - 0.75 * EaStyle.Sizes.fontPixelSize
 
     implicitWidth: Math.max(implicitBackgroundWidth + leftInset + rightInset,
                             contentWidth + leftPadding + rightPadding)
@@ -39,6 +40,8 @@ T.ToolTip {
         text: control.text
 
         color: control.textColor
+
+        textFormat: control.textFormat
     }
 
     background: Rectangle {
