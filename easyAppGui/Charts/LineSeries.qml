@@ -6,25 +6,17 @@ import easyAppGui.Style 1.0 as EaStyle
 import Gui.Globals 1.0 as ExGlobals
 
 LineSeries {
-    id: lineSeries
-
-    property var customPoints: [Qt.point(0, -1), Qt.point(10, 6), Qt.point(20, 2)]
+    property var customPoints: [] //[Qt.point(0, -1), Qt.point(10, 6)] //[{"x":0,"y":-1},{"x":10,"y":6}]
 
     width: 2.0
     color: EaStyle.Colors.chartLine
 
     onCustomPointsChanged: customReplacePoints()
 
-    Component.onCompleted: customAppend()
-
     // Python-based logic
 
-    function customAppend() {
-        ExGlobals.Constants.proxy.qtCharts.lineSeriesCustomReplace(lineSeries, customPoints)
-    }
-
     function customReplacePoints() {
-        ExGlobals.Constants.proxy.qtCharts.lineSeriesCustomReplace(lineSeries, customPoints)
+        ExGlobals.Constants.proxy.plotting1d.lineSeriesCustomReplace(this, customPoints)
     }
 
     // JS logic
