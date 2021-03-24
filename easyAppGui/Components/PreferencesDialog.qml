@@ -155,13 +155,14 @@ EaElements.Dialog {
             EaElements.Label {
                width: EaStyle.Sizes.fontPixelSize * 9.3
                anchors.verticalCenter: parent.verticalCenter
-               text: qsTr("Tool tips") + ":"
+               text: qsTr("Enable tool tips") + ":"
             }
 
             EaElements.CheckBox {
                 //text: qsTr("Enable tool tips")
                 checked: EaGlobals.Variables.showToolTips
                 onCheckedChanged: EaGlobals.Variables.showToolTips = checked
+                Component.onCompleted: ExGlobals.Variables.enableToolTipsCheckBox = this
             }
         }
     }

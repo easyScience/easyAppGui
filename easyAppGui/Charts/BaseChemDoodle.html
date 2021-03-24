@@ -185,7 +185,7 @@
         setShowLabelsButtonTooltip()
       }
 
-      function changeProjectionTypeAction() {
+      function projectionTypeAction() {
         structureViewer.styles.projectionPerspective_3D = !structureViewer.styles.projectionPerspective_3D
         structureViewer.setupScene()
         structureViewer.repaint()
@@ -265,7 +265,7 @@
       const projectionTypeButton = document.createElement("button")
       projectionTypeButton.innerHTML = "<i class='fas fa-cube'></i>"
       setProjectionTypeButtonTooltip()
-      projectionTypeButton.addEventListener("click", changeProjectionTypeAction)
+      projectionTypeButton.addEventListener("click", projectionTypeAction)
 
       const xProjectionButton = document.createElement("button")
       xProjectionButton.innerHTML = "x"

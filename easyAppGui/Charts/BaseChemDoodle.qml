@@ -74,26 +74,46 @@ Rectangle {
         spacing: 0.25 * EaStyle.Sizes.fontPixelSize
 
         EaElements.TabButton {
+            property int pageLoading: structureView.loading
+            property string htmlButtonPrefix: "showBonds"
             checkable: false
             autoExclusive: false
             height: EaStyle.Sizes.toolButtonHeight
             width: EaStyle.Sizes.toolButtonHeight
             borderColor: EaStyle.Colors.chartAxis
             fontIcon: "bone"
-            ToolTip.text: qsTr("Show/hide bonds") //checked ? qsTr("Hide bonds") : qsTr("Show bonds")
-            onClicked: structureView.runJavaScript("showBondsAction()")
+            //ToolTip.text: qsTr("Show/hide bonds") //checked ? qsTr("Hide bonds") : qsTr("Show bonds")
+            onClicked: {
+                structureView.runJavaScript(`${htmlButtonPrefix}Action()`)
+                setToolTipText(`${htmlButtonPrefix}Button`, this)
+            }
+            onPageLoadingChanged: {
+                if (pageLoading === WebEngineView.LoadStartedStatus) {
+                    setToolTipText(`${htmlButtonPrefix}Button`, this)
+                }
+            }
             Component.onCompleted: ExGlobals.Variables.showBondsButton = this
         }
 
         EaElements.TabButton {
+            property int pageLoading: structureView.loading
+            property string htmlButtonPrefix: "showLabels"
             checkable: false
             autoExclusive: false
             height: EaStyle.Sizes.toolButtonHeight
             width: EaStyle.Sizes.toolButtonHeight
             borderColor: EaStyle.Colors.chartAxis
             fontIcon: "tag"
-            ToolTip.text: qsTr("Show/hide labels") //checked ? qsTr("Hide labels") : qsTr("Show labels")
-            onClicked: structureView.runJavaScript("showLabelsAction()")
+            //ToolTip.text: qsTr("Show/hide labels") //checked ? qsTr("Hide labels") : qsTr("Show labels")
+            onClicked: {
+                structureView.runJavaScript(`${htmlButtonPrefix}Action()`)
+                setToolTipText(`${htmlButtonPrefix}Button`, this)
+            }
+            onPageLoadingChanged: {
+                if (pageLoading === WebEngineView.LoadStartedStatus) {
+                    setToolTipText(`${htmlButtonPrefix}Button`, this)
+                }
+            }
             Component.onCompleted: ExGlobals.Variables.showLabelsButton = this
         }
 
@@ -103,14 +123,24 @@ Rectangle {
         }
 
         EaElements.TabButton {
+            property int pageLoading: structureView.loading
+            property string htmlButtonPrefix: "projectionType"
             checkable: false
             autoExclusive: false
             height: EaStyle.Sizes.toolButtonHeight
             width: EaStyle.Sizes.toolButtonHeight
             borderColor: EaStyle.Colors.chartAxis
             fontIcon: "cube"
-            ToolTip.text: qsTr("Set perspective/orthographic view") //checked ? qsTr("Set orthographic view") : qsTr("Set perspective view")
-            onClicked: structureView.runJavaScript("changeProjectionTypeAction()")
+            //ToolTip.text: qsTr("Set perspective/orthographic view") //checked ? qsTr("Set orthographic view") : qsTr("Set perspective view")
+            onClicked: {
+                structureView.runJavaScript(`${htmlButtonPrefix}Action()`)
+                setToolTipText(`${htmlButtonPrefix}Button`, this)
+            }
+            onPageLoadingChanged: {
+                if (pageLoading === WebEngineView.LoadStartedStatus) {
+                    setToolTipText(`${htmlButtonPrefix}Button`, this)
+                }
+            }
             Component.onCompleted: ExGlobals.Variables.projectionTypeButton = this
         }
 
@@ -120,60 +150,83 @@ Rectangle {
         }
 
         EaElements.TabButton {
+            property int pageLoading: structureView.loading
+            property string htmlButtonPrefix: "xProjection"
             checkable: false
             autoExclusive: false
             height: EaStyle.Sizes.toolButtonHeight
             width: EaStyle.Sizes.toolButtonHeight
             borderColor: EaStyle.Colors.chartAxis
             fontIcon: "x"
-            ToolTip.text: qsTr("View along the x axis")
-            onClicked: structureView.runJavaScript("xProjectionAction()")
+            //ToolTip.text: qsTr("View along the x axis")
+            onClicked: structureView.runJavaScript(`${htmlButtonPrefix}Action()`)
+            onPageLoadingChanged: {
+                if (pageLoading === WebEngineView.LoadStartedStatus) {
+                    setToolTipText(`${htmlButtonPrefix}Button`, this)
+                }
+            }
             Component.onCompleted: ExGlobals.Variables.xProjectionButton = this
         }
 
         EaElements.TabButton {
+            property int pageLoading: structureView.loading
+            property string htmlButtonPrefix: "yProjection"
             checkable: false
             autoExclusive: false
             height: EaStyle.Sizes.toolButtonHeight
             width: EaStyle.Sizes.toolButtonHeight
             borderColor: EaStyle.Colors.chartAxis
             fontIcon: "y"
-            ToolTip.text: qsTr("View along the y axis")
-            onClicked: structureView.runJavaScript("yProjectionAction()")
+            //ToolTip.text: qsTr("View along the y axis")
+            onClicked: structureView.runJavaScript(`${htmlButtonPrefix}Action()`)
+            onPageLoadingChanged: {
+                if (pageLoading === WebEngineView.LoadStartedStatus) {
+                    setToolTipText(`${htmlButtonPrefix}Button`, this)
+                }
+            }
             Component.onCompleted: ExGlobals.Variables.yProjectionButton = this
         }
 
         EaElements.TabButton {
+            property int pageLoading: structureView.loading
+            property string htmlButtonPrefix: "zProjection"
             checkable: false
             autoExclusive: false
             height: EaStyle.Sizes.toolButtonHeight
             width: EaStyle.Sizes.toolButtonHeight
             borderColor: EaStyle.Colors.chartAxis
             fontIcon: "z"
-            ToolTip.text: qsTr("View along the z axis")
-            onClicked: structureView.runJavaScript("zProjectionAction()")
+            //ToolTip.text: qsTr("View along the z axis")
+            onClicked: structureView.runJavaScript(`${htmlButtonPrefix}Action()`)
+            onPageLoadingChanged: {
+                if (pageLoading === WebEngineView.LoadStartedStatus) {
+                    setToolTipText(`${htmlButtonPrefix}Button`, this)
+                }
+            }
             Component.onCompleted: ExGlobals.Variables.zProjectionButton = this
         }
 
         EaElements.TabButton {
+            property int pageLoading: structureView.loading
+            property string htmlButtonPrefix: "defaultView"
             checkable: false
             autoExclusive: false
             height: EaStyle.Sizes.toolButtonHeight
             width: EaStyle.Sizes.toolButtonHeight
             borderColor: EaStyle.Colors.chartAxis
             fontIcon: "home"
-            ToolTip.text: qsTr("Reset to default view")
-            onClicked: structureView.runJavaScript("defaultViewAction()")
+            //ToolTip.text: qsTr("Reset to default view")
+            onClicked: structureView.runJavaScript(`${htmlButtonPrefix}Action()`)
+            onPageLoadingChanged: {
+                if (pageLoading === WebEngineView.LoadStartedStatus) {
+                    setToolTipText(`${htmlButtonPrefix}Button`, this)
+                }
+            }
             Component.onCompleted: ExGlobals.Variables.defaultViewButton = this
         }
     }
 
     // Logic
-
-    function getSource(){
-        var js = "document.documentElement.outerHTML"
-        structureView.runJavaScript(js, function(result){console.log(result)})
-    }
 
     function hideChartToolbar() {
         structureView.runJavaScript(`showToolbar(false)`)
@@ -213,6 +266,20 @@ Rectangle {
             structureView.runJavaScript(`document.documentElement.style.setProperty('${key}', '${colors[key]}')`)
         }
         structureView.runJavaScript(`setChartColorsExtra()`)
+    }
+
+    function setToolTipText(htmlButton, qmlButton) {
+        structureView.runJavaScript(
+                    `${htmlButton}.getAttribute('data-tooltip')`,
+                    function(result) {
+                        qmlButton.ToolTip.text = result
+                    }
+                    )
+    }
+
+    function getSource(){
+        var js = "document.documentElement.outerHTML"
+        structureView.runJavaScript(js, function(result){console.log(result)})
     }
 
 }
