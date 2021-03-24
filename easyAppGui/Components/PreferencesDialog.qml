@@ -12,6 +12,8 @@ import easyAppGui.Elements 1.0 as EaElements
 import Gui.Globals 1.0 as ExGlobals
 
 EaElements.Dialog {
+    id: dialog
+
     visible: EaGlobals.Variables.showAppPreferencesDialog
     onClosed: EaGlobals.Variables.showAppPreferencesDialog = false
 
@@ -24,6 +26,8 @@ EaElements.Dialog {
 
     modal: true
     standardButtons: Dialog.Ok
+
+    Component.onCompleted: setPreferencesOkButton()
 
     Column {
 
@@ -163,6 +167,19 @@ EaElements.Dialog {
                 checked: EaGlobals.Variables.showToolTips
                 onCheckedChanged: EaGlobals.Variables.showToolTips = checked
                 Component.onCompleted: ExGlobals.Variables.enableToolTipsCheckBox = this
+            }
+        }
+    }
+
+    // Logic
+
+    function setPreferencesOkButton() {
+        const buttons = dialog.footer.contentModel.children
+        for (let i in buttons) {
+            const button = buttons[i]
+            if (button.text === 'OK') {
+                ExGlobals.Variables.preferencesOkButton = button
+                return
             }
         }
     }
