@@ -22010,25 +22010,21 @@ ChemDoodle.RESIDUE = (function(undefined) {
 		this.angles = angles;
 		this.offset = offset;
 
-		//this.offset = [-0.5,0.5,0.5]
-
 		let abc2xyz = io.CIFInterpreter.generateABC2XYZ(lengths[0], lengths[1], lengths[2], angles[0], angles[1], angles[2]);
 
 		if(!offset){
-			this.offset = [0.5,0.5,0.5];
+			this.offset = [0,0,0];
 		}
-
-		const qwe = 1
 
 		this.unitCellVectors = {
 			o : m4.multiplyVec3(abc2xyz, this.offset, []),
-			x : m4.multiplyVec3(abc2xyz, [ this.offset[0] + qwe, this.offset[1], this.offset[2] ]),
-			y : m4.multiplyVec3(abc2xyz, [ this.offset[0], this.offset[1] + qwe, this.offset[2] ]),
-			z : m4.multiplyVec3(abc2xyz, [ this.offset[0], this.offset[1], this.offset[2] + qwe ]),
-			xy : m4.multiplyVec3(abc2xyz, [ this.offset[0] + qwe, this.offset[1] + qwe, this.offset[2] ]),
-			xz : m4.multiplyVec3(abc2xyz, [ this.offset[0] + qwe, this.offset[1], this.offset[2] + qwe ]),
-			yz : m4.multiplyVec3(abc2xyz, [ this.offset[0], this.offset[1] + qwe, this.offset[2] + qwe ]),
-			xyz : m4.multiplyVec3(abc2xyz, [ this.offset[0] + qwe, this.offset[1] + qwe, this.offset[2] + qwe ])
+			x : m4.multiplyVec3(abc2xyz, [ this.offset[0] + 1, this.offset[1], this.offset[2] ]),
+			y : m4.multiplyVec3(abc2xyz, [ this.offset[0], this.offset[1] + 1, this.offset[2] ]),
+			z : m4.multiplyVec3(abc2xyz, [ this.offset[0], this.offset[1], this.offset[2] + 1 ]),
+			xy : m4.multiplyVec3(abc2xyz, [ this.offset[0] + 1, this.offset[1] + 1, this.offset[2] ]),
+			xz : m4.multiplyVec3(abc2xyz, [ this.offset[0] + 1, this.offset[1], this.offset[2] + 1 ]),
+			yz : m4.multiplyVec3(abc2xyz, [ this.offset[0], this.offset[1] + 1, this.offset[2] + 1 ]),
+			xyz : m4.multiplyVec3(abc2xyz, [ this.offset[0] + 1, this.offset[1] + 1, this.offset[2] + 1 ])
 		};
 
 		let positionData = [];
@@ -24648,9 +24644,6 @@ ChemDoodle.RESIDUE = (function(undefined) {
 				}
 			}
 		}
-
-		transformLoop.lines = transformLoop.lines.concat(["x, y, z+1", "x, y+1, z", "x+1, y, z", "x, y+1, z+1", "x+1, y, z+1", "x, y, z+1", "x+1, y+1, z+1"]);
-
 		let abc2xyz = io.CIFInterpreter.generateABC2XYZ(aLength, bLength, cLength, alphaAngle, betaAngle, gammaAngle);
 		// internal atom coordinates
 		if (atomLoop) {
@@ -24673,10 +24666,6 @@ ChemDoodle.RESIDUE = (function(undefined) {
 				line = atomLoop.lines[i];
 				let tokens = line.split(whitespaceRegex).filter(filter);
 				let a = new structures.Atom(tokens[labelIndex === -1 ? altLabelIndex : labelIndex].split(digitsSymbolRegex)[0], parseFloat(tokens[xIndex]), parseFloat(tokens[yIndex]), parseFloat(tokens[zIndex]));
-
-				console.log("!!!",a)
-
-
 				molecule.atoms.push(a);
 				if (altLabelIndex !== -1) {
 					a.cifId = tokens[altLabelIndex];
@@ -24684,10 +24673,6 @@ ChemDoodle.RESIDUE = (function(undefined) {
 				}
 			}
 		}
-
-		console.log("???",molecule.atoms)
-
-
 		// transforms, unless bonds are specified
 		if (transformLoop && !bondLoop) {
 			// assume the index is 0, just incase a different identifier is
@@ -24701,14 +24686,6 @@ ChemDoodle.RESIDUE = (function(undefined) {
 			}
 			let impliedTranslations = hallTranslations[hallClass];
 			let add = [];
-
-
-			//transformLoop.lines = transformLoop.lines.concat(["x, y, z+1", "x, y+1, z", "x+1, y, z", "x, y+1, z+1", "x+1, y, z+1", "x, y, z+1", "x+1, y+1, z+1"]);
-
-			console.log("///", transformLoop.lines)
-
-
-
 			for ( let i = 0, ii = transformLoop.lines.length; i < ii; i++) {
 				let parts = transformLoop.lines[i].split(whitespaceAndQuoteAndCommaRegex).filter(filter);
 				let multx = parseTransform(parts[symIndex]);
@@ -24720,11 +24697,44 @@ ChemDoodle.RESIDUE = (function(undefined) {
 					let y = a.x * multy[1] + a.y * multy[2] + a.z * multy[3] + multy[0];
 					let z = a.x * multz[1] + a.y * multz[2] + a.z * multz[3] + multz[0];
 					let copy1 = new structures.Atom(a.label, x, y, z);
-					console.log("===",copy1.x,copy1.y,copy1.z)
-					//let copy2 = new structures.Atom(a.label, 1, 1, 1);
-
 					add.push(copy1);
-					//add.push(copy2);
+					// add extra atoms
+					if (x === 0 && y === 0 && z === 0) {
+						const pos_list = [[1,1,1], [0,1,1], [1,0,1], [1,1,0], [0,0,1], [0,1,0], [1,0,0]];
+						for (let i in pos_list) {
+							add.push(new structures.Atom(a.label, pos_list[i][0], pos_list[i][1], pos_list[i][2]));
+						}
+					} else if (x === 0 && y === 0 && z !== 0) {
+						const pos_list = [[1,1,z], [0,1,z], [1,0,z]];
+						for (let i in pos_list) {
+							add.push(new structures.Atom(a.label, pos_list[i][0], pos_list[i][1], pos_list[i][2]));
+						}
+					} else if (x === 0 && y !== 0 && z === 0) {
+						const pos_list = [[1,y,1], [0,y,1], [1,y,0]];
+						for (let i in pos_list) {
+							add.push(new structures.Atom(a.label, pos_list[i][0], pos_list[i][1], pos_list[i][2]));
+						}
+					} else if (x !== 0 && y === 0 && z === 0) {
+						const pos_list = [[x,1,1], [x,0,1], [x,1,0]];
+						for (let i in pos_list) {
+							add.push(new structures.Atom(a.label, pos_list[i][0], pos_list[i][1], pos_list[i][2]));
+						}
+					} else if (x === 0 && y !== 0 && z !== 0) {
+						const pos_list = [[1,y,z]];
+						for (let i in pos_list) {
+							add.push(new structures.Atom(a.label, pos_list[i][0], pos_list[i][1], pos_list[i][2]));
+						}
+					} else if (x !== 0 && y === 0 && z !== 0) {
+						const pos_list = [[x,1,z]];
+						for (let i in pos_list) {
+							add.push(new structures.Atom(a.label, pos_list[i][0], pos_list[i][1], pos_list[i][2]));
+						}
+					} else if (x !== 0 && y !== 0 && z === 0) {
+						const pos_list = [[x,y,1]];
+						for (let i in pos_list) {
+							add.push(new structures.Atom(a.label, pos_list[i][0], pos_list[i][1], pos_list[i][2]));
+						}
+					}
 					// cifID could be 0, so check for undefined
 					if (a.cifId !== undefined) {
 						copy1.cifId = a.cifId;
@@ -24797,18 +24807,15 @@ ChemDoodle.RESIDUE = (function(undefined) {
 		for ( let i = 0; i < xSuper; i++) {
 			for ( let j = 0; j < ySuper; j++) {
 				for ( let k = 0; k < zSuper; k++) {
-					console.log("--",i,j,k)
 					if (!(i === 0 && j === 0 && k === 0)) {
 						for ( let l = 0, ll = molecule.atoms.length; l < ll; l++) {
 							let a = molecule.atoms[l];
 							let copy = new structures.Atom(a.label, a.x + i, a.y + j, a.z + k);
 							extras.push(copy);
-
 							// cifID could be 0, so check for undefined
 							if (a.cifId !== undefined) {
 								copy.cifId = a.cifId;
 								copy.cifPart = a.cifPart + (transformLoop ? transformLoop.lines.length : 0) + i + j * 10 + k * 100;
-								console.log("+++",i,j,k)
 							}
 						}
 					}
@@ -24820,12 +24827,9 @@ ChemDoodle.RESIDUE = (function(undefined) {
 		for ( let i = 0, ii = molecule.atoms.length; i < ii; i++) {
 			let a = molecule.atoms[i];
 			let xyz = m4.multiplyVec3(abc2xyz, [ a.x, a.y, a.z ]);
-			console.log("** 1",a.x,a.y,a.z)
 			a.x = xyz[0];
 			a.y = xyz[1];
 			a.z = xyz[2];
-			console.log("** 2",a.x,a.y,a.z)
-
 		}
 		// handle bonds
 		if (bondLoop) {

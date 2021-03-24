@@ -10164,7 +10164,7 @@ jQuery.noConflict(true);
      * @name MatrixArray
      */
     var MatrixArray = null;
-
+    
     // explicitly sets and returns the type of array to use within glMatrix
     function setMatrixArrayType(type) {
         MatrixArray = type;
@@ -10177,7 +10177,7 @@ jQuery.noConflict(true);
         MatrixArray = (typeof Float32Array !== 'undefined') ? Float32Array : Array;
         return MatrixArray;
     }
-
+    
     determineMatrixArrayType();
 
     /**
@@ -10185,7 +10185,7 @@ jQuery.noConflict(true);
      * @name vec3
      */
     var vec3 = {};
-
+     
     /**
      * Creates a new instance of a vec3 using the default array type
      * Any javascript array-like objects containing at least 3 numeric elements can serve as a vec3
@@ -10523,7 +10523,7 @@ jQuery.noConflict(true);
         var x = vec2[0] - vec[0],
             y = vec2[1] - vec[1],
             z = vec2[2] - vec[2];
-
+            
         return Math.sqrt(x*x + y*y + z*z);
     };
 
@@ -10551,22 +10551,22 @@ jQuery.noConflict(true);
 
         var m = unprojectMat;
         var v = unprojectVec;
-
+        
         v[0] = (vec[0] - viewport[0]) * 2.0 / viewport[2] - 1.0;
         v[1] = (vec[1] - viewport[1]) * 2.0 / viewport[3] - 1.0;
         v[2] = 2.0 * vec[2] - 1.0;
         v[3] = 1.0;
-
+        
         mat4.multiply(proj, view, m);
         if(!mat4.inverse(m)) { return null; }
-
+        
         mat4.multiplyVec4(m, v);
         if(v[3] === 0.0) { return null; }
 
         dest[0] = v[0] / v[3];
         dest[1] = v[1] / v[3];
         dest[2] = v[2] / v[3];
-
+        
         return dest;
     };
 
@@ -10586,7 +10586,7 @@ jQuery.noConflict(true);
      */
     vec3.rotationTo = function (a, b, dest) {
         if (!dest) { dest = quat4.create(); }
-
+        
         var d = vec3.dot(a, b);
         var axis = tmpvec3;
         if (d >= 1.0) {
@@ -10745,7 +10745,7 @@ jQuery.noConflict(true);
         dest[8] = (a11 * a00 - a01 * a10) * id;
         return dest;
     };
-
+    
     /**
      * Performs a matrix multiplication
      *
@@ -10757,7 +10757,7 @@ jQuery.noConflict(true);
      */
     mat3.multiply = function (mat, mat2, dest) {
         if (!dest) { dest = mat; }
-
+        
 
         // Cache the matrix values (makes for huge speed increases!)
         var a00 = mat[0], a01 = mat[1], a02 = mat[2],
@@ -10815,7 +10815,7 @@ jQuery.noConflict(true);
       dest[0] = x * matrix[0] + y * matrix[3] + z * matrix[6];
       dest[1] = x * matrix[1] + y * matrix[4] + z * matrix[7];
       dest[2] = x * matrix[2] + y * matrix[5] + z * matrix[8];
-
+      
       return dest;
     };
 
@@ -11378,7 +11378,7 @@ jQuery.noConflict(true);
         var a30 = mat[12], a31 = mat[13], a32 = mat[14], a33 = mat[15];
 
         // Cache only the current line of the second matrix
-        var b0  = mat2[0], b1 = mat2[1], b2 = mat2[2], b3 = mat2[3];
+        var b0  = mat2[0], b1 = mat2[1], b2 = mat2[2], b3 = mat2[3];  
         dest[0] = b0*a00 + b1*a10 + b2*a20 + b3*a30;
         dest[1] = b0*a01 + b1*a11 + b2*a21 + b3*a31;
         dest[2] = b0*a02 + b1*a12 + b2*a22 + b3*a32;
@@ -11992,7 +11992,7 @@ jQuery.noConflict(true);
         dest[13] = vec[1];
         dest[14] = vec[2];
         dest[15] = 1;
-
+        
         return dest;
     };
 
@@ -12160,9 +12160,9 @@ jQuery.noConflict(true);
         var q0 = quat[0], q1 = quat[1], q2 = quat[2], q3 = quat[3],
             dot = q0*q0 + q1*q1 + q2*q2 + q3*q3,
             invDot = dot ? 1.0/dot : 0;
-
+        
         // TODO: Would be faster to return [0,0,0,0] immediately if dot == 0
-
+        
         if(!dest || quat === dest) {
             quat[0] *= -invDot;
             quat[1] *= -invDot;
@@ -12497,7 +12497,7 @@ jQuery.noConflict(true);
      */
     quat4.fromRotationMatrix = function(mat, dest) {
         if (!dest) dest = quat4.create();
-
+        
         // Algorithm in Ken Shoemake's article in 1987 SIGGRAPH course notes
         // article "Quaternion Calculus and Fast Animation".
 
@@ -12522,7 +12522,7 @@ jQuery.noConflict(true);
               i = 2;
             var j = s_iNext[i];
             var k = s_iNext[j];
-
+            
             fRoot = Math.sqrt(mat[i*3+i]-mat[j*3+j]-mat[k*3+k] + 1.0);
             dest[i] = 0.5 * fRoot;
             fRoot = 0.5 / fRoot;
@@ -12530,7 +12530,7 @@ jQuery.noConflict(true);
             dest[j] = (mat[j*3+i] + mat[i*3+j]) * fRoot;
             dest[k] = (mat[k*3+i] + mat[i*3+k]) * fRoot;
         }
-
+        
         return dest;
     };
 
@@ -12541,7 +12541,7 @@ jQuery.noConflict(true);
 
     (function() {
         var mat = mat3.create();
-
+        
         /**
          * Creates a quaternion from the 3 given vectors. They must be perpendicular
          * to one another and represent the X, Y and Z axes.
@@ -12609,14 +12609,14 @@ jQuery.noConflict(true);
         // The quaternion representing the rotation is
         //   q = cos(A/2)+sin(A/2)*(x*i+y*j+z*k)
         if (!dest) dest = quat4.create();
-
+        
         var half = angle * 0.5;
         var s = Math.sin(half);
         dest[3] = Math.cos(half);
         dest[0] = s * axis[0];
         dest[1] = s * axis[1];
         dest[2] = s * axis[2];
-
+        
         return dest;
     };
 
@@ -12652,7 +12652,7 @@ jQuery.noConflict(true);
             dest[1] = 0;
             dest[2] = 0;
         }
-
+        
         return dest;
     };
 
@@ -12666,13 +12666,13 @@ jQuery.noConflict(true);
     quat4.str = function (quat) {
         return '[' + quat[0] + ', ' + quat[1] + ', ' + quat[2] + ', ' + quat[3] + ']';
     };
-
+    
     /**
      * @class 2 Dimensional Vector
      * @name vec2
      */
     var vec2 = {};
-
+     
     /**
      * Creates a new vec2, initializing it from vec if vec
      * is given.
@@ -12709,7 +12709,7 @@ jQuery.noConflict(true);
 
         return dest;
     };
-
+    
     /**
      * Adds the vec2's together. If dest is given, the result
      * is stored there. Otherwise, the result is stored in vecB.
@@ -12725,7 +12725,7 @@ jQuery.noConflict(true);
         dest[1] = vecA[1] + vecB[1];
         return dest;
     };
-
+    
     /**
      * Subtracts vecB from vecA. If dest is given, the result
      * is stored there. Otherwise, the result is stored in vecB.
@@ -12741,7 +12741,7 @@ jQuery.noConflict(true);
         dest[1] = vecA[1] - vecB[1];
         return dest;
     };
-
+    
     /**
      * Multiplies vecA with vecB. If dest is given, the result
      * is stored there. Otherwise, the result is stored in vecB.
@@ -12757,7 +12757,7 @@ jQuery.noConflict(true);
         dest[1] = vecA[1] * vecB[1];
         return dest;
     };
-
+    
     /**
      * Divides vecA by vecB. If dest is given, the result
      * is stored there. Otherwise, the result is stored in vecB.
@@ -12773,7 +12773,7 @@ jQuery.noConflict(true);
         dest[1] = vecA[1] / vecB[1];
         return dest;
     };
-
+    
     /**
      * Scales vecA by some scalar number. If dest is given, the result
      * is stored there. Otherwise, the result is stored in vecA.
@@ -12902,7 +12902,7 @@ jQuery.noConflict(true);
         dest[2] = z;
         return dest;
     };
-
+    
     /**
      * Caclulates the length of a vec2
      *
@@ -12938,7 +12938,7 @@ jQuery.noConflict(true);
     vec2.dot = function (vecA, vecB) {
         return vecA[0] * vecB[0] + vecA[1] * vecB[1];
     };
-
+    
     /**
      * Generates a 2D unit vector pointing from one vector to another
      *
@@ -12995,13 +12995,13 @@ jQuery.noConflict(true);
     vec2.str = function (vec) {
         return '[' + vec[0] + ', ' + vec[1] + ']';
     };
-
+    
     /**
      * @class 2x2 Matrix
      * @name mat2
      */
     var mat2 = {};
-
+    
     /**
      * Creates a new 2x2 matrix. If src is given, the new matrix
      * is initialized to those values.
@@ -13011,7 +13011,7 @@ jQuery.noConflict(true);
      */
     mat2.create = function(src) {
         var dest = new MatrixArray(4);
-
+        
         if (src) {
             dest[0] = src[0];
             dest[1] = src[1];
@@ -13043,7 +13043,7 @@ jQuery.noConflict(true);
 
         return dest;
     };
-
+    
     /**
      * Copies the values of one mat2 to another
      *
@@ -13109,7 +13109,7 @@ jQuery.noConflict(true);
             mat[2] = a00;
             return mat;
         }
-
+        
         dest[0] = mat[0];
         dest[1] = mat[2];
         dest[2] = mat[1];
@@ -13127,7 +13127,7 @@ jQuery.noConflict(true);
     mat2.determinant = function (mat) {
       return mat[0] * mat[3] - mat[2] * mat[1];
     };
-
+    
     /**
      * Calculates the inverse matrix of a mat2
      *
@@ -13141,7 +13141,7 @@ jQuery.noConflict(true);
         var a0 = mat[0], a1 = mat[1], a2 = mat[2], a3 = mat[3];
         var det = a0 * a3 - a2 * a1;
         if (!det) return null;
-
+        
         det = 1.0 / det;
         dest[0] =  a3 * det;
         dest[1] = -a1 * det;
@@ -13149,7 +13149,7 @@ jQuery.noConflict(true);
         dest[3] =  a0 * det;
         return dest;
     };
-
+    
     /**
      * Performs a matrix multiplication
      *
@@ -13212,7 +13212,7 @@ jQuery.noConflict(true);
       dest[1] = x * matrix[2] + y * matrix[3];
       return dest;
     };
-
+    
     /**
      * Scales the mat2 by the dimensions in the given vec2
      *
@@ -13247,13 +13247,13 @@ jQuery.noConflict(true);
     mat2.str = function (mat) {
         return '[' + mat[0] + ', ' + mat[1] + ', ' + mat[2] + ', ' + mat[3] + ']';
     };
-
+    
     /**
      * @class 4 Dimensional Vector
      * @name vec4
      */
     var vec4 = {};
-
+     
     /**
      * Creates a new vec4, initializing it from vec if vec
      * is given.
@@ -13263,7 +13263,7 @@ jQuery.noConflict(true);
      */
     vec4.create = function(vec) {
         var dest = new MatrixArray(4);
-
+        
         if (vec) {
             dest[0] = vec[0];
             dest[1] = vec[1];
@@ -13298,7 +13298,7 @@ jQuery.noConflict(true);
 
         return dest;
     };
-
+    
     /**
      * Adds the vec4's together. If dest is given, the result
      * is stored there. Otherwise, the result is stored in vecB.
@@ -13316,7 +13316,7 @@ jQuery.noConflict(true);
       dest[3] = vecA[3] + vecB[3];
       return dest;
     };
-
+    
     /**
      * Subtracts vecB from vecA. If dest is given, the result
      * is stored there. Otherwise, the result is stored in vecB.
@@ -13334,7 +13334,7 @@ jQuery.noConflict(true);
       dest[3] = vecA[3] - vecB[3];
       return dest;
     };
-
+    
     /**
      * Multiplies vecA with vecB. If dest is given, the result
      * is stored there. Otherwise, the result is stored in vecB.
@@ -13352,7 +13352,7 @@ jQuery.noConflict(true);
       dest[3] = vecA[3] * vecB[3];
       return dest;
     };
-
+    
     /**
      * Divides vecA by vecB. If dest is given, the result
      * is stored there. Otherwise, the result is stored in vecB.
@@ -13370,7 +13370,7 @@ jQuery.noConflict(true);
       dest[3] = vecA[3] / vecB[3];
       return dest;
     };
-
+    
     /**
      * Scales vecA by some scalar number. If dest is given, the result
      * is stored there. Otherwise, the result is stored in vecA.
@@ -13533,11 +13533,11 @@ jQuery.noConflict(true);
 
 /**
  * jsBezier-0.5
- *
+ * 
  * Copyright (c) 2010 - 2011 Simon Porritt (simon.porritt@gmail.com)
- *
+ * 
  * licensed under the MIT license.
- *
+ * 
  * a set of Bezier curve functions that deal with Beziers, used by jsPlumb, and
  * perhaps useful for other people. These functions work with Bezier curves of
  * arbitrary degree.
@@ -13549,64 +13549,64 @@ jQuery.noConflict(true);
  *  - 'location' as used as an input here refers to a decimal in the range 0-1
  * inclusive, which indicates a point some proportion along the length of the
  * curve. location as output has the same format and meaning.
- *
- *
+ * 
+ * 
  * Function List: --------------
- *
+ * 
  * distanceFromCurve(point, curve)
- *
+ * 
  * Calculates the distance that the given point lies from the given Bezier. Note
  * that it is computed relative to the center of the Bezier, so if you have
  * stroked the curve with a wide pen you may wish to take that into account! The
  * distance returned is relative to the values of the curve and the point - it
  * will most likely be pixels.
- *
+ * 
  * gradientAtPoint(curve, location)
- *
+ * 
  * Calculates the gradient to the curve at the given location, as a decimal
  * between 0 and 1 inclusive.
- *
+ * 
  * gradientAtPointAlongCurveFrom (curve, location)
- *
+ * 
  * Calculates the gradient at the point on the given curve that is 'distance'
  * units from location.
- *
+ * 
  * nearestPointOnCurve(point, curve)
- *
+ * 
  * Calculates the nearest point to the given point on the given curve. The
  * return value of this is a JS object literal, containing both the point's
  * coordinates and also the 'location' of the point (see above), for example: {
  * point:{x:551,y:150}, location:0.263365 }.
- *
+ * 
  * pointOnCurve(curve, location)
- *
+ * 
  * Calculates the coordinates of the point on the given Bezier curve at the
  * given location.
- *
+ * 
  * pointAlongCurveFrom(curve, location, distance)
- *
+ * 
  * Calculates the coordinates of the point on the given curve that is 'distance'
  * units from location. 'distance' should be in the same coordinate space as
  * that used to construct the Bezier curve. For an HTML Canvas usage, for
  * example, distance would be a measure of pixels.
- *
+ * 
  * locationAlongCurveFrom(curve, location, distance)
- *
+ * 
  * Calculates the location on the given curve that is 'distance' units from
  * location. 'distance' should be in the same coordinate space as that used to
  * construct the Bezier curve. For an HTML Canvas usage, for example, distance
  * would be a measure of pixels.
- *
+ * 
  * perpendicularToCurveAt(curve, location, length, distance)
- *
+ * 
  * Calculates the perpendicular to the given curve at the given location. length
  * is the length of the line you wish for (it will be centered on the point at
  * 'location'). distance is optional, and allows you to specify a point along
  * the path from the given location as the center of the perpendicular returned.
  * The return value of this is an array of two points: [ {x:...,y:...},
  * {x:...,y:...} ].
- *
- *
+ * 
+ * 
  */
 
 (function(lib) {
@@ -13640,7 +13640,7 @@ jQuery.noConflict(true);
 
 	/**
 	 * Calculates the distance that the point lies from the curve.
-	 *
+	 * 
 	 * @param point
 	 *            a point in the form {x:567, y:3342}
 	 * @param curve
@@ -13879,7 +13879,7 @@ jQuery.noConflict(true);
 
 	/**
 	 * calculates a point on the curve, for a Bezier of arbitrary order.
-	 *
+	 * 
 	 * @param curve
 	 *            an array of control points, eg [{x:10,y:20}, {x:50,y:50},
 	 *            {x:100,y:100}, {x:120,y:100}]. For a cubic bezier this should
@@ -13957,7 +13957,7 @@ jQuery.noConflict(true);
 	/**
 	 * returns the gradient of the curve at the given location, which is a
 	 * decimal between 0 and 1 inclusive.
-	 *
+	 * 
 	 * thanks // http://bimixual.org/AnimationLibrary/beziertangents.html
 	 */
 	var _gradientAtPoint = function(curve, location) {
@@ -14399,59 +14399,59 @@ ChemDoodle.animations = (function(window, undefined) {
 	'use strict';
 	let ext = {};
 
-	// Drop in replace functions for setTimeout() & setInterval() that
+	// Drop in replace functions for setTimeout() & setInterval() that 
 	// make use of requestAnimationFrame() for performance where available
 	// http://www.joelambert.co.uk
-
+	 
 	// Copyright 2011, Joe Lambert.
 	// Free to use under the MIT license.
 	// http://www.opensource.org/licenses/mit-license.php
-
+	
 	// requestAnimationFrame() shim by Paul Irish
 	// http://paulirish.com/2011/requestanimationframe-for-smart-animating/
 	window.requestAnimFrame = (function() {
-		return  window.requestAnimationFrame       ||
-				window.webkitRequestAnimationFrame ||
-				window.mozRequestAnimationFrame    ||
-				window.oRequestAnimationFrame      ||
-				window.msRequestAnimationFrame     ||
+		return  window.requestAnimationFrame       || 
+				window.webkitRequestAnimationFrame || 
+				window.mozRequestAnimationFrame    || 
+				window.oRequestAnimationFrame      || 
+				window.msRequestAnimationFrame     || 
 				function(/* function */ callback, /* DOMElement */ element){
 					window.setTimeout(callback, 1000 / 60);
 				};
 	})();
-
+	
 	/**
 	 * Behaves the same as setInterval except uses requestAnimationFrame() where possible for better performance
 	 * @param {function} fn The callback function
 	 * @param {int} delay The delay in milliseconds
 	 */
 	ext.requestInterval = function(fn, delay) {
-		if( !window.requestAnimationFrame       &&
-			!window.webkitRequestAnimationFrame &&
+		if( !window.requestAnimationFrame       && 
+			!window.webkitRequestAnimationFrame && 
 			!(window.mozRequestAnimationFrame && window.mozCancelRequestAnimationFrame) && // Firefox 5 ships without cancel support
-			!window.oRequestAnimationFrame      &&
+			!window.oRequestAnimationFrame      && 
 			!window.msRequestAnimationFrame)
 				return window.setInterval(fn, delay);
-
+				
 		let start = new Date().getTime(),
 			handle = new Object();
-
+			
 		function loop() {
 			let current = new Date().getTime(),
 				delta = current - start;
-
+				
 			if(delta >= delay) {
 				fn.call();
 				start = new Date().getTime();
 			}
-
+	 
 			handle.value = window.requestAnimFrame(loop);
 		};
-
+		
 		handle.value = window.requestAnimFrame(loop);
 		return handle;
 	};
-
+	 
 	/**
 	 * Behaves the same as clearInterval except uses cancelRequestAnimationFrame() where possible for better performance
 	 * @param {int|object} fn The callback function
@@ -14465,35 +14465,35 @@ ChemDoodle.animations = (function(window, undefined) {
 	    window.msCancelRequestAnimationFrame ? window.msCancelRequestAnimationFrame(handle.value) :
 	    clearInterval(handle);
 	};
-
+	
 	/**
 	 * Behaves the same as setTimeout except uses requestAnimationFrame() where possible for better performance
 	 * @param {function} fn The callback function
 	 * @param {int} delay The delay in milliseconds
 	 */
-
+	 
 	ext.requestTimeout = function(fn, delay) {
-		if( !window.requestAnimationFrame      	&&
-			!window.webkitRequestAnimationFrame &&
+		if( !window.requestAnimationFrame      	&& 
+			!window.webkitRequestAnimationFrame && 
 			!(window.mozRequestAnimationFrame && window.mozCancelRequestAnimationFrame) && // Firefox 5 ships without cancel support
-			!window.oRequestAnimationFrame      &&
+			!window.oRequestAnimationFrame      && 
 			!window.msRequestAnimationFrame)
 				return window.setTimeout(fn, delay);
-
+				
 		let start = new Date().getTime(),
 			handle = new Object();
-
+			
 		function loop(){
 			let current = new Date().getTime(),
 				delta = current - start;
-
+				
 			delta >= delay ? fn.call() : handle.value = window.requestAnimFrame(loop);
 		};
-
+		
 		handle.value = window.requestAnimFrame(loop);
 		return handle;
 	};
-
+	 
 	/**
 	 * Behaves the same as clearTimeout except uses cancelRequestAnimationFrame() where possible for better performance
 	 * @param {int|object} fn The callback function
@@ -14581,9 +14581,9 @@ ChemDoodle.extensions = (function(structures, v3, m, undefined) {
 
 (function(Object, Math, undefined) {
 	'use strict';
-
+	
 	// polyfills exist here, mostly for IE11 support
-
+	
 	// Math.sign used by SESSurface.generate()
 	if (!Math.sign) {
 	  Math.sign = function(x) {
@@ -14602,7 +14602,7 @@ ChemDoodle.extensions = (function(structures, v3, m, undefined) {
 	    //                      // not a number, then x converts to number
 	  };
 	}
-
+	
 	// polyfill for Object.assign on IE11
 	// used by Styles constructor
 	if (typeof Object.assign != 'function') {
@@ -14611,12 +14611,12 @@ ChemDoodle.extensions = (function(structures, v3, m, undefined) {
 	        if (target == null) { // TypeError if undefined or null
 	            throw new TypeError('Cannot convert undefined or null to object');
 	        }
-
+	
 	        var to = Object(target);
-
+	
 	        for (var index = 1; index < arguments.length; index++) {
 	            var nextSource = arguments[index];
-
+	
 	            if (nextSource != null) { // Skip over if undefined or null
 	                for (var nextKey in nextSource) {
 	                    // Avoid bugs when hasOwnProperty is shadowed
@@ -15357,10 +15357,10 @@ ChemDoodle.RESIDUE = (function(undefined) {
 
 (function(structures, undefined) {
 	'use strict';
-
+	
 	// This is a more efficient Queue implementation other than using Array.shift() on each dequeue, which is very expensive
 	// this is 2-3x faster
-
+	
 	/*
 	 * Creates a new Queue. A Queue is a first-in-first-out (FIFO) data
 	 * structure. Functions of the Queue object allow elements to be
@@ -15403,7 +15403,7 @@ ChemDoodle.RESIDUE = (function(undefined) {
 
 	/*
 	 * Enthis.queues the specified element in this Queue. The parameter is:
-	 *
+	 * 
 	 * element - the element to enthis.queue
 	 */
 	_.enqueue = function(element) {
@@ -15563,11 +15563,11 @@ ChemDoodle.RESIDUE = (function(undefined) {
 
 (function(extensions, structures, m, undefined) {
 	'use strict';
-
+	
 	let COMMA_SPACE_REGEX = /[ ,]+/;
 	let COMMA_DASH_REGEX = /\-+/;
 	let FONTS = [ 'Helvetica', 'Arial', 'Dialog' ];
-
+	
 	structures.Query = function(type) {
 		this.type = type;
 		// atom properties
@@ -16227,7 +16227,7 @@ ChemDoodle.RESIDUE = (function(undefined) {
 	};
 	/**
 	 * Get Color by atom element.
-	 *
+	 * 
 	 * @param {boolean}
 	 *            useJMOLColors
 	 * @param {boolean}
@@ -16503,7 +16503,7 @@ ChemDoodle.RESIDUE = (function(undefined) {
 						let perpendicular = this.a1.angle(this.a2) + m.PI / 2;
 						let mcosp = m.cos(perpendicular);
 						let msinp = m.sin(perpendicular);
-
+	
 						let curveX = innerDifX / curves;
 						let curveY = innerDifY / curves;
 						let cpx, cpy;
@@ -16685,7 +16685,7 @@ ChemDoodle.RESIDUE = (function(undefined) {
 		}
 	};
 	/**
-	 *
+	 * 
 	 * @param {WegGLRenderingContext}
 	 *            gl
 	 * @param {structures.Styles}
@@ -17158,7 +17158,7 @@ ChemDoodle.RESIDUE = (function(undefined) {
 				axis = v3.cross(y, a2b, []);
 			}
 			let scaleVector = [ radiusScale, height, radiusScale ];
-
+			
 			if (ang !== 0) {
 				m4.rotate(transform, ang, axis);
 			}
@@ -17169,7 +17169,7 @@ ChemDoodle.RESIDUE = (function(undefined) {
 		}
 	};
 	/**
-	 *
+	 * 
 	 * @param {WegGLRenderingContext}
 	 *            gl
 	 * @param {structures.Styles}
@@ -17717,7 +17717,7 @@ ChemDoodle.RESIDUE = (function(undefined) {
 				}
 				gl.depthMask(true);
 				gl.disable(gl.BLEND);
-				gl.blendFuncSeparate(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA, gl.ONE, gl.ONE_MINUS_SRC_ALPHA);
+				gl.blendFuncSeparate(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA, gl.ONE, gl.ONE_MINUS_SRC_ALPHA);			
 			}
 		}
 	};
@@ -18726,7 +18726,7 @@ ChemDoodle.RESIDUE = (function(undefined) {
 
 (function(extensions, math, structures, d2, m, undefined) {
 	'use strict';
-
+	
 	d2.AtomMapping = function(o1, o2) {
 		// these need to be named 'o', not 'a' or the generic erase function won't work for them
 		this.o1 = o1;
@@ -18997,7 +18997,7 @@ ChemDoodle.RESIDUE = (function(undefined) {
 			this.contents.flippable = sameSingleRing;
 			if(this.b1.ring===undefined && this.b2.ring===undefined || sameSingleRing){
 				for(let i = 0, ii = m1.atoms.length; i<ii; i++){
-					let reached1 = false;
+					let reached1 = false; 
 					let reached2 = false;
 					let reachedInner = false;
 					for (let j = 0, jj = m1.bonds.length; j<jj; j++) {
@@ -19487,9 +19487,9 @@ ChemDoodle.RESIDUE = (function(undefined) {
 
 (function(math, structures, d2, m, undefined) {
 	'use strict';
-
+	
 	let BOND = new structures.Bond();
-
+	
 	d2.VAP = function(x, y) {
 		this.asterisk = new structures.Atom('O', x, y);
 		this.substituent;
@@ -19686,7 +19686,7 @@ ChemDoodle.RESIDUE = (function(undefined) {
 		if(!this.text){
 			this.text = this.getText(styles);
 		}
-
+		
 		let vertexData = {
 			position : [],
 			texCoord : [],
@@ -19695,7 +19695,7 @@ ChemDoodle.RESIDUE = (function(undefined) {
 
 		gl.textImage.pushVertexData(this.text.value, this.text.pos, 1, vertexData);
 		gl.textMesh.storeData(gl, vertexData.position, vertexData.texCoord, vertexData.translation);
-
+		
 		gl.textImage.useTexture(gl);
 		gl.textMesh.render(gl);
 	};
@@ -19935,7 +19935,7 @@ ChemDoodle.RESIDUE = (function(undefined) {
 			]);
 	};
 	d3.LineArrow.prototype = new d3._Mesh();
-
+	
 	d3.Compass = function(gl, styles) {
 
 		// setup text X Y Z
@@ -20167,7 +20167,7 @@ ChemDoodle.RESIDUE = (function(undefined) {
 		this.fogEnd = fogEnd;
 		this.density = density;
 	};
-
+	
 })(ChemDoodle.math, ChemDoodle.structures.d3, ChemDoodle.lib.vec3);
 
 (function(ELEMENT, d3, undefined) {
@@ -20190,7 +20190,7 @@ ChemDoodle.RESIDUE = (function(undefined) {
 
 			for ( let j = 0, jj = atoms.length; j < jj; j++) {
 				let atom = atoms[j];
-
+				
 				let atomLabel = atom.label;
 				let zDepth = 0.05;
 
@@ -20218,7 +20218,7 @@ ChemDoodle.RESIDUE = (function(undefined) {
 						}
 					}
 				}
-
+				
 				gl.textImage.pushVertexData(atom.altLabel ? atom.altLabel : atom.label, [ atom.x, atom.y, atom.z ], zDepth, vertexData);
 
 			}
@@ -20475,7 +20475,7 @@ ChemDoodle.RESIDUE = (function(undefined) {
 				}
 			}
 		}
-
+		
 		// build mesh connectivity
 		// add 2 to lineSegmentNum and lineSegmentLength to account for sides
 		// and ends
@@ -20558,7 +20558,7 @@ ChemDoodle.RESIDUE = (function(undefined) {
 			color = this.front ? styles.proteins_primaryColor : styles.proteins_secondaryColor;
 		}
 		gl.material.setDiffuseColor(gl, color);
-
+			
 		for ( let i = 0, ii = this.partitionSegments.length; i < ii; i++) {
 			this.partitionSegments[i].render(gl, styles, !styles.proteins_ribbonCartoonize);
 		}
@@ -20747,13 +20747,13 @@ ChemDoodle.RESIDUE = (function(undefined) {
 
 (function(extensions, RESIDUE, structures, d3, m, m4, v3, math, undefined) {
 	'use strict';
-
+	
 	function createDummyResidue(x, y, z) {
 		let dummyRes = new structures.Residue(-1);
 		dummyRes.cp1 = dummyRes.cp2 = new structures.Atom('', x, y, z);
 		return dummyRes;
 	}
-
+	
 	function Pipe(a1, a2) {
 		this.a1 = a1;
 		this.a2 = a2;
@@ -21085,7 +21085,7 @@ ChemDoodle.RESIDUE = (function(undefined) {
 	let _ = d3.PipePlank.prototype = new d3._Mesh();
 	_.render = function(gl, styles) {
 		gl.material.setTempColors(gl, styles.proteins_materialAmbientColor_3D, undefined, styles.proteins_materialSpecularColor_3D, styles.proteins_materialShininess_3D);
-
+		
 		// colors
 		gl.material.setDiffuseColor(gl, styles.macro_colorByChain ? this.chainColor : styles.proteins_tubeColor);
 		for ( let j = 0, jj = this.tubes.length; j < jj; j++) {
@@ -21119,9 +21119,9 @@ ChemDoodle.RESIDUE = (function(undefined) {
 	'use strict';
 	d3.Quad = function() {
 		let positionData = [
-			-1, 1, 0,
-			-1, -1, 0,
-			1, 1, 0,
+			-1, 1, 0, 
+			-1, -1, 0, 
+			1, 1, 0, 
 			1, -1, 0
 		];
 		let normalData = [
@@ -21253,7 +21253,7 @@ ChemDoodle.RESIDUE = (function(undefined) {
 	if(window.devicePixelRatio){
 		ratio = window.devicePixelRatio;
 	}
-
+	
 	d3.TextImage = function() {
 		this.ctx = document.createElement('canvas').getContext('2d');
 		this.data = [];
@@ -21313,7 +21313,7 @@ ChemDoodle.RESIDUE = (function(undefined) {
 
 			totalWidth += width * 2;
 		}
-
+		
 		// add other characters
 		let chars = '\u00b0\u212b\u00AE'.split('');
 		for ( let i = 0, ii = chars.length; i < ii; i++) {
@@ -21581,7 +21581,7 @@ ChemDoodle.RESIDUE = (function(undefined) {
 		}
 
 		this.vecText = v3.normalize(v3.add(vec0, norm, []));
-
+		
 		let arrowLength = 0.25;
 		let b2Norm = v3.normalize(b2, []);
 		v3.scale(b2Norm, arrowLength / 4);
@@ -22010,25 +22010,21 @@ ChemDoodle.RESIDUE = (function(undefined) {
 		this.angles = angles;
 		this.offset = offset;
 
-		//this.offset = [-0.5,0.5,0.5]
-
 		let abc2xyz = io.CIFInterpreter.generateABC2XYZ(lengths[0], lengths[1], lengths[2], angles[0], angles[1], angles[2]);
 
 		if(!offset){
-			this.offset = [0.5,0.5,0.5];
+			this.offset = [0,0,0];
 		}
-
-		const qwe = 1
 
 		this.unitCellVectors = {
 			o : m4.multiplyVec3(abc2xyz, this.offset, []),
-			x : m4.multiplyVec3(abc2xyz, [ this.offset[0] + qwe, this.offset[1], this.offset[2] ]),
-			y : m4.multiplyVec3(abc2xyz, [ this.offset[0], this.offset[1] + qwe, this.offset[2] ]),
-			z : m4.multiplyVec3(abc2xyz, [ this.offset[0], this.offset[1], this.offset[2] + qwe ]),
-			xy : m4.multiplyVec3(abc2xyz, [ this.offset[0] + qwe, this.offset[1] + qwe, this.offset[2] ]),
-			xz : m4.multiplyVec3(abc2xyz, [ this.offset[0] + qwe, this.offset[1], this.offset[2] + qwe ]),
-			yz : m4.multiplyVec3(abc2xyz, [ this.offset[0], this.offset[1] + qwe, this.offset[2] + qwe ]),
-			xyz : m4.multiplyVec3(abc2xyz, [ this.offset[0] + qwe, this.offset[1] + qwe, this.offset[2] + qwe ])
+			x : m4.multiplyVec3(abc2xyz, [ this.offset[0] + 1, this.offset[1], this.offset[2] ]),
+			y : m4.multiplyVec3(abc2xyz, [ this.offset[0], this.offset[1] + 1, this.offset[2] ]),
+			z : m4.multiplyVec3(abc2xyz, [ this.offset[0], this.offset[1], this.offset[2] + 1 ]),
+			xy : m4.multiplyVec3(abc2xyz, [ this.offset[0] + 1, this.offset[1] + 1, this.offset[2] ]),
+			xz : m4.multiplyVec3(abc2xyz, [ this.offset[0] + 1, this.offset[1], this.offset[2] + 1 ]),
+			yz : m4.multiplyVec3(abc2xyz, [ this.offset[0], this.offset[1] + 1, this.offset[2] + 1 ]),
+			xyz : m4.multiplyVec3(abc2xyz, [ this.offset[0] + 1, this.offset[1] + 1, this.offset[2] + 1 ])
 		};
 
 		let positionData = [];
@@ -22136,7 +22132,7 @@ ChemDoodle.RESIDUE = (function(undefined) {
 	_.setParameter = function(gl, width, height) {
 		this.width = width;
 		this.height = height;
-
+		
 		gl.bindRenderbuffer(gl.RENDERBUFFER, this.renderbuffer);
 		gl.renderbufferStorage(gl.RENDERBUFFER, this.format, this.width, this.height);
 		gl.bindRenderbuffer(gl.RENDERBUFFER, null);
@@ -22249,7 +22245,7 @@ ChemDoodle.RESIDUE = (function(undefined) {
 
 		gl.attachShader(this.gProgram, vertexShader);
 		gl.attachShader(this.gProgram, fragmentShader);
-
+		
 		this.onShaderAttached(gl);
 
 		gl.linkProgram(this.gProgram);
@@ -22392,7 +22388,7 @@ ChemDoodle.RESIDUE = (function(undefined) {
 	_.loadDefaultVertexShader = function(gl) {
 		let sb = [
 		'precision mediump float;',
-
+		
 		// attributes set when rendering objects
 		'attribute vec3 a_vertex_position;',
 
@@ -22594,7 +22590,7 @@ ChemDoodle.RESIDUE = (function(undefined) {
 	_.loadDefaultVertexShader = function(gl) {
 		let sb = [
 		'precision mediump float;',
-
+		
 		// attributes set when rendering objects
 		'attribute vec3 a_vertex_position;',
 		'attribute vec3 a_vertex_normal;',
@@ -22636,13 +22632,13 @@ ChemDoodle.RESIDUE = (function(undefined) {
 		let sb = [
 		// set macro for depth mmap texture
 		gl.depthTextureExt ? '#define CWC_DEPTH_TEX\n' : '',
-
+		
 		// set float precision
 		'precision mediump float;',
 
 		// texture for draw text nor shadow map
 		'uniform sampler2D u_image;',
-
+					
 		// from the vertex shader
 		'varying vec2 v_texcoord;',
 
@@ -22676,7 +22672,7 @@ ChemDoodle.RESIDUE = (function(undefined) {
 	};
 	let _super = d3._Shader.prototype;
 	let _ = d3.LightingShader.prototype = new d3._Shader();
-
+	
 	_.initUniformLocations = function(gl) {
 		_super.initUniformLocations.call(this, gl);
 		// assign uniform properties
@@ -22688,7 +22684,7 @@ ChemDoodle.RESIDUE = (function(undefined) {
 	_.loadDefaultVertexShader = function(gl) {
 		let sb = [
 		'precision mediump float;',
-
+		
 		// attributes set when rendering objects
 		'attribute vec3 a_vertex_position;',
 
@@ -22712,7 +22708,7 @@ ChemDoodle.RESIDUE = (function(undefined) {
 	    'uniform sampler2D u_color_sample;',
 		'uniform sampler2D u_ssao_sample;',
 		'uniform sampler2D u_outline_sample;',
-
+	    
     	'varying vec2 v_texcoord;',
 
 	    'void main() {',
@@ -22750,7 +22746,7 @@ ChemDoodle.RESIDUE = (function(undefined) {
 	_.loadDefaultVertexShader = function(gl) {
 		let sb = [
 		'precision mediump float;',
-
+		
 		// attributes set when rendering objects
 		'attribute vec3 a_vertex_position;',
 		'attribute vec3 a_vertex_normal;',
@@ -22766,26 +22762,26 @@ ChemDoodle.RESIDUE = (function(undefined) {
 		'void main() {',
 
 			'v_normal = length(a_vertex_normal)==0. ? a_vertex_normal : u_normal_matrix * a_vertex_normal;',
-
+			
 			'gl_Position = u_projection_matrix * u_model_view_matrix * vec4(a_vertex_position, 1.);',
 
 		'}'].join('');
-
+		
 		return this.getShaderFromStr(gl, gl.VERTEX_SHADER, sb);
 	};
 	_.loadDefaultFragmentShader = function(gl) {
 		let sb = [
-
+		
 		// set float precision
 		'precision mediump float;',
-
+					
 		'varying vec3 v_normal;',
 
 		'void main(void) {',
 			'vec3 normal = length(v_normal)==0. ? vec3(0., 0., 1.) : normalize(v_normal);',
 			'gl_FragColor = vec4(normal, 0.);',
 		'}'].join('');
-
+		
 		return this.getShaderFromStr(gl, gl.FRAGMENT_SHADER, sb);
 	};
 	_.enableAttribsArray = function(gl) {
@@ -22826,7 +22822,7 @@ ChemDoodle.RESIDUE = (function(undefined) {
 	_.loadDefaultVertexShader = function(gl) {
 		let sb = [
 		'precision mediump float;',
-
+		
 		// attributes set when rendering objects
 		'attribute vec3 a_vertex_position;',
 
@@ -22854,7 +22850,7 @@ ChemDoodle.RESIDUE = (function(undefined) {
 
 	    'uniform vec2 u_gbuffer_texture_size;',
 
-
+	    
 	    'varying vec2 v_texcoord;',
 
 	    'void main() {',
@@ -22940,7 +22936,7 @@ ChemDoodle.RESIDUE = (function(undefined) {
 		this.shadowUniform = gl.getUniformLocation(this.gProgram, 'u_shadow');
 		this.flatColorUniform = gl.getUniformLocation(this.gProgram, 'u_flat_color');
 		this.normalMatrixUniform = gl.getUniformLocation(this.gProgram, 'u_normal_matrix');
-
+		
 		this.lightModelViewMatrixUniform = gl.getUniformLocation(this.gProgram, 'u_light_model_view_matrix');
 		this.lightProjectionMatrixUniform = gl.getUniformLocation(this.gProgram, 'u_light_projection_matrix');
 
@@ -22964,17 +22960,17 @@ ChemDoodle.RESIDUE = (function(undefined) {
 		this.shadowDepthSampleUniform = gl.getUniformLocation(this.gProgram, 'u_shadow_depth_sample');
 		this.shadowTextureSizeUniform = gl.getUniformLocation(this.gProgram, 'u_shadow_texture_size');
 		this.shadowIntensityUniform = gl.getUniformLocation(this.gProgram, 'u_shadow_intensity');
-
+		
 		// gamma correction
 		this.gammaCorrectionUniform = gl.getUniformLocation(this.gProgram, 'u_gamma_inverted');
-
+		
 		// point size
 		this.pointSizeUniform = gl.getUniformLocation(this.gProgram, 'u_point_size');
 	};
 	_.loadDefaultVertexShader = function(gl) {
 		let sb = [
 		'precision mediump float;',
-
+		
 		// attributes set when rendering objects
 		'attribute vec3 a_vertex_position;',
 		'attribute vec3 a_vertex_normal;',
@@ -22999,7 +22995,7 @@ ChemDoodle.RESIDUE = (function(undefined) {
 		'varying vec3 v_diffuse;',
 		'varying vec3 v_ambient;',
 		'varying vec3 v_normal;',
-
+		
 		'uniform float u_point_size;',
 
 		'void main() {',
@@ -23016,7 +23012,7 @@ ChemDoodle.RESIDUE = (function(undefined) {
 			'vec4 viewPos = u_model_view_matrix * vec4(a_vertex_position, 1.);',
 
 			'v_viewpos = viewPos.xyz / viewPos.w;',
-
+			
 			'gl_Position = u_projection_matrix * viewPos;',
 
 			// just to make sure the w is 1
@@ -23024,17 +23020,17 @@ ChemDoodle.RESIDUE = (function(undefined) {
 			'gl_PointSize = u_point_size;',
 
 		'}'].join('');
-
+		
 		return this.getShaderFromStr(gl, gl.VERTEX_SHADER, sb);
 	};
 	_.loadDefaultFragmentShader = function(gl) {
 		let sb = [
 		// set macro for depth mmap texture
 		gl.depthTextureExt ? '#define CWC_DEPTH_TEX\n' : '',
-
+		
 		// set float precision
 		'precision mediump float;',
-
+					
 		// scene uniforms
 		'uniform vec3 u_light_specular_color;',
 		'uniform vec3 u_light_direction;',
@@ -23053,14 +23049,14 @@ ChemDoodle.RESIDUE = (function(undefined) {
 		'uniform float u_shadow_intensity;',
 
 		'uniform bool u_flat_color;',
-
+		
 		'uniform float u_gamma_inverted;',
 
 		// texture for shadow map
 		'uniform sampler2D u_shadow_depth_sample;',
 
 		'uniform vec2 u_shadow_texture_size;',
-
+					
 		// from the vertex shader
 		'varying vec3 v_viewpos;',
   		'varying vec4 v_shadcoord;',
@@ -23153,7 +23149,7 @@ ChemDoodle.RESIDUE = (function(undefined) {
 			'}',
 		'}'
 		].join('');
-
+		
 		return this.getShaderFromStr(gl, gl.FRAGMENT_SHADER, sb);
 	};
 	_.enableAttribsArray = function(gl) {
@@ -23264,7 +23260,7 @@ ChemDoodle.RESIDUE = (function(undefined) {
 	_.loadDefaultVertexShader = function(gl) {
 		let sb = [
 		'precision mediump float;',
-
+		
 		// attributes set when rendering objects
 		'attribute vec3 a_vertex_position;',
 
@@ -23273,7 +23269,7 @@ ChemDoodle.RESIDUE = (function(undefined) {
 		'uniform mat4 u_projection_matrix;',
 
 		'void main() {',
-
+			
 			'gl_Position = u_projection_matrix * u_model_view_matrix * vec4(a_vertex_position, 1.);',
 
 			// just to make sure the w is 1
@@ -23287,12 +23283,12 @@ ChemDoodle.RESIDUE = (function(undefined) {
 		let sb = [
 		// set macro for depth mmap texture
 		gl.depthTextureExt ? '#define CWC_DEPTH_TEX\n' : '',
-
+		
 		// set float precision
 		'precision mediump float;',
 
 		'uniform vec3 u_material_diffuse_color;',
-
+					
 		'void main(void) {',
 			'gl_FragColor = vec4(u_material_diffuse_color, 1.);',
 		'}'
@@ -23317,7 +23313,7 @@ ChemDoodle.RESIDUE = (function(undefined) {
 	_.loadDefaultVertexShader = function(gl) {
 		let sb = [
 		'precision mediump float;',
-
+		
 		// attributes set when rendering objects
 		'attribute vec3 a_vertex_position;',
 
@@ -23335,7 +23331,7 @@ ChemDoodle.RESIDUE = (function(undefined) {
 			'v_position = viewPos / viewPos.w;',
 
 		'}'].join('');
-
+		
 		return this.getShaderFromStr(gl, gl.VERTEX_SHADER, sb);
 	};
 	_.loadDefaultFragmentShader = function(gl) {
@@ -23348,7 +23344,7 @@ ChemDoodle.RESIDUE = (function(undefined) {
 		'void main(void) {',
 			'gl_FragColor = v_position;',
 		'}'].join('');
-
+		
 		return this.getShaderFromStr(gl, gl.FRAGMENT_SHADER, sb);
 	};
 
@@ -23363,7 +23359,7 @@ ChemDoodle.RESIDUE = (function(undefined) {
 	_.loadDefaultVertexShader = function(gl) {
 		let sb = [
 		'precision mediump float;',
-
+		
 		// attributes set when rendering objects
 		'attribute vec3 a_vertex_position;',
 
@@ -23385,7 +23381,7 @@ ChemDoodle.RESIDUE = (function(undefined) {
 	    'uniform sampler2D u_image;',
 
     	'varying vec2 v_texcoord;',
-
+	    
 	    'void main() {',
 	        'gl_FragColor = texture2D(u_image, v_texcoord);',
 	    '}'].join('');
@@ -23397,13 +23393,13 @@ ChemDoodle.RESIDUE = (function(undefined) {
 
 (function(structures, d3, ELEMENT, MarchingCubes, v3, m, undefined) {
 	'use strict';
-
+	
 	let Triangle = function(i1, i2, i3){
 		this.i1 = i1;
 		this.i2 = i2;
 		this.i3 = i3;
 	};
-
+	
 	function getRange(atoms, probeRadius) {
 		let r = [Infinity, -Infinity, Infinity, -Infinity, Infinity, -Infinity];
 		let add = probeRadius + 2;
@@ -23418,7 +23414,7 @@ ChemDoodle.RESIDUE = (function(undefined) {
 		}
 		return r;
 	};
-
+	
 	function addPoint(p, points, xs, ys, zs, step) {
 		// transform back into real space
 		let px = p[0] * step + xs - step;
@@ -23440,7 +23436,7 @@ ChemDoodle.RESIDUE = (function(undefined) {
 		}
 		return index;
 	};
-
+	
 	d3._Surface = function() {
 	};
 	let _ = d3._Surface.prototype = new d3._Mesh();
@@ -23473,23 +23469,23 @@ ChemDoodle.RESIDUE = (function(undefined) {
 		let ydif = range[3] - range[2];
 		let zdif = range[5] - range[4];
 		let step = m.min(xdif, m.min(ydif, zdif)) / resolution;
-
+		
 		// generate the function
 		let xsteps = 2 + m.ceil(xdif / step);
 		let ysteps = 2 + m.ceil(ydif / step);
 		let zsteps = 2 + m.ceil(zdif / step);
 		let vals = this.generate(xdif, ydif, zdif, step, range, xsteps, ysteps, zsteps);
-
+		
 		// marching cubes
 		let mesh = MarchingCubes(vals, [xsteps, ysteps, zsteps]);
-
+		
 		// build surface
 		let ps = [];
 		let is = [];
 		for (let i = 0, ii = mesh.vertices.length; i<ii; i++) {
 			is.push(addPoint(mesh.vertices[i], ps, range[0], range[2], range[4], step));
 		}
-
+		
 		// triangles
 		let triangles = [];
 		for (let i = 0, ii = mesh.faces.length; i < ii; i++) {
@@ -23500,7 +23496,7 @@ ChemDoodle.RESIDUE = (function(undefined) {
 			triangles.push(new Triangle(i1, i2, i3));
 			indexData.push(i1, i2, i3);
 		}
-
+		
 		// smoothing - 1 pass
 		let savedConnections = [];
 		for (let i = 0, ii = ps.length; i < ii; i++) {
@@ -23556,7 +23552,7 @@ ChemDoodle.RESIDUE = (function(undefined) {
 			let pi = ps[i];
 			positionData.push(pi.x, pi.y, pi.z);
 		}
-
+		
 		// normals
 		for (let i = 0, ii = triangles.length; i < ii; i++) {
 			let t = triangles[i];
@@ -23619,14 +23615,14 @@ ChemDoodle.RESIDUE = (function(undefined) {
 			// solid
 			gl.drawElements(gl.TRIANGLES, this.vertexIndexBuffer.numItems, gl.UNSIGNED_SHORT, 0);
 		}
-
+		
 	};
 
 })(ChemDoodle.structures, ChemDoodle.structures.d3, ChemDoodle.ELEMENT, ChemDoodle.lib.MarchingCubes, ChemDoodle.lib.vec3, Math);
 
 (function(structures, d3, ELEMENT, m, undefined) {
 	'use strict';
-
+	
 	d3.SASSurface = function(atoms, probeRadius, resolution) {
 		this.atoms = atoms;
 		this.probeRadius = probeRadius;
@@ -23646,13 +23642,13 @@ ChemDoodle.RESIDUE = (function(undefined) {
 		}
 		return min;
 	};
-
+	
 
 })(ChemDoodle.structures, ChemDoodle.structures.d3, ChemDoodle.ELEMENT, Math);
 
 (function(structures, d3, ELEMENT, m, undefined) {
 	'use strict';
-
+	
 	d3.VDWSurface = function(atoms, resolution) {
 		this.atoms = atoms;
 		this.probeRadius = 0;
@@ -23672,7 +23668,7 @@ ChemDoodle.RESIDUE = (function(undefined) {
 		}
 		return min;
 	};
-
+	
 
 })(ChemDoodle.structures, ChemDoodle.structures.d3, ChemDoodle.ELEMENT, Math);
 
@@ -24648,9 +24644,6 @@ ChemDoodle.RESIDUE = (function(undefined) {
 				}
 			}
 		}
-
-		transformLoop.lines = transformLoop.lines.concat(["x, y, z+1", "x, y+1, z", "x+1, y, z", "x, y+1, z+1", "x+1, y, z+1", "x, y, z+1", "x+1, y+1, z+1"]);
-
 		let abc2xyz = io.CIFInterpreter.generateABC2XYZ(aLength, bLength, cLength, alphaAngle, betaAngle, gammaAngle);
 		// internal atom coordinates
 		if (atomLoop) {
@@ -24673,10 +24666,6 @@ ChemDoodle.RESIDUE = (function(undefined) {
 				line = atomLoop.lines[i];
 				let tokens = line.split(whitespaceRegex).filter(filter);
 				let a = new structures.Atom(tokens[labelIndex === -1 ? altLabelIndex : labelIndex].split(digitsSymbolRegex)[0], parseFloat(tokens[xIndex]), parseFloat(tokens[yIndex]), parseFloat(tokens[zIndex]));
-
-				console.log("!!!",a)
-
-
 				molecule.atoms.push(a);
 				if (altLabelIndex !== -1) {
 					a.cifId = tokens[altLabelIndex];
@@ -24684,10 +24673,6 @@ ChemDoodle.RESIDUE = (function(undefined) {
 				}
 			}
 		}
-
-		console.log("???",molecule.atoms)
-
-
 		// transforms, unless bonds are specified
 		if (transformLoop && !bondLoop) {
 			// assume the index is 0, just incase a different identifier is
@@ -24701,14 +24686,6 @@ ChemDoodle.RESIDUE = (function(undefined) {
 			}
 			let impliedTranslations = hallTranslations[hallClass];
 			let add = [];
-
-
-			//transformLoop.lines = transformLoop.lines.concat(["x, y, z+1", "x, y+1, z", "x+1, y, z", "x, y+1, z+1", "x+1, y, z+1", "x, y, z+1", "x+1, y+1, z+1"]);
-
-			console.log("///", transformLoop.lines)
-
-
-
 			for ( let i = 0, ii = transformLoop.lines.length; i < ii; i++) {
 				let parts = transformLoop.lines[i].split(whitespaceAndQuoteAndCommaRegex).filter(filter);
 				let multx = parseTransform(parts[symIndex]);
@@ -24720,11 +24697,7 @@ ChemDoodle.RESIDUE = (function(undefined) {
 					let y = a.x * multy[1] + a.y * multy[2] + a.z * multy[3] + multy[0];
 					let z = a.x * multz[1] + a.y * multz[2] + a.z * multz[3] + multz[0];
 					let copy1 = new structures.Atom(a.label, x, y, z);
-					console.log("===",copy1.x,copy1.y,copy1.z)
-					//let copy2 = new structures.Atom(a.label, 1, 1, 1);
-
 					add.push(copy1);
-					//add.push(copy2);
 					// cifID could be 0, so check for undefined
 					if (a.cifId !== undefined) {
 						copy1.cifId = a.cifId;
@@ -24747,19 +24720,19 @@ ChemDoodle.RESIDUE = (function(undefined) {
 			// make sure all atoms are within the unit cell
 			for ( let i = 0, ii = add.length; i < ii; i++) {
 				let a = add[i];
-				while (a.x > 1) {
+				while (a.x >= 1) {
 					a.x--;
 				}
 				while (a.x < 0) {
 					a.x++;
 				}
-				while (a.y > 1) {
+				while (a.y >= 1) {
 					a.y--;
 				}
 				while (a.y < 0) {
 					a.y++;
 				}
-				while (a.z > 1) {
+				while (a.z >= 1) {
 					a.z--;
 				}
 				while (a.z < 0) {
@@ -24797,18 +24770,15 @@ ChemDoodle.RESIDUE = (function(undefined) {
 		for ( let i = 0; i < xSuper; i++) {
 			for ( let j = 0; j < ySuper; j++) {
 				for ( let k = 0; k < zSuper; k++) {
-					console.log("--",i,j,k)
 					if (!(i === 0 && j === 0 && k === 0)) {
 						for ( let l = 0, ll = molecule.atoms.length; l < ll; l++) {
 							let a = molecule.atoms[l];
 							let copy = new structures.Atom(a.label, a.x + i, a.y + j, a.z + k);
 							extras.push(copy);
-
 							// cifID could be 0, so check for undefined
 							if (a.cifId !== undefined) {
 								copy.cifId = a.cifId;
 								copy.cifPart = a.cifPart + (transformLoop ? transformLoop.lines.length : 0) + i + j * 10 + k * 100;
-								console.log("+++",i,j,k)
 							}
 						}
 					}
@@ -24820,12 +24790,9 @@ ChemDoodle.RESIDUE = (function(undefined) {
 		for ( let i = 0, ii = molecule.atoms.length; i < ii; i++) {
 			let a = molecule.atoms[i];
 			let xyz = m4.multiplyVec3(abc2xyz, [ a.x, a.y, a.z ]);
-			console.log("** 1",a.x,a.y,a.z)
 			a.x = xyz[0];
 			a.y = xyz[1];
 			a.z = xyz[2];
-			console.log("** 2",a.x,a.y,a.z)
-
 		}
 		// handle bonds
 		if (bondLoop) {
@@ -24927,7 +24894,7 @@ ChemDoodle.RESIDUE = (function(undefined) {
 						order = 1.5;
 						break;
 					default:
-						order = 1;
+						order = 1;	 
 					}
 					let currentBond = molecules[j].bonds[k] = new structures.Bond(a1, a2, order);
 					// check stereo... only support W or H
@@ -24950,16 +24917,16 @@ ChemDoodle.RESIDUE = (function(undefined) {
 		sb.push('<cml convention="conventions:molecular" xmlns="http://www.xml-cml.org/schema" xmlns:conventions="http://www.xml-cml.org/convention/" xmlns:dc="http://purl.org/dc/elements/1.1/">\n');
 		// TODO: Metadata
 		for (let i = 0, ii = molecules.length; i < ii; i++) {
-			sb.push('<molecule id="m');
-			sb.push(i);
+			sb.push('<molecule id="m'); 
+			sb.push(i); 
 			sb.push('">');
 			sb.push('<atomArray>');
 			for (let j = 0, jj = molecules[i].atoms.length; j < jj; j++) {
 				let currentAtom = molecules[i].atoms[j];
-				sb.push('<atom elementType="');
-				sb.push(currentAtom.label);
+				sb.push('<atom elementType="'); 
+				sb.push(currentAtom.label); 
 				sb.push('" id="a');
-				sb.push(j);
+				sb.push(j); 
 				sb.push('" ');
 				// Always do 3D coordinates, unless there is a fancy reliable way to tell if the molecule is 2D.
 				sb.push('x3="');
@@ -25016,7 +24983,7 @@ ChemDoodle.RESIDUE = (function(undefined) {
 	c.writeCML = function(molecules) {
 		return interpreter.write(molecules);
 	};
-
+	
 })(ChemDoodle, ChemDoodle.io, ChemDoodle.structures, ChemDoodle.lib.jQuery);
 
 (function(c, ELEMENT, io, structures, undefined) {
@@ -25200,7 +25167,7 @@ ChemDoodle.RESIDUE = (function(undefined) {
 			}
 		}
 	}
-
+	
 	io.PDBInterpreter = function() {
 	};
 	let _ = io.PDBInterpreter.prototype = new io._Interpreter();
@@ -27226,7 +27193,7 @@ ChemDoodle.monitor = (function(featureDetection, q, document, undefined) {
 		e.offset = q('#' + this.id).offset();
 		e.p = new structures.Point(e.pageX - e.offset.left, e.pageY - e.offset.top);
 	};
-
+	
 })(ChemDoodle, ChemDoodle.featureDetection, ChemDoodle.math, ChemDoodle.monitor, ChemDoodle.structures, ChemDoodle.lib.jQuery, Math, document, window, navigator.userAgent);
 
 (function(c, animations, undefined) {
@@ -27996,7 +27963,7 @@ ChemDoodle.monitor = (function(featureDetection, q, document, undefined) {
 			// there is no content
 			maxDimension3D = 10;
 		}
-
+		
 		this.maxDimension = m.max(bounds.maxX - bounds.minX, bounds.maxY - bounds.minY);
 
 		let fov         = m.min(179.9, m.max(this.styles.projectionPerspectiveVerticalFieldOfView_3D, 0.1));
@@ -28015,7 +27982,7 @@ ChemDoodle.monitor = (function(featureDetection, q, document, undefined) {
 		m4.translate(m4.identity(this.camera.viewMatrix), [ 0, 0, -focalLength]);
 
 		let lightFocalLength = top / m.tan(theta);
-
+		
 		this.lighting.camera.fieldOfView = fov;
 		this.lighting.camera.near = lightFocalLength - top;
 		this.lighting.camera.far = lightFocalLength + top;
@@ -28076,7 +28043,7 @@ ChemDoodle.monitor = (function(featureDetection, q, document, undefined) {
 				s.render(this.gl, this.styles);
 			}
 		}
-
+		
 		// transparent shapes
 		if(transparentShapes.length!==0){
 			//this.gl.blendFunc(gl.SRC_ALPHA, gl.ONE);
@@ -28089,9 +28056,9 @@ ChemDoodle.monitor = (function(featureDetection, q, document, undefined) {
 			}
 			this.gl.depthMask(true);
 			this.gl.disable(this.gl.BLEND);
-			this.gl.blendFuncSeparate(this.gl.SRC_ALPHA, this.gl.ONE_MINUS_SRC_ALPHA, this.gl.ONE, this.gl.ONE_MINUS_SRC_ALPHA);
+			this.gl.blendFuncSeparate(this.gl.SRC_ALPHA, this.gl.ONE_MINUS_SRC_ALPHA, this.gl.ONE, this.gl.ONE_MINUS_SRC_ALPHA);		
 		}
-
+		
 
 		this.phongShader.setShadow(this.gl, false);
 		this.phongShader.setFogMode(this.gl, 0);
@@ -28146,7 +28113,7 @@ ChemDoodle.monitor = (function(featureDetection, q, document, undefined) {
 		this.gl.disable(this.gl.BLEND);
 		this.gl.depthMask(true);
 		this.gl.flush();
-
+		
 		if (this.drawChildExtras) {
 			this.drawChildExtras(this.gl);
 		}
@@ -28180,7 +28147,7 @@ ChemDoodle.monitor = (function(featureDetection, q, document, undefined) {
 		this.phongShader.setLightDiffuseColor(this.gl, this.lighting.diffuseRGB);
 		this.phongShader.setLightSpecularColor(this.gl, this.lighting.specularRGB);
 		this.phongShader.setLightDirection(this.gl, this.lighting.direction);
-
+		
 		this.phongShader.enableAttribsArray(this.gl);
 
 		for ( let i = 0, ii = this.molecules.length; i < ii; i++) {
@@ -28365,7 +28332,7 @@ ChemDoodle.monitor = (function(featureDetection, q, document, undefined) {
 		// composite render
 		this.quadFramebuffer.bind(this.gl, this.gl.drawingBufferWidth, this.gl.drawingBufferHeight);
 		this.gl.clear(this.gl.COLOR_BUFFER_BIT);
-
+		
 		this.lightingShader.useShaderProgram(this.gl);
 
 		this.gl.uniform1i(this.lightingShader.positionSampleUniform, 0);
@@ -28502,7 +28469,7 @@ ChemDoodle.monitor = (function(featureDetection, q, document, undefined) {
 			this.gl.rotationMatrix = this.rotationMatrix;
 
 			this.pickShader.useShaderProgram(this.gl);
-
+			
 			// current clear color
 			let cs = this.gl.getParameter(this.gl.COLOR_CLEAR_VALUE);
 
@@ -28571,7 +28538,7 @@ ChemDoodle.monitor = (function(featureDetection, q, document, undefined) {
 		} catch (e) {
 		}
 		if (this.gl) {
-
+		
 			if (this.pixelRatio !== 1 && this.gl.canvas.width === this.width) {
 				this.gl.canvas.style.width = this.width + 'px';
 				this.gl.canvas.style.height = this.height + 'px';
@@ -28595,10 +28562,10 @@ ChemDoodle.monitor = (function(featureDetection, q, document, undefined) {
 			this.label3D = new d3.Label();
 
 			this.lighting = new d3.Light(this.styles.lightDiffuseColor_3D, this.styles.lightSpecularColor_3D, this.styles.lightDirection_3D);
-
+			
 			this.fogging = new d3.Fog(this.styles.fog_color_3D || this.styles.backgroundColor, this.styles.fog_start_3D, this.styles.fog_end_3D, this.styles.fog_density_3D);
-
-
+			
+			
 			// uncomment this line to see shadow without depth texture extension
 			this.gl.depthTextureExt = this.gl.getExtension('WEBGL_depth_texture') || this.gl.getExtension('WEBKIT_WEBGL_depth_texture') || this.gl.getExtension('MOZ_WEBGL_depth_texture');
 			this.gl.textureFloatExt = this.gl.getExtension('OES_texture_float') || this.gl.getExtension('WEBKIT_OES_texture_float') || this.gl.getExtension('MOZ_OES_texture_float');
@@ -28611,7 +28578,7 @@ ChemDoodle.monitor = (function(featureDetection, q, document, undefined) {
 			this.pickerColorTexture = new d3.Texture();
 			this.pickerColorTexture.init(this.gl, this.gl.UNSIGNED_BYTE, this.gl.RGBA, this.gl.RGBA);
 
-			// set picker depth attachment
+			// set picker depth attachment 
 			this.pickerDepthRenderbuffer = new d3.Renderbuffer();
 			this.pickerDepthRenderbuffer.init(this.gl, this.gl.DEPTH_COMPONENT16);
 
@@ -28626,7 +28593,7 @@ ChemDoodle.monitor = (function(featureDetection, q, document, undefined) {
 			this.lightDepthMapRenderbuffer = new d3.Renderbuffer();
 			this.lightDepthMapFramebuffer = new d3.Framebuffer();
 			this.lightDepthMapFramebuffer.init(this.gl);
-
+			
 			if(this.gl.depthTextureExt) {
 				this.lightDepthMapTexture.init(this.gl, this.gl.UNSIGNED_SHORT, this.gl.DEPTH_COMPONENT);
 				this.lightDepthMapRenderbuffer.init(this.gl, this.gl.RGBA4);
@@ -28716,7 +28683,7 @@ ChemDoodle.monitor = (function(featureDetection, q, document, undefined) {
 				if(d3.SSAOShader){
 					this.ssaoShader = new d3.SSAOShader();
 					this.ssaoShader.init(this.gl);
-
+	
 					this.ssaoBlurShader = new d3.SSAOBlurShader();
 					this.ssaoBlurShader.init(this.gl);
 				}
@@ -28791,7 +28758,7 @@ ChemDoodle.monitor = (function(featureDetection, q, document, undefined) {
 		};
 		this.textTextImage.pushVertexData(text, position, 0, vertexData);
 		this.gl.textMesh.storeData(this.gl, vertexData.position, vertexData.texCoord, vertexData.translation);
-
+		
 		this.textTextImage.useTexture(this.gl);
 		this.gl.textMesh.render(this.gl);
 	};
@@ -28832,7 +28799,7 @@ ChemDoodle.monitor = (function(featureDetection, q, document, undefined) {
 
 			this.pickerColorTexture.setParameter(this.gl, this.gl.drawingBufferWidth, this.gl.drawingBufferHeight);
 			this.pickerDepthRenderbuffer.setParameter(this.gl, this.gl.drawingBufferWidth, this.gl.drawingBufferHeight);
-
+			
 			if(this.isSupportDeferred()) {
 				this.depthTexture.setParameter(this.gl, this.gl.drawingBufferWidth, this.gl.drawingBufferHeight);
 
@@ -28954,9 +28921,9 @@ ChemDoodle.monitor = (function(featureDetection, q, document, undefined) {
 		this.camera.updateProjectionMatrix(this.styles.projectionPerspective_3D);
 
 		this.lighting.lightScene(this.styles.lightDiffuseColor_3D, this.styles.lightSpecularColor_3D, this.styles.lightDirection_3D);
-
+		
 		this.fogging.fogScene(this.styles.fog_color_3D || this.styles.backgroundColor, this.styles.fog_start_3D, this.styles.fog_end_3D, this.styles.fog_density_3D);
-
+		
 		this.repaint();
 	};
 	_.mousedown = function(e) {
@@ -29644,7 +29611,7 @@ ChemDoodle.monitor = (function(featureDetection, q, document, undefined) {
 			callback(content.map);
 		}, errorback);
 	};
-
+	
 	iChemLabs.mechanismMatch = function(arrow, targets, options, callback, errorback) {
 		this._contactServer('matchMechanism', {
 			'arrow' : arrow,
