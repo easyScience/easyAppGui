@@ -3,6 +3,7 @@ import QtQuick.Controls 2.13
 import QtWebEngine 1.10
 
 import easyAppGui.Style 1.0 as EaStyle
+import easyAppGui.Animations 1.0 as EaAnimations
 import easyAppGui.Elements 1.0 as EaElements
 import easyAppGui.Logic 1.0 as EaLogic
 
@@ -25,6 +26,9 @@ Rectangle {
     onThemeChanged: setChartColors()
 
     color: EaStyle.Colors.chartPlotAreaBackground
+    Behavior on color {
+        EaAnimations.ThemeChange {}
+    }
 
     WebEngineView {
         id: structureView
@@ -43,6 +47,11 @@ Rectangle {
         backgroundColor: parent.color
 
         url: 'BaseChemDoodle.html'
+
+        opacity: cifStr === '""' ? 0 : 1
+        Behavior on opacity {
+            EaAnimations.ThemeChange { duration: 500 }
+        }
 
         onLoadingChanged: {
             if (loadRequest.status === WebEngineView.LoadSucceededStatus) {
