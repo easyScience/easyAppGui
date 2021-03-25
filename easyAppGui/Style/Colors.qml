@@ -33,8 +33,8 @@ QtObject {
 
     property color themeBackground: isDarkTheme ? "#303030" : "#e9e9e9"
     property color themeBackgroundDisabled: isDarkTheme ? "#333" : "#e9e9e9"
-    property color themeBackgroundHovered1: isDarkTheme ? "#444" : "#fefefe"
-    property color themeBackgroundHovered2: isDarkTheme ? "#4a4a4a" : "#f7f7f7"
+    property color themeBackgroundHovered1: isDarkTheme ? "#353535" : "#fefefe"
+    property color themeBackgroundHovered2: isDarkTheme ? "#3a3a3a" : "#f7f7f7"
 
     property color themeForeground: isDarkTheme ? "#eee" : "#333"
     property color themeForegroundMinor: isDarkTheme ? "#888" : "#aaa"
