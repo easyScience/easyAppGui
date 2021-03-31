@@ -3,10 +3,6 @@ import QtQuick.Templates 2.13 as T
 import QtQuick.Controls 2.13
 import QtQuick.Controls.impl 2.13
 
-//import Globals 1.0 as Globals
-//import Templates.Animations 1.0 as Animations
-//import Templates.Controls 1.0
-
 import easyAppGui.Style 1.0 as EaStyle
 import easyAppGui.Globals 1.0 as EaGlobals
 import easyAppGui.Animations 1.0 as EaAnimations
@@ -14,8 +10,6 @@ import easyAppGui.Elements 1.0 as EaElements
 
 T.Dialog {
     id: control
-
-    property alias buttonBox: control.footer
 
     implicitWidth: Math.max(implicitBackgroundWidth + leftInset + rightInset,
                             contentWidth + leftPadding + rightPadding,
@@ -93,8 +87,6 @@ T.Dialog {
 
     footer: EaElements.DialogButtonBox {
         visible: count > 0
-        bottomPadding: EaStyle.Sizes.fontPixelSize * 1.2
-        rightPadding: EaStyle.Sizes.fontPixelSize * 1.2
     }
 
     T.Overlay.modal: Rectangle {
