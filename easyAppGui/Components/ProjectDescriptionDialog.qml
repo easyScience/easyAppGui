@@ -22,12 +22,6 @@ EaElements.Dialog {
 
     title: qsTr("Project Description")
 
-    parent: Overlay.overlay
-
-    x: (parent.width - width) * 0.5
-    y: (parent.height - height) * 0.5
-
-    modal: true
     standardButtons: Dialog.Ok
 
     Column {

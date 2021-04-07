@@ -11,6 +11,12 @@ import easyAppGui.Elements 1.0 as EaElements
 T.Dialog {
     id: control
 
+    parent: Overlay.overlay
+    modal: true
+
+    x: (parent.width - width) * 0.5
+    y: (parent.height - height) * 0.5
+
     implicitWidth: Math.max(implicitBackgroundWidth + leftInset + rightInset,
                             contentWidth + leftPadding + rightPadding,
                             implicitHeaderWidth,
@@ -20,9 +26,12 @@ T.Dialog {
                              + (implicitHeaderHeight > 0 ? implicitHeaderHeight + spacing : 0)
                              + (implicitFooterHeight > 0 ? implicitFooterHeight + spacing : 0))
 
-    padding: EaStyle.Sizes.fontPixelSize * 2
-    topPadding: EaStyle.Sizes.fontPixelSize * 1.3
-    bottomPadding: EaStyle.Sizes.fontPixelSize * 0.5
+    spacing: EaStyle.Sizes.fontPixelSize
+
+    topPadding: EaStyle.Sizes.fontPixelSize
+    bottomPadding: EaStyle.Sizes.fontPixelSize
+    leftPadding: EaStyle.Sizes.fontPixelSize * 2
+    rightPadding: EaStyle.Sizes.fontPixelSize * 2
 
     font.family: EaStyle.Fonts.fontFamily
     font.pixelSize: EaStyle.Sizes.fontPixelSize

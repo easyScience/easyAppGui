@@ -31,17 +31,10 @@ EaElements.Dialog {
 
     title: qsTr("About")
 
-    parent: Overlay.overlay
-
-    x: (parent.width - width) * 0.5
-    y: (parent.height - height) * 0.5
-
-    modal: true
     standardButtons: Dialog.Ok
 
     Column {
-        padding: EaStyle.Sizes.fontPixelSize * 0.5
-        spacing: EaStyle.Sizes.fontPixelSize * 2.5
+        spacing: EaStyle.Sizes.fontPixelSize * 2.0
 
         // Application icon, name, version container
         Column {
