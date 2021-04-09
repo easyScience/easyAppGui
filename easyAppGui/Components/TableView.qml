@@ -26,10 +26,9 @@ Column {
     ListView {
         id: listView
 
-        property string modelXml: model.xml
         property int modelStatus: model.status
-        property int lastCurrentIndex: -1
-
+        property int lastOriginY: 0
+        property int lastContentY: 0
         //property alias nameLabelText: nameLabel.text
 
         enabled: count > 0
@@ -101,28 +100,18 @@ Column {
             }
         }
 
-        // Restore current index on xml model changed
-        onModelXmlChanged: {
-            if (lastCurrentIndex !== currentIndex) {
-                lastCurrentIndex = currentIndex
-                //positionViewAtBeginning()
-            }
-        }
+        // Save current view on xml model changed
         onModelStatusChanged: {
-            if (modelStatus !== XmlListModel.Ready)
-                return
-            if (lastCurrentIndex >= 0 && lastCurrentIndex < count) {
-                highlightMoveDuration = 0
-                currentIndex = lastCurrentIndex
-                highlightMoveDuration = tableHighlightMoveDuration()
+            if (modelStatus === XmlListModel.Loading) {
+                lastOriginY = originY
+                lastContentY = contentY
             }
         }
+
+        // Restore current view on xml model changed
+        onOriginYChanged: contentY = originY + (lastContentY - lastOriginY)
 
         // Logic
-
-        function tableHighlightMoveDuration() {
-            return EaStyle.Sizes.tableHighlightMoveDuration
-        }
 
         function createHeader() {
             const tableViewDelegate = listView.contentItem.children[0]
@@ -163,6 +152,10 @@ Column {
         }
 
         /*
+        function tableHighlightMoveDuration() {
+            return EaStyle.Sizes.tableHighlightMoveDuration
+        }
+
         function calcFlexibleColumnWidth() {
             const tableViewDelegate = listView.contentItem.children[0]
             if (typeof tableViewDelegate === "undefined")
