@@ -29,7 +29,7 @@ QtObject {
     }
 
     property color themeAccent: isDarkTheme ? "#4ec1ef": "#00a3e3"
-    property color themePrimary: isDarkTheme ? "#222" : "#ddd"
+    property color themePrimary: isDarkTheme ? "#111" : "#bbb"
 
     property color themeBackground: isDarkTheme ? "#303030" : "#e9e9e9"
     property color themeBackgroundDisabled: isDarkTheme ? "#333" : "#e9e9e9"
@@ -103,6 +103,9 @@ QtObject {
 
     // Table
     property color tableHighlight: isDarkTheme ? "#204ec1ef": "#2000a3e3"
+
+    // ToolTip
+    property color toolTipBorder: isDarkTheme ? "#222" : "#ddd"
 
     // Persistent settings
 
