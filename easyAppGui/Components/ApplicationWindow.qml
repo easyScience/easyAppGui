@@ -43,17 +43,16 @@ EaElements.ApplicationWindow {
             EaComponents.AppBarLeftButtons {
                 id: appBarLeftButtons
 
-                anchors.bottom: parent.bottom
+                anchors.verticalCenter: parent.verticalCenter
                 anchors.left: parent.left
-                anchors.bottomMargin: EaStyle.Sizes.fontPixelSize * 1.0
                 anchors.leftMargin: EaStyle.Sizes.fontPixelSize
             }
 
             EaComponents.AppBarCentralTabs {
                 id: appBarCentralTabs
 
+                anchors.verticalCenter: parent.verticalCenter
                 anchors.horizontalCenter: parent.horizontalCenter
-                anchors.bottom: parent.bottom
 
                 currentIndex: EaGlobals.Variables.appBarCurrentIndex
                 onCurrentIndexChanged: EaGlobals.Variables.appBarCurrentIndex = currentIndex
@@ -62,9 +61,8 @@ EaElements.ApplicationWindow {
             EaComponents.AppBarRightButtons {
                 id: appBarRightButtons
 
-                anchors.bottom: parent.bottom
+                anchors.verticalCenter: parent.verticalCenter
                 anchors.right: parent.right
-                anchors.bottomMargin: EaStyle.Sizes.fontPixelSize * 1.0
                 anchors.rightMargin: EaStyle.Sizes.fontPixelSize
             }
 
