@@ -1,32 +1,78 @@
 import QtQuick 2.14
 import QtQuick.Controls 2.14
+import QtGraphicalEffects 1.12
 import QtMultimedia 5.14
 import QtTest 1.14
 
+import easyAppGui.Style 1.0 as EaStyle
 import easyAppGui.Globals 1.0 as EaGlobals
 import easyAppGui.Elements 1.0 as EaElements
 
-MouseArea {
-    id: mouseArea
+Item {
+    id: rc
 
-    property bool sayEnabled: true
     property string audioDir: ""
+    property bool audioEnabled: true
 
-    parent: Overlay.overlay // makes buttons background hovered-like !?
-    z: 999 // to be above dialog, combobox, etc. windows
-
+    parent: Overlay.overlay
     anchors.fill: parent
+    z: 9999
 
-    //hoverEnabled: true
-    hoverEnabled: false
-    acceptedButtons: Qt.NoButton
+    /*
+    focus: true
+    onFocusChanged: {
+        focus = true
+        print("*** rc focus", focus)
+    }
+
+    Keys.onPressed: {
+        print("--event.key--", event.key)
+        if (event.key === Qt.Key_Escape) {
+            visible = false
+        } else {
+            event.accepted = false
+        }
+    }
+    */
 
     TestUtil { id: util }
     TestResult { id: result }
     TestEvent { id: event }
+
     EaElements.RemotePointer { id: pointer }
 
-    // Audio
+    MouseArea {
+        id: mouseArea
+
+        anchors.fill: parent
+        onPressed: mouse.accepted = false
+    }
+
+    EaElements.Button {
+        visible: rc.visible
+
+        anchors.bottom: parent.bottom
+        anchors.horizontalCenter: parent.horizontalCenter
+        anchors.bottomMargin: EaStyle.Sizes.statusBarHeight - 0.5 * height
+
+        height: EaStyle.Sizes.sideBarButtonHeight
+        padding: EaStyle.Sizes.fontPixelSize
+
+        background: Rectangle {
+            radius: 2
+            color: EaStyle.Colors.mainContentBackground
+
+            layer.enabled: true
+            layer.effect: DropShadow {
+                radius: 15
+                color: EaStyle.Colors.themePrimary
+                samples: 50
+            }
+        }
+
+        text: qsTr("Stop tutorial")
+        onClicked: rc.visible = false
+    }
 
     Audio {
         id: audio
@@ -36,8 +82,6 @@ MouseArea {
             wait(audio.duration)
         }
     }
-
-    // Screenshots
 
     Timer {
         id: saveScreenshots
@@ -54,14 +98,16 @@ MouseArea {
         onTriggered: {
             const fname = ("00000" + i++).slice(-6)
             const fpath = screenshotsDir + "/" + fname + ".png"
-            saveScreenshot(mouseArea, fpath)
+            saveScreenshot(rc, fpath)
         }
     }
 
     // Controller Logic
 
     function say(text) {
-        if (!sayEnabled)
+        if (!visible)
+            return
+        if (!audioEnabled)
             return
         if (text === "")
             return
@@ -71,30 +117,42 @@ MouseArea {
     }
 
     function saveScreenshot(item, path) {
+        if (!visible)
+            return
         const image = result.grabImage(item)
         image.save(path)
     }
 
     function wait(ms) {
+        if (!visible)
+            return
         result.wait(ms)
     }
 
     function posToCenter() {
-        pointer.posX = mouseArea.width / 2 - pointer.minSize / 2
-        pointer.posY = mouseArea.height / 2 - pointer.minSize / 2
+        if (!visible)
+            return
+        pointer.posX = rc.width / 2 - pointer.minSize / 2
+        pointer.posY = rc.height / 2 - pointer.minSize / 2
     }
 
-    function show() {
+    function showPointer() {
+        if (!visible)
+            return
         pointer.show()
         wait(pointer.showHideDuration)
     }
 
-    function hide() {
+    function hidePointer() {
+        if (!visible)
+            return
         pointer.hide()
         wait(pointer.showHideDuration)
     }
 
     function pointerMove(item, x, y, delay, buttons) {
+        if (!visible)
+            return
         if (item === undefined) {
             print("Undefined item")
             return
@@ -114,6 +172,8 @@ MouseArea {
     }
 
     function mousePress(item, x, y, button, modifiers, delay) {
+        if (!visible)
+            return
         if (item === undefined) {
             print("Undefined item")
             return
@@ -137,6 +197,8 @@ MouseArea {
     }
 
     function mouseRelease(item, x, y, button, modifiers, delay) {
+        if (!visible)
+            return
         if (item === undefined) {
             print("Undefined item")
             return
@@ -157,6 +219,8 @@ MouseArea {
     }
 
     function mouseClick(item, x, y) {
+        if (!visible)
+            return
         pointerMove(item, x, y)
         wait(pointer.moveDuration)
 
@@ -171,6 +235,8 @@ MouseArea {
     }
 
     function mouseLeftClickSilent(item) {
+        if (!visible)
+            return
         if (item === undefined) {
             print("Undefined item")
             return
@@ -185,6 +251,8 @@ MouseArea {
     }
 
     function mouseRightClickSilent(item) {
+        if (!visible)
+            return
         if (item === undefined) {
             print("Undefined item")
             return
@@ -199,6 +267,8 @@ MouseArea {
     }
 
     function mouseMove(item) {
+        if (!visible)
+            return
         if (item === undefined) {
             print("Undefined item")
             return
@@ -212,6 +282,8 @@ MouseArea {
     }
 
     function mouseWheel(item) {
+        if (!visible)
+            return
         if (item === undefined) {
             print("Undefined item")
             return
@@ -228,6 +300,8 @@ MouseArea {
     }
 
     function typeText(text) {
+        if (!visible)
+            return
         const modifiers = Qt.NoModifier
         const delay = -1
         for (const c of text) {
@@ -236,7 +310,9 @@ MouseArea {
         }
     }
 
-    function clearText(count) {
+    function deleteCharacters(count) {
+        if (!visible)
+            return
         const modifiers = Qt.NoModifier
         const delay = -1
         const key = Qt.Key_Backspace//Key_Clear//Key_Delete
@@ -248,6 +324,8 @@ MouseArea {
     }
 
     function keyClick(key) {
+        if (!visible)
+            return
         const modifiers = Qt.NoModifier
         const delay = -1
         event.keyClick(key, modifiers, delay)

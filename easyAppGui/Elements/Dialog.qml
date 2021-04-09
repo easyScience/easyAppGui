@@ -12,7 +12,7 @@ T.Dialog {
     id: control
 
     parent: Overlay.overlay
-    modal: true
+    //modal: true
 
     x: (parent.width - width) * 0.5
     y: (parent.height - height) * 0.5
