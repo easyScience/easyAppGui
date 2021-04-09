@@ -44,12 +44,14 @@ Column {
         boundsBehavior: Flickable.StopAtBounds
 
         // Highlight current row
+        /*
         highlightMoveDuration: tableHighlightMoveDuration()
         highlight: Rectangle {
             z: 2 // To display highlight rect above delegate
             color: listView.count > 1 ? EaStyle.Colors.tableHighlight : "transparent"
             //color: EaStyle.Colors.tableHighlight
         }
+        */
 
         // Default info, if no rows added
         Rectangle {
@@ -79,6 +81,7 @@ Column {
         }
 
         // Set focus on click
+        /*
         MouseArea {
             anchors.fill: parent
             onPressed: {
@@ -86,6 +89,7 @@ Column {
                 mouse.accepted = false
             }
         }
+        */
 
         // Create table header
         onCountChanged: {
