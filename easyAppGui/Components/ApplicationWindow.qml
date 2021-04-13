@@ -13,7 +13,7 @@ EaElements.ApplicationWindow {
     id: appWindow
 
     property alias appBarLeftButtons: appBarLeftButtons.data
-    property alias appBarCentralTabs: appBarCentralTabs.contentData
+    property alias appBarCentralTabs: appBarCentralTabs
     property alias appBarRightButtons: appBarRightButtons.data
     property alias contentArea: contentArea.contentData
     property alias statusBar: statusBarContainer.data

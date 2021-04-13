@@ -163,6 +163,23 @@ EaElements.Dialog {
                 Component.onCompleted: ExGlobals.Variables.enableToolTipsCheckBox = this
             }
         }
+
+        Row {
+            spacing: EaStyle.Sizes.fontPixelSize * 0.5
+
+            EaElements.Label {
+               width: EaStyle.Sizes.fontPixelSize * 9.3
+               anchors.verticalCenter: parent.verticalCenter
+               text: qsTr("Enable user guides") + ":"
+            }
+
+            EaElements.CheckBox {
+                //text: qsTr("Enable tool tips")
+                checked: EaGlobals.Variables.showUserGuides
+                onCheckedChanged: EaGlobals.Variables.showUserGuides = checked
+                Component.onCompleted: ExGlobals.Variables.enableUserGuidesCheckBox = this
+            }
+        }
     }
 
     // Logic

@@ -19,6 +19,9 @@ QtObject {
                                           _translator :
                                           new EaLogic.Translate.Translator()
 
+    // Guides
+    property int guideCurrentIndex: 0
+
     // Initial application parameters
     property int appBarCurrentIndex: 0
     property int appWindowFlags: Qt.Window | Qt.WindowFullscreenButtonHint // Qt.FramelessWindowHint | Qt.Dialog
@@ -29,6 +32,7 @@ QtObject {
     property bool showAppPreferencesDialog: false
     property bool showAppAboutDialog: false
     property bool showToolTips: false
+    property bool showUserGuides: false
     property bool showProjectDescriptionDialog: false
 
     // Screenshots control
