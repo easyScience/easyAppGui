@@ -157,7 +157,6 @@ EaElements.Dialog {
             }
 
             EaElements.CheckBox {
-                //text: qsTr("Enable tool tips")
                 checked: EaGlobals.Variables.showToolTips
                 onCheckedChanged: EaGlobals.Variables.showToolTips = checked
                 Component.onCompleted: ExGlobals.Variables.enableToolTipsCheckBox = this
@@ -174,7 +173,6 @@ EaElements.Dialog {
             }
 
             EaElements.CheckBox {
-                //text: qsTr("Enable tool tips")
                 checked: EaGlobals.Variables.showUserGuides
                 onCheckedChanged: EaGlobals.Variables.showUserGuides = checked
                 Component.onCompleted: ExGlobals.Variables.enableUserGuidesCheckBox = this

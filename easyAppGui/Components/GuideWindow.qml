@@ -8,19 +8,25 @@ import easyAppGui.Style 1.0 as EaStyle
 import easyAppGui.Globals 1.0 as EaGlobals
 import easyAppGui.Elements 1.0 as EaElements
 
+import Gui.Globals 1.0 as ExGlobals
+
 Item {
     id: item
 
-    property alias text: tooltip.text
     property var container
+    property alias text: tooltip.text
+
+    property int appBarCurrentIndex: EaGlobals.Variables.appBarCurrentIndex
+    onAppBarCurrentIndexChanged: container.setCurrentIndex(0)
 
     anchors.fill: parent
 
     EaElements.ToolTip {
         id: tooltip
 
-        visible: EaGlobals.Variables.showUserGuides &&
-                 EaGlobals.Variables.appBarCurrentIndex === container.appBarCurrentIndex &&
+        visible: !EaGlobals.Variables.showAppPreferencesDialog &&
+                 EaGlobals.Variables.showUserGuides &&
+                 appBarCurrentIndex === container.appBarCurrentIndex &&
                  container.currentIndex === indexOf(container.contentModel.children, item)
 
         // Top dots
@@ -41,9 +47,12 @@ Item {
             },
 
             EaElements.Button {
+                objectName: tooltip.text
                 text: qsTr("Next")
                 enabled: container.currentIndex < container.count - 1
                 onClicked: container.incrementCurrentIndex()
+
+                Component.onCompleted: ExGlobals.Variables.userGuidesButtons[container.appBarCurrentIndex].unshift(this)
             }
         ]
     }

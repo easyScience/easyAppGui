@@ -19,6 +19,9 @@ T.ToolTip {
     property int borderRadius: 0.25 * EaStyle.Sizes.fontPixelSize
     property int textFormat: Text.PlainText //Text.RichText
 
+    property int enterAnimationDuration: 500
+    property int exitAnimationDuration: 500
+
     property int guidesCount: 0
     property int currentGuideIndex: 0
     property alias controlButtons: controlButtons.data
@@ -125,7 +128,7 @@ T.ToolTip {
             from: 0.0
             to: 1.0
             easing.type: Easing.OutQuad
-            duration: 500
+            duration: enterAnimationDuration
         }
     }
 
@@ -135,7 +138,7 @@ T.ToolTip {
             from: 1.0
             to: 0.0
             easing.type: Easing.InQuad
-            duration: 500
+            duration: exitAnimationDuration
         }
     }
 }
