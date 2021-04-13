@@ -105,7 +105,8 @@ QtObject {
     property color tableHighlight: isDarkTheme ? "#204ec1ef": "#2000a3e3"
 
     // ToolTip
-    property color toolTipBorder: isDarkTheme ? "#222" : "#ddd"
+    property color toolTipBackground: mainContentBackground
+    property color toolTipBorder: appBarBorder
 
     // Persistent settings
 
