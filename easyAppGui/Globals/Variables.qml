@@ -19,12 +19,13 @@ QtObject {
                                           _translator :
                                           new EaLogic.Translate.Translator()
 
-    // Guides
-    property int guideCurrentIndex: 0
+    // Settings
+    readonly property string settingsFile: typeof _settingsPath !== "undefined" && _settingsPath !== null ?
+                                               _settingsPath :
+                                               'settings.ini'
 
-    // Initial application parameters
-    property int appBarCurrentIndex: 0
-    property int appWindowFlags: Qt.Window | Qt.WindowFullscreenButtonHint // Qt.FramelessWindowHint | Qt.Dialog
+    // Application parameters
+    readonly property int appWindowFlags: Qt.Window | Qt.WindowFullscreenButtonHint // Qt.FramelessWindowHint | Qt.Dialog
 
     // Initial application elements visibility
     property bool showAppBar: true
@@ -38,8 +39,14 @@ QtObject {
     // Screenshots control
     property bool saveScreenshotsRunning: false
 
-    // Settings
-    property string settingsFile: typeof _settingsPath !== "undefined" && _settingsPath !== null
-                                  ? _settingsPath
-                                  : 'settings.ini'
+    // App bar
+    property int appBarCurrentIndex: 0
+    enum AppBarIndexEnum {
+        HomePageIndex = 0,
+        ProjectPageIndex = 1,
+        SamplePageIndex = 2,
+        ExperimentPageIndex = 3,
+        AnalysisPageIndex = 4,
+        SummaryPageIndex = 5
+    }
 }

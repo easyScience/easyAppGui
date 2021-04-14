@@ -64,8 +64,12 @@ T.ToolTip {
                     width: EaStyle.Sizes.fontPixelSize * 0.5
                     height: EaStyle.Sizes.fontPixelSize * 0.5
                     radius: EaStyle.Sizes.fontPixelSize * 0.25
-                    color: index === currentGuideIndex ? EaStyle.Colors.themeForeground : EaStyle.Colors.themeForegroundDisabled
                     opacity: 0.5
+
+                    color: index === currentGuideIndex ? EaStyle.Colors.themeForeground : EaStyle.Colors.themeForegroundDisabled
+                    Behavior on color {
+                        EaAnimations.ThemeChange {}
+                    }
                 }
             }
         }
