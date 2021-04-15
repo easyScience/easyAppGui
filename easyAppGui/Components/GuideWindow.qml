@@ -19,11 +19,10 @@ Item {
     property int appBarCurrentIndex: EaGlobals.Variables.appBarCurrentIndex
     onAppBarCurrentIndexChanged: container.setCurrentIndex(0)
 
-    anchors.fill: parent
-
     EaElements.ToolTip {
         id: tooltip
 
+        parent: item.parent
         visible: !EaGlobals.Variables.showAppPreferencesDialog &&
                  EaGlobals.Variables.showUserGuides &&
                  appBarCurrentIndex === container.appBarCurrentIndex &&
@@ -44,6 +43,12 @@ Item {
             EaElements.Button {
                 text: qsTr("Disable")
                 onClicked: EaGlobals.Variables.showUserGuides = false
+
+                Component.onCompleted: {
+                    if (typeof ExGlobals.Variables.userGuidesLastDisableButton === 'undefined') {
+                        ExGlobals.Variables.userGuidesLastDisableButton = this
+                    }
+                }
             },
 
             EaElements.Button {
@@ -52,7 +57,7 @@ Item {
                 enabled: container.currentIndex < container.count - 1
                 onClicked: container.incrementCurrentIndex()
 
-                Component.onCompleted: ExGlobals.Variables.userGuidesButtons[container.appBarCurrentIndex].unshift(this)
+                Component.onCompleted: ExGlobals.Variables.userGuidesNextButtons[container.appBarCurrentIndex].unshift(this)
             }
         ]
     }
