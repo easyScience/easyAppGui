@@ -60,6 +60,8 @@ Item {
                 Component.onCompleted: ExGlobals.Variables.userGuidesNextButtons[container.appBarCurrentIndex].unshift(this)
             }
         ]
+
+        onTextChanged: ExGlobals.Variables.userGuidesTextList[container.appBarCurrentIndex].unshift(text)
     }
 
     // Logic
