@@ -7,7 +7,7 @@ import easyAppGui.Logic 1.0 as EaLogic
 QtObject {
 
     // Python objects
-    readonly property var isTestMode: typeof _isTestMode !== "undefined" && _isTestMode !== null ?
+    readonly property bool isTestMode: typeof _isTestMode !== "undefined" && _isTestMode !== null ?
                                           _isTestMode :
                                           false
 

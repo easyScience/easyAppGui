@@ -65,8 +65,8 @@ Item {
             layer.enabled: true
             layer.effect: DropShadow {
                 radius: 15
-                color: EaStyle.Colors.themePrimary
                 samples: 50
+                color: EaStyle.Colors.toolTipBorder
             }
         }
 
