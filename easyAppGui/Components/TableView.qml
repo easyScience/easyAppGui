@@ -29,7 +29,7 @@ Column {
         property int modelStatus: model.status
         property int lastOriginY: 0
         property int lastContentY: 0
-        //property alias nameLabelText: nameLabel.text
+        property int lastCurrentIndex: 0
 
         enabled: count > 0
 
@@ -43,14 +43,11 @@ Column {
         boundsBehavior: Flickable.StopAtBounds
 
         // Highlight current row
-        /*
-        highlightMoveDuration: tableHighlightMoveDuration()
+        highlightMoveDuration: EaStyle.Sizes.tableHighlightMoveDuration
         highlight: Rectangle {
             z: 2 // To display highlight rect above delegate
             color: listView.count > 1 ? EaStyle.Colors.tableHighlight : "transparent"
-            //color: EaStyle.Colors.tableHighlight
         }
-        */
 
         // Default info, if no rows added
         Rectangle {
@@ -79,17 +76,6 @@ Column {
             Behavior on border.color { EaAnimations.ThemeChange {} }
         }
 
-        // Set focus on click
-        /*
-        MouseArea {
-            anchors.fill: parent
-            onPressed: {
-                forceActiveFocus()
-                mouse.accepted = false
-            }
-        }
-        */
-
         // Create table header
         onCountChanged: {
             if (header !== null)
@@ -100,16 +86,26 @@ Column {
             }
         }
 
-        // Save current view on xml model changed
+        // Save/restore current view and index
         onModelStatusChanged: {
+            // Save current view and index before xml model changed
             if (modelStatus === XmlListModel.Loading) {
                 lastOriginY = originY
                 lastContentY = contentY
+                lastCurrentIndex = currentIndex
+            // Restore current index after xml model changed
+            } else if (modelStatus === XmlListModel.Ready) {
+                highlightMoveDuration = 0
+                currentIndex = lastCurrentIndex
+                highlightMoveDuration = EaStyle.Sizes.tableHighlightMoveDuration
             }
         }
 
-        // Restore current view on xml model changed
+        // Restore current view after xml model changed
         onOriginYChanged: contentY = originY + (lastContentY - lastOriginY)
+
+        // Default current index
+        Component.onCompleted: currentIndex = 0
 
         // Logic
 
@@ -152,10 +148,6 @@ Column {
         }
 
         /*
-        function tableHighlightMoveDuration() {
-            return EaStyle.Sizes.tableHighlightMoveDuration
-        }
-
         function calcFlexibleColumnWidth() {
             const tableViewDelegate = listView.contentItem.children[0]
             if (typeof tableViewDelegate === "undefined")
