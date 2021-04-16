@@ -41,13 +41,6 @@ Item {
 
     EaElements.RemotePointer { id: pointer }
 
-    MouseArea {
-        id: mouseArea
-
-        anchors.fill: parent
-        onPressed: mouse.accepted = false
-    }
-
     EaElements.Button {
         visible: rc.visible
 
@@ -71,7 +64,10 @@ Item {
         }
 
         text: qsTr("Stop tutorial")
-        onClicked: rc.visible = false
+        onClicked: {
+            rc.hidePointer()
+            rc.visible = false
+        }
     }
 
     Audio {
@@ -134,6 +130,7 @@ Item {
             return
         pointer.posX = rc.width / 2 - pointer.minSize / 2
         pointer.posY = rc.height / 2 - pointer.minSize / 2
+        mouseMove(rc)
     }
 
     function showPointer() {
@@ -223,8 +220,9 @@ Item {
             return
         pointerMove(item, x, y)
         wait(pointer.moveDuration)
+        mouseMove(item)
 
-        wait(100)
+        wait(500)
 
         mousePress(item, x, y)
         wait(pointer.pressDuration)
