@@ -88,8 +88,11 @@ T.ToolButton {
     function foregroundColor() {
         if (!control.enabled)
             return EaStyle.Colors.themeForegroundDisabled
-        if (control.checked || rippleArea.containsMouse)
-            return EaStyle.Colors.themeForegroundHovered
-        return EaStyle.Colors.themeForeground
+        if (!highlighted) {
+            if (control.checked || rippleArea.containsMouse)
+                return EaStyle.Colors.themeForegroundHovered
+            return EaStyle.Colors.themeForeground
+        }
+        return 'coral'
     }
 }
