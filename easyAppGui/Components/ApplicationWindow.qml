@@ -12,6 +12,7 @@ import Gui.Pages.Home 1.0 as ExHomePage
 EaElements.ApplicationWindow {
     id: appWindow
 
+    property alias appBar: appBar
     property alias appBarLeftButtons: appBarLeftButtons.data
     property alias appBarCentralTabs: appBarCentralTabs
     property alias appBarRightButtons: appBarRightButtons.data
@@ -39,6 +40,7 @@ EaElements.ApplicationWindow {
             height: EaStyle.Sizes.appBarHeight
 
             color: EaStyle.Colors.appBarBackground
+            opacity: 0
 
             EaComponents.AppBarLeftButtons {
                 id: appBarLeftButtons
