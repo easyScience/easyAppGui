@@ -40,6 +40,8 @@ EaElements.ApplicationWindow {
             height: EaStyle.Sizes.appBarHeight
 
             color: EaStyle.Colors.appBarBackground
+            Behavior on color { EaAnimations.ThemeChange {} }
+
             opacity: 0
 
             EaComponents.AppBarLeftButtons {
@@ -75,9 +77,7 @@ EaElements.ApplicationWindow {
                 anchors.bottom: parent.bottom
                 height: EaStyle.Sizes.borderThickness
                 color: EaStyle.Colors.appBarBorder
-                Behavior on color {
-                    EaAnimations.ThemeChange {}
-                }
+                Behavior on color { EaAnimations.ThemeChange {} }
             }
         }
 

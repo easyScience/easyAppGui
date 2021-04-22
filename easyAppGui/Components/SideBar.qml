@@ -33,9 +33,7 @@ Item {
                 anchors.bottom: parent.bottom
                 height: EaStyle.Sizes.borderThickness
                 color: EaStyle.Colors.appBorder
-                Behavior on color {
-                    EaAnimations.ThemeChange {}
-                }
+                Behavior on color { EaAnimations.ThemeChange {} }
             }
         }
         */

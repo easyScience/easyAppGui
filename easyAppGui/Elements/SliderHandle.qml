@@ -23,8 +23,9 @@ Item {
         height: parent.height
         radius: width / 2
 
-        color: EaStyle.Colors.themeForegroundHovered
         scale: root.handlePressed ? 1.5 : 1
+        color: EaStyle.Colors.themeForegroundHovered
+        Behavior on color { EaAnimations.ThemeChange {} }
 
         Behavior on scale {
             NumberAnimation {
@@ -43,5 +44,6 @@ Item {
         active: root.handlePressed || root.handleHasFocus || root.handleHovered
 
         color: root.control.Material.rippleColor
+        Behavior on color { EaAnimations.ThemeChange {} }
     }
 }

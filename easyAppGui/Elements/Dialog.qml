@@ -52,9 +52,7 @@ T.Dialog {
         radius: 2
 
         color: EaStyle.Colors.dialogBackground
-        Behavior on color {
-            EaAnimations.ThemeChange {}
-        }
+        Behavior on color { EaAnimations.ThemeChange {} }
 
         layer.enabled: EaStyle.Sizes.dialogElevation
         layer.effect: EaElements.ElevationEffect {
@@ -74,9 +72,7 @@ T.Dialog {
         font.pixelSize: control.font.pixelSize *1.0
 
         color: EaStyle.Colors.dialogForeground
-        Behavior on color {
-            EaAnimations.ThemeChange {}
-        }
+        Behavior on color { EaAnimations.ThemeChange {} }
 
         background: PaddedRectangle {
             radius: 2
@@ -100,9 +96,7 @@ T.Dialog {
 
     T.Overlay.modal: Rectangle {
         color: EaStyle.Colors.dialogOutsideBackground
-        Behavior on color {
-            EaAnimations.ThemeChange {}
-        }
+        Behavior on color { EaAnimations.ThemeChange {} }
 
         Behavior on opacity {
             NumberAnimation {
@@ -113,9 +107,7 @@ T.Dialog {
 
     T.Overlay.modeless: Rectangle {
         color: EaStyle.Colors.dialogOutsideBackground
-        Behavior on color {
-            EaAnimations.ThemeChange {}
-        }
+        Behavior on color { EaAnimations.ThemeChange {} }
 
         Behavior on opacity {
             NumberAnimation {

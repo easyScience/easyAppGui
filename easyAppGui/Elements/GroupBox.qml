@@ -63,9 +63,7 @@ T.GroupBox {
             text: collapsible ? "play" : "circle"
 
             color: foregroundColor()
-            Behavior on color {
-                EaAnimations.ThemeChange {}
-            }
+            Behavior on color { EaAnimations.ThemeChange {} }
 
             transform: Rotation {
                 id: iconRotation
@@ -93,9 +91,7 @@ T.GroupBox {
             text: control.title
 
             color: foregroundColor()
-            Behavior on color {
-                EaAnimations.ThemeChange {}
-            }
+            Behavior on color { EaAnimations.ThemeChange {} }
         }
 
         //Mouse area to react on click events
@@ -145,9 +141,7 @@ T.GroupBox {
         height: EaStyle.Sizes.borderThickness
 
         color: EaStyle.Colors.appBorder
-        Behavior on color {
-            EaAnimations.ThemeChange {}
-        }
+        Behavior on color { EaAnimations.ThemeChange {} }
     }
 
     // Collapsion animation

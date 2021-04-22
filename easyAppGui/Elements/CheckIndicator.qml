@@ -17,18 +17,14 @@ Rectangle {
     radius: 2
 
     color: EaStyle.Colors.themeBackgroundHovered2
-    Behavior on color {
-        EaAnimations.ThemeChange {}
-    }
+    Behavior on color { EaAnimations.ThemeChange {} }
 
     border.color: !control.enabled ? EaStyle.Colors.themeForegroundDisabled :
                                      control.checked ?
                                          control.color :
                                          control.hovered ? EaStyle.Colors.themeForegroundHovered :
                                                            EaStyle.Colors.appBarComboBoxBorder
-    Behavior on border.color {
-        EaAnimations.ThemeChange {}
-    }
+    Behavior on border.color { EaAnimations.ThemeChange {} }
 
     border.width: checkState !== Qt.Unchecked ? width / 2 : 1
     Behavior on border.width {
@@ -59,9 +55,7 @@ Rectangle {
         color: indicatorItem.enabled ?
                    "white" ://EaStyle.Colors.checkSymbol :
                    EaStyle.Colors.themeForegroundDisabled
-        Behavior on color {
-            EaAnimations.ThemeChange {}
-        }
+        Behavior on color { EaAnimations.ThemeChange {} }
     }
 
     Rectangle {

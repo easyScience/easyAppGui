@@ -33,9 +33,7 @@ Item {
         anchors.right: mainContentContainer.right
 
         color: EaStyle.Colors.contentBackground
-        Behavior on color {
-            EaAnimations.ThemeChange {}
-        }
+        Behavior on color { EaAnimations.ThemeChange {} }
 
         EaElements.Label {
             enabled: false
@@ -70,9 +68,7 @@ Item {
             width: EaStyle.Sizes.borderThickness
 
             color: EaStyle.Colors.appBorder
-            Behavior on color {
-                EaAnimations.ThemeChange {}
-            }
+            Behavior on color { EaAnimations.ThemeChange {} }
         }
     }
 }

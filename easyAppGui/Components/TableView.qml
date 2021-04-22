@@ -59,6 +59,7 @@ Column {
             height: EaStyle.Sizes.tableRowHeight * 2
 
             color: EaStyle.Colors.themeBackground
+            Behavior on color { EaAnimations.ThemeChange {} }
 
             EaElements.Label {
                 id: defaultInfoLabel

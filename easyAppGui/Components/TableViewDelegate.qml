@@ -1,6 +1,7 @@
 import QtQuick 2.13
 
 import easyAppGui.Style 1.0 as EaStyle
+import easyAppGui.Animations 1.0 as EaAnimations
 
 Rectangle {
     default property alias contentRowData: contentRow.data
@@ -11,6 +12,7 @@ Rectangle {
     color: index % 2 ?
                EaStyle.Colors.themeBackgroundHovered2 :
                EaStyle.Colors.themeBackgroundHovered1
+    Behavior on color { EaAnimations.ThemeChange {} }
 
     Row {
         id: contentRow

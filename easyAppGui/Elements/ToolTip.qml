@@ -66,10 +66,10 @@ T.ToolTip {
                     radius: EaStyle.Sizes.fontPixelSize * 0.25
                     opacity: 0.5
 
-                    color: index === currentGuideIndex ? EaStyle.Colors.themeForeground : EaStyle.Colors.themeForegroundDisabled
-                    Behavior on color {
-                        EaAnimations.ThemeChange {}
-                    }
+                    color: index === currentGuideIndex ?
+                               EaStyle.Colors.themeForeground :
+                               EaStyle.Colors.themeForegroundDisabled
+                    Behavior on color { EaAnimations.ThemeChange {} }
                 }
             }
         }

@@ -17,19 +17,13 @@ TextInput {
     color: !enabled ? EaStyle.Colors.themeForegroundDisabled :
                      rippleArea.containsMouse || control.activeFocus ? EaStyle.Colors.themeForegroundHovered :
                                                                        EaStyle.Colors.themeForeground
-    Behavior on color {
-        EaAnimations.ThemeChange {}
-    }
+    Behavior on color { EaAnimations.ThemeChange {} }
 
     selectionColor: EaStyle.Colors.themeAccent
-    Behavior on selectionColor {
-        EaAnimations.ThemeChange {}
-    }
+    Behavior on selectionColor { EaAnimations.ThemeChange {} }
 
     selectedTextColor: EaStyle.Colors.themeBackground
-    Behavior on selectedTextColor {
-        EaAnimations.ThemeChange {}
-    }
+    Behavior on selectedTextColor { EaAnimations.ThemeChange {} }
 
     cursorDelegate: EaElements.CursorDelegate { }
 

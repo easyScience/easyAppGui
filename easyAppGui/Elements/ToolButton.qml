@@ -46,9 +46,7 @@ T.ToolButton {
         text: control.fontIcon
 
         color: foregroundColor()
-        Behavior on color {
-            EaAnimations.ThemeChange {}
-        }
+        Behavior on color { EaAnimations.ThemeChange {} }
     }
 
     // Background
@@ -61,9 +59,7 @@ T.ToolButton {
         radius: EaStyle.Sizes.toolButtonHeight * 0.5
 
         color: backgroundColor()
-        Behavior on color {
-            EaAnimations.ThemeChange {}
-        }
+        Behavior on color { EaAnimations.ThemeChange {} }
     }
 
     //Mouse area to react on click events
@@ -93,6 +89,6 @@ T.ToolButton {
                 return EaStyle.Colors.themeForegroundHovered
             return EaStyle.Colors.themeForeground
         }
-        return 'coral'
+        return EaStyle.Colors.themeForegroundHighlight
     }
 }

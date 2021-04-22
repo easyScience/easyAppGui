@@ -26,9 +26,7 @@ Rectangle {
     onThemeChanged: setChartColors()
 
     color: EaStyle.Colors.chartPlotAreaBackground
-    Behavior on color {
-        EaAnimations.ThemeChange {}
-    }
+    Behavior on color { EaAnimations.ThemeChange {} }
 
     WebEngineView {
         id: structureView
