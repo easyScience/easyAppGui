@@ -109,6 +109,12 @@ QtObject {
     property color toolTipBackground: mainContentBackground
     property color toolTipBorder: appBarBorder
 
+    // Colors
+    property color blue: isDarkTheme ? '#81D4FA' : '#39abdf'
+    property color red: isDarkTheme ? '#FFAB91' : '#FF5722'
+    property color green: isDarkTheme ? '#C5E1A5' : '#7aaa42'
+    property color grey: isDarkTheme ? "#777": "#bbb"
+
     // Persistent settings
 
     property var settings: Settings {
