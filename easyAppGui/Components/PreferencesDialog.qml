@@ -4,6 +4,7 @@ import QtQuick.Controls.impl 2.13
 import QtQuick.Controls.Material 2.13
 import QtQuick.Controls.Material.impl 2.13
 import QtQuick.XmlListModel 2.13
+import Qt.labs.settings 1.0
 
 import easyAppGui.Style 1.0 as EaStyle
 import easyAppGui.Globals 1.0 as EaGlobals
@@ -157,6 +158,7 @@ EaElements.Dialog {
             }
 
             EaElements.CheckBox {
+                id: toolTipsCheckBox
                 checked: EaGlobals.Variables.showToolTips
                 onCheckedChanged: EaGlobals.Variables.showToolTips = checked
                 Component.onCompleted: ExGlobals.Variables.enableToolTipsCheckBox = this
@@ -173,11 +175,19 @@ EaElements.Dialog {
             }
 
             EaElements.CheckBox {
+                id: userGuidesCheckBox
                 checked: EaGlobals.Variables.showUserGuides
                 onCheckedChanged: EaGlobals.Variables.showUserGuides = checked
                 Component.onCompleted: ExGlobals.Variables.enableUserGuidesCheckBox = this
             }
         }
+    }
+
+    Settings {
+        fileName: EaGlobals.Variables.settingsFile
+        category: 'Preferences'
+        property alias enableToolTips: toolTipsCheckBox.checked
+        property alias enableUserGuides: userGuidesCheckBox.checked
     }
 
     // Logic
