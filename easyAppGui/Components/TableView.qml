@@ -17,6 +17,8 @@ Column {
     property alias defaultInfoText: defaultInfoLabel.text
     property alias titleText: titleLabel.text
 
+    width: EaStyle.Sizes.sideBarContentWidth
+
     EaElements.Label {
         id: titleLabel
 
@@ -33,7 +35,7 @@ Column {
 
         enabled: count > 0
 
-        width: EaStyle.Sizes.sideBarContentWidth
+        width: parent.width
         height: count > 0 ?
                     EaStyle.Sizes.tableRowHeight * (Math.min(count, maxRowCountShow) + 1 ) :
                     EaStyle.Sizes.tableRowHeight * (Math.min(count, maxRowCountShow) + 2 )
@@ -57,6 +59,7 @@ Column {
             height: EaStyle.Sizes.tableRowHeight * 2
 
             color: EaStyle.Colors.themeBackground
+            Behavior on color { EaAnimations.ThemeChange {} }
 
             EaElements.Label {
                 id: defaultInfoLabel

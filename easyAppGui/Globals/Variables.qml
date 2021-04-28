@@ -7,7 +7,7 @@ import easyAppGui.Logic 1.0 as EaLogic
 QtObject {
 
     // Python objects
-    readonly property var isTestMode: typeof _isTestMode !== "undefined" && _isTestMode !== null ?
+    readonly property bool isTestMode: typeof _isTestMode !== "undefined" && _isTestMode !== null ?
                                           _isTestMode :
                                           false
 
@@ -19,9 +19,13 @@ QtObject {
                                           _translator :
                                           new EaLogic.Translate.Translator()
 
-    // Initial application parameters
-    property int appBarCurrentIndex: 0
-    property int appWindowFlags: Qt.Window | Qt.WindowFullscreenButtonHint // Qt.FramelessWindowHint | Qt.Dialog
+    // Settings
+    readonly property string settingsFile: typeof _settingsPath !== "undefined" && _settingsPath !== null ?
+                                               _settingsPath :
+                                               'settings.ini'
+
+    // Application parameters
+    readonly property int appWindowFlags: Qt.Window | Qt.WindowFullscreenButtonHint // Qt.FramelessWindowHint | Qt.Dialog
 
     // Initial application elements visibility
     property bool showAppBar: true
@@ -29,13 +33,20 @@ QtObject {
     property bool showAppPreferencesDialog: false
     property bool showAppAboutDialog: false
     property bool showToolTips: false
+    property bool showUserGuides: false
     property bool showProjectDescriptionDialog: false
 
     // Screenshots control
     property bool saveScreenshotsRunning: false
 
-    // Settings
-    property string settingsFile: typeof _settingsPath !== "undefined" && _settingsPath !== null
-                                  ? _settingsPath
-                                  : 'settings.ini'
+    // App bar
+    property int appBarCurrentIndex: 0
+    enum AppBarIndexEnum {
+        HomePageIndex = 0,
+        ProjectPageIndex = 1,
+        SamplePageIndex = 2,
+        ExperimentPageIndex = 3,
+        AnalysisPageIndex = 4,
+        SummaryPageIndex = 5
+    }
 }

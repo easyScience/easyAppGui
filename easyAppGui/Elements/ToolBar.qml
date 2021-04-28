@@ -21,10 +21,7 @@ T.ToolBar {
         implicitHeight: EaStyle.Sizes.appBarHeight
 
         color: EaStyle.Colors.appBarBackground
-
-        Behavior on color {
-            EaAnimations.ThemeChange {}
-        }
+        Behavior on color { EaAnimations.ThemeChange {} }
 
         ///layer.enabled: control.Material.elevation > 0
         ///layer.effect: ElevationEffect {
@@ -40,10 +37,7 @@ T.ToolBar {
             height: 1 //EaStyle.Sizes.borderThickness ???
 
             color: EaStyle.Colors.appBarBorder
-            ///color: control.Material.toolBarColor
-            Behavior on color {
-                EaAnimations.ThemeChange {}
-            }
+            Behavior on color { EaAnimations.ThemeChange {} }
         }
     }    
 }

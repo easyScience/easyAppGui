@@ -11,24 +11,16 @@ ValueAxis {
     lineVisible: false // Hide axes lines (only grid is visible)
 
     color: EaStyle.Colors.chartAxis
-    Behavior on color {
-        EaAnimations.ThemeChange {}
-    }
+    Behavior on color { EaAnimations.ThemeChange {} }
 
     gridLineColor: EaStyle.Colors.chartGridLine
-    Behavior on gridLineColor {
-        EaAnimations.ThemeChange {}
-    }
+    Behavior on gridLineColor { EaAnimations.ThemeChange {} }
 
     minorGridLineColor: EaStyle.Colors.chartMinorGridLine
-    Behavior on minorGridLineColor {
-        EaAnimations.ThemeChange {}
-    }
+    Behavior on minorGridLineColor { EaAnimations.ThemeChange {} }
 
     labelsColor: EaStyle.Colors.chartLabels
-    Behavior on labelsColor {
-        EaAnimations.ThemeChange {}
-    }
+    Behavior on labelsColor { EaAnimations.ThemeChange {} }
 
     titleText: `<font color='${labelsColor}'>${title}</font>` // The only way to change a title color
 

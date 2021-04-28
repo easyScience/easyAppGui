@@ -26,9 +26,7 @@ Rectangle {
     onThemeChanged: setChartColors()
 
     color: EaStyle.Colors.chartPlotAreaBackground
-    Behavior on color {
-        EaAnimations.ThemeChange {}
-    }
+    Behavior on color { EaAnimations.ThemeChange {} }
 
     WebEngineView {
         id: structureView
@@ -269,7 +267,7 @@ Rectangle {
             '--buttonBorderColor': EaStyle.Colors.chartAxis,
             '--tooltipBackgroundColor': EaStyle.Colors.dialogBackground,
             '--tooltipForegroundColor': EaStyle.Colors.themeForeground,
-            '--tooltipBorderColor': EaStyle.Colors.themePrimary
+            '--tooltipBorderColor': EaStyle.Colors.toolTipBorder
         }
         for (let key in colors) {
             structureView.runJavaScript(`document.documentElement.style.setProperty('${key}', '${colors[key]}')`)

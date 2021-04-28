@@ -56,9 +56,7 @@ T.TabButton {
                 text: control.fontIcon
 
                 color: foregroundColor()
-                Behavior on color {
-                    EaAnimations.ThemeChange {}
-                }
+                Behavior on color { EaAnimations.ThemeChange {} }
             }
 
             // Text label
@@ -70,9 +68,7 @@ T.TabButton {
                 text: control.text
 
                 color: foregroundColor()
-                Behavior on color {
-                    EaAnimations.ThemeChange {}
-                }
+                Behavior on color { EaAnimations.ThemeChange {} }
             }
         }
     }
@@ -82,14 +78,10 @@ T.TabButton {
         implicitHeight: EaStyle.Sizes.tabBarHeight
 
         color: backgroundColor()
-        Behavior on color {
-            EaAnimations.ThemeChange {}
-        }
+        Behavior on color { EaAnimations.ThemeChange {} }
 
         border.color: borderColor
-        Behavior on border.color {
-            EaAnimations.ThemeChange {}
-        }
+        Behavior on border.color { EaAnimations.ThemeChange {} }
     }
 
     //Mouse area to react on click events

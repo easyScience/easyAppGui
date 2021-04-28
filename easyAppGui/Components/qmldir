@@ -10,6 +10,9 @@ AppBarRightButtons 1.0 AppBarRightButtons.qml
 ContentPage 1.0 ContentPage.qml
 ContentArea 1.0 ContentArea.qml
 
+GuideWindow 1.0 GuideWindow.qml
+GuideWindowContainer 1.0 GuideWindowContainer.qml
+
 MainContent 1.0 MainContent.qml
 
 SideBar 1.0 SideBar.qml

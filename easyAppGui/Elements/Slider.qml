@@ -38,9 +38,11 @@ T.Slider {
         implicitHeight: control.horizontal ? 4 : 200
         width: control.horizontal ? control.availableWidth : implicitWidth
         height: control.horizontal ? implicitHeight : control.availableHeight
+
         radius: 2
-        color: EaStyle.Colors.appBorder
         scale: control.horizontal && control.mirrored ? -1 : 1
+        color: EaStyle.Colors.appBorder
+        Behavior on color { EaAnimations.ThemeChange {} }
 
         Rectangle {
             y: control.horizontal ? 0 : control.visualPosition * parent.height
@@ -49,6 +51,8 @@ T.Slider {
 
             radius: 2
             color: EaStyle.Colors.themeForegroundHovered
+            Behavior on color { EaAnimations.ThemeChange {} }
+
         }
     }
 }

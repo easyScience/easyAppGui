@@ -52,8 +52,6 @@ T.CheckBox {
         color: control.enabled ?
                    EaStyle.Colors.themeForeground :
                    EaStyle.Colors.themeForegroundDisabled
-        Behavior on color {
-            EaAnimations.ThemeChange {}
-        }
+        Behavior on color { EaAnimations.ThemeChange {} }
     }
 }

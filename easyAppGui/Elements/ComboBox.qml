@@ -68,9 +68,7 @@ T.ComboBox {
 
         ///color: control.enabled ? control.Material.foreground : control.Material.hintTextColor
         color: foregroundColor
-        Behavior on color {
-            EaAnimations.ThemeChange {}
-        }
+        Behavior on color { EaAnimations.ThemeChange {} }
     }
 
     contentItem: Label {
@@ -98,9 +96,7 @@ T.ComboBox {
 
         ///color: control.enabled ? control.Material.foreground : control.Material.hintTextColor
         color: foregroundColor
-        Behavior on color {
-            EaAnimations.ThemeChange {}
-        }
+        Behavior on color { EaAnimations.ThemeChange {} }
 
         ///cursorDelegate: CursorDelegate { }
     }
@@ -113,14 +109,10 @@ T.ComboBox {
 
         ///color: !control.editable ? control.Material.dialogColor : "transparent"
         color: backgroundColor
-        Behavior on color {
-            EaAnimations.ThemeChange {}
-        }
+        Behavior on color { EaAnimations.ThemeChange {} }
 
         border.color: borderColor
-        Behavior on border.color {
-            EaAnimations.ThemeChange {}
-        }
+        Behavior on border.color { EaAnimations.ThemeChange {} }
     }
 
     popup: T.Popup {

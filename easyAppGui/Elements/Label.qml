@@ -12,30 +12,30 @@ T.Label {
     font.family: EaStyle.Fonts.fontFamily
     font.pixelSize: EaStyle.Sizes.fontPixelSize
 
-    color: enabled ? EaStyle.Colors.themeForeground : EaStyle.Colors.themeForegroundDisabled //Material.foreground : Material.hintTextColor
-    Behavior on color {
-        EaAnimations.ThemeChange {}
-    }
+    color: enabled ?
+               EaStyle.Colors.themeForeground :
+               EaStyle.Colors.themeForegroundDisabled //Material.foreground : Material.hintTextColor
+    Behavior on color { EaAnimations.ThemeChange {} }
 
-    linkColor: hoveredLink ? EaStyle.Colors.linkHovered : EaStyle.Colors.link
-    Behavior on linkColor {
-        EaAnimations.ThemeChange {}
-    }
+    linkColor: hoveredLink ?
+                   EaStyle.Colors.linkHovered :
+                   EaStyle.Colors.link
+    Behavior on linkColor { EaAnimations.ThemeChange {} }
 
     background: Rectangle {
         width: control.width
         height: control.height
 
         color: backgroundColor
-        Behavior on color {
-            EaAnimations.ThemeChange {}
-        }
+        Behavior on color { EaAnimations.ThemeChange {} }
     }
 
     MouseArea {
         anchors.fill: parent
         acceptedButtons: Qt.NoButton
-        cursorShape: parent.hoveredLink ? Qt.PointingHandCursor : Qt.ArrowCursor
+        cursorShape: parent.hoveredLink ?
+                         Qt.PointingHandCursor :
+                         Qt.ArrowCursor
     }
 
     onLinkActivated: Qt.openUrlExternally(link)

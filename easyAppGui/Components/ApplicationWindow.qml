@@ -12,8 +12,9 @@ import Gui.Pages.Home 1.0 as ExHomePage
 EaElements.ApplicationWindow {
     id: appWindow
 
+    property alias appBar: appBar
     property alias appBarLeftButtons: appBarLeftButtons.data
-    property alias appBarCentralTabs: appBarCentralTabs.contentData
+    property alias appBarCentralTabs: appBarCentralTabs
     property alias appBarRightButtons: appBarRightButtons.data
     property alias contentArea: contentArea.contentData
     property alias statusBar: statusBarContainer.data
@@ -39,21 +40,23 @@ EaElements.ApplicationWindow {
             height: EaStyle.Sizes.appBarHeight
 
             color: EaStyle.Colors.appBarBackground
+            Behavior on color { EaAnimations.ThemeChange {} }
+
+            opacity: 0
 
             EaComponents.AppBarLeftButtons {
                 id: appBarLeftButtons
 
-                anchors.bottom: parent.bottom
+                anchors.verticalCenter: parent.verticalCenter
                 anchors.left: parent.left
-                anchors.bottomMargin: EaStyle.Sizes.fontPixelSize * 1.0
                 anchors.leftMargin: EaStyle.Sizes.fontPixelSize
             }
 
             EaComponents.AppBarCentralTabs {
                 id: appBarCentralTabs
 
+                anchors.verticalCenter: parent.verticalCenter
                 anchors.horizontalCenter: parent.horizontalCenter
-                anchors.bottom: parent.bottom
 
                 currentIndex: EaGlobals.Variables.appBarCurrentIndex
                 onCurrentIndexChanged: EaGlobals.Variables.appBarCurrentIndex = currentIndex
@@ -62,9 +65,8 @@ EaElements.ApplicationWindow {
             EaComponents.AppBarRightButtons {
                 id: appBarRightButtons
 
-                anchors.bottom: parent.bottom
+                anchors.verticalCenter: parent.verticalCenter
                 anchors.right: parent.right
-                anchors.bottomMargin: EaStyle.Sizes.fontPixelSize * 1.0
                 anchors.rightMargin: EaStyle.Sizes.fontPixelSize
             }
 
@@ -75,9 +77,7 @@ EaElements.ApplicationWindow {
                 anchors.bottom: parent.bottom
                 height: EaStyle.Sizes.borderThickness
                 color: EaStyle.Colors.appBarBorder
-                Behavior on color {
-                    EaAnimations.ThemeChange {}
-                }
+                Behavior on color { EaAnimations.ThemeChange {} }
             }
         }
 

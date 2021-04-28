@@ -33,24 +33,16 @@ T.TextField {
                      rippleArea.containsMouse || control.activeFocus ?
                           EaStyle.Colors.themeForegroundHovered :
                           EaStyle.Colors.themeForeground
-    Behavior on color {
-        EaAnimations.ThemeChange {}
-    }
+    Behavior on color { EaAnimations.ThemeChange {} }
 
     selectionColor: EaStyle.Colors.themeAccent
-    Behavior on selectionColor {
-        EaAnimations.ThemeChange {}
-    }
+    Behavior on selectionColor { EaAnimations.ThemeChange {} }
 
     selectedTextColor: EaStyle.Colors.themeBackground
-    Behavior on selectedTextColor {
-        EaAnimations.ThemeChange {}
-    }
+    Behavior on selectedTextColor { EaAnimations.ThemeChange {} }
 
     placeholderTextColor: EaStyle.Colors.themeForegroundDisabled
-    Behavior on placeholderTextColor {
-        EaAnimations.ThemeChange {}
-    }
+    Behavior on placeholderTextColor { EaAnimations.ThemeChange {} }
 
     cursorDelegate: EaElements.CursorDelegate { }
 
@@ -75,18 +67,14 @@ T.TextField {
                         control.hovered ?
                             EaStyle.Colors.appBarComboBoxBackgroundHovered :
                             EaStyle.Colors.appBarComboBoxBackground
-        Behavior on color {
-            EaAnimations.ThemeChange {}
-        }
+        Behavior on color { EaAnimations.ThemeChange {} }
 
         border.color: control.activeFocus ?
                           EaStyle.Colors.themeForegroundHovered :
                                 control.hovered ?
                                     EaStyle.Colors.themeForegroundHovered :
                                     EaStyle.Colors.appBarComboBoxBorder
-        Behavior on border.color {
-            EaAnimations.ThemeChange {}
-        }
+        Behavior on border.color { EaAnimations.ThemeChange {} }
     }
 
     //Mouse area to react on click events

@@ -39,8 +39,6 @@ T.DialogButtonBox {
     // Buttons area
     background: PaddedRectangle {
         color: EaStyle.Colors.dialogBackground
-        Behavior on color {
-            EaAnimations.ThemeChange {}
-        }
+        Behavior on color { EaAnimations.ThemeChange {} }
     }
 }

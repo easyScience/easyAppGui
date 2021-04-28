@@ -46,9 +46,7 @@ T.ToolButton {
         text: control.fontIcon
 
         color: foregroundColor()
-        Behavior on color {
-            EaAnimations.ThemeChange {}
-        }
+        Behavior on color { EaAnimations.ThemeChange {} }
     }
 
     // Background
@@ -61,9 +59,7 @@ T.ToolButton {
         radius: EaStyle.Sizes.toolButtonHeight * 0.5
 
         color: backgroundColor()
-        Behavior on color {
-            EaAnimations.ThemeChange {}
-        }
+        Behavior on color { EaAnimations.ThemeChange {} }
     }
 
     //Mouse area to react on click events
@@ -88,8 +84,11 @@ T.ToolButton {
     function foregroundColor() {
         if (!control.enabled)
             return EaStyle.Colors.themeForegroundDisabled
-        if (control.checked || rippleArea.containsMouse)
-            return EaStyle.Colors.themeForegroundHovered
-        return EaStyle.Colors.themeForeground
+        if (!highlighted) {
+            if (control.checked || rippleArea.containsMouse)
+                return EaStyle.Colors.themeForegroundHovered
+            return EaStyle.Colors.themeForeground
+        }
+        return EaStyle.Colors.themeForegroundHighlight
     }
 }

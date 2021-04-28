@@ -30,15 +30,11 @@ ChartView {
     legend.font.pixelSize: EaStyle.Sizes.fontPixelSize
     legend.markerShape: Legend.MarkerShapeRectangle
     legend.labelColor: EaStyle.Colors.chartForeground
-    Behavior on legend.labelColor {
-        EaAnimations.ThemeChange {}
-    }
+    Behavior on legend.labelColor { EaAnimations.ThemeChange {} }
 
     backgroundRoundness: 0
     backgroundColor: EaStyle.Colors.chartBackground
-    Behavior on backgroundColor {
-        EaAnimations.ThemeChange {}
-    }
+    Behavior on backgroundColor { EaAnimations.ThemeChange {} }
 
     titleFont.family: EaStyle.Fonts.fontFamily
     titleFont.pixelSize: EaStyle.Sizes.fontPixelSize
@@ -51,9 +47,7 @@ ChartView {
     */
 
     plotAreaColor: EaStyle.Colors.chartPlotAreaBackground
-    Behavior on plotAreaColor {
-        EaAnimations.ThemeChange {}
-    }
+    Behavior on plotAreaColor { EaAnimations.ThemeChange {} }
 
     // Plot axes rect
     Rectangle {
@@ -64,9 +58,7 @@ ChartView {
         width: plotArea.width
 
         color: EaStyle.Colors.chartAxis
-        Behavior on color {
-            EaAnimations.ThemeChange {}
-        }
+        Behavior on color { EaAnimations.ThemeChange {} }
     }
     Rectangle {
         visible: showAxesRect
@@ -76,9 +68,7 @@ ChartView {
         width: plotArea.width
 
         color: EaStyle.Colors.chartAxis
-        Behavior on color {
-            EaAnimations.ThemeChange {}
-        }
+        Behavior on color { EaAnimations.ThemeChange {} }
     }
     Rectangle {
         visible: showAxesRect
@@ -88,9 +78,7 @@ ChartView {
         width: 1
 
         color: EaStyle.Colors.chartAxis
-        Behavior on color {
-            EaAnimations.ThemeChange {}
-        }
+        Behavior on color { EaAnimations.ThemeChange {} }
     }
     Rectangle {
         visible: showAxesRect
@@ -100,9 +88,7 @@ ChartView {
         width: 1
 
         color: EaStyle.Colors.chartAxis
-        Behavior on color {
-            EaAnimations.ThemeChange {}
-        }
+        Behavior on color { EaAnimations.ThemeChange {} }
     }
 
     // Zoom rectangle

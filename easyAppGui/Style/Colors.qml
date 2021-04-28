@@ -29,7 +29,7 @@ QtObject {
     }
 
     property color themeAccent: isDarkTheme ? "#4ec1ef": "#00a3e3"
-    property color themePrimary: isDarkTheme ? "#222" : "#ddd"
+    property color themePrimary: isDarkTheme ? "#111" : "#bbb"
 
     property color themeBackground: isDarkTheme ? "#303030" : "#e9e9e9"
     property color themeBackgroundDisabled: isDarkTheme ? "#333" : "#e9e9e9"
@@ -40,6 +40,7 @@ QtObject {
     property color themeForegroundMinor: isDarkTheme ? "#888" : "#aaa"
     property color themeForegroundDisabled: isDarkTheme ? "#555": "#bbb" // control.Material.hintTextColor
     property color themeForegroundHovered: themeAccent
+    property color themeForegroundHighlight: isDarkTheme ? '#FFAB91' : '#FF5722'
 
     // Application window
     property color appBorder: isDarkTheme ? "#292929" : "#ddd"
@@ -103,6 +104,16 @@ QtObject {
 
     // Table
     property color tableHighlight: isDarkTheme ? "#204ec1ef": "#2000a3e3"
+
+    // ToolTip
+    property color toolTipBackground: mainContentBackground
+    property color toolTipBorder: appBarBorder
+
+    // Colors
+    property color blue: isDarkTheme ? '#81D4FA' : '#39abdf'
+    property color red: isDarkTheme ? '#FFAB91' : '#FF5722'
+    property color green: isDarkTheme ? '#C5E1A5' : '#7aaa42'
+    property color grey: isDarkTheme ? "#777": "#bbb"
 
     // Persistent settings
 

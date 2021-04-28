@@ -21,9 +21,7 @@ Rectangle {
     height: parent.height
 
     color: EaStyle.Colors.statusBarBackground
-    Behavior on color {
-        EaAnimations.ThemeChange {}
-    }
+    Behavior on color { EaAnimations.ThemeChange {} }
 
     // Status bar main content
     ListView {
@@ -68,9 +66,7 @@ Rectangle {
         height: 1//EaStyle.Sizes.borderThickness
 
         color: EaStyle.Colors.appBarBorder
-        Behavior on color {
-            EaAnimations.ThemeChange {}
-        }
+        Behavior on color { EaAnimations.ThemeChange {} }
     }
 
     /*

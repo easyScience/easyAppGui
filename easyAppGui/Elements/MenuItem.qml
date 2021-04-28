@@ -57,9 +57,7 @@ T.MenuItem {
         text: control.text
 
         color: EaStyle.Colors.themeForeground
-        Behavior on color {
-            EaAnimations.ThemeChange {}
-        }
+        Behavior on color { EaAnimations.ThemeChange {} }
     }
 
     background: Rectangle {

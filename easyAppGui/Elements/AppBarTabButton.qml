@@ -16,10 +16,7 @@ EaElements.TabButton {
         Column {
             id: row
             spacing: 0 //control.spacing
-            //anchors.centerIn: parent
-            anchors.horizontalCenter: parent.horizontalCenter
-            anchors.bottom: parent.bottom
-            anchors.bottomMargin: control.font.pixelSize * 0.85
+            anchors.centerIn: parent
 
             // Icon
             Label {
@@ -31,9 +28,7 @@ EaElements.TabButton {
                 text: control.fontIcon
 
                 color: foregroundColor()
-                Behavior on color {
-                    EaAnimations.ThemeChange {}
-                }
+                Behavior on color { EaAnimations.ThemeChange {} }
             }
 
             // Text label
@@ -49,9 +44,7 @@ EaElements.TabButton {
                 text: control.text
 
                 color: foregroundColor()
-                Behavior on color {
-                    EaAnimations.ThemeChange {}
-                }
+                Behavior on color { EaAnimations.ThemeChange {} }
             }
         }
     }
@@ -62,9 +55,7 @@ EaElements.TabButton {
         implicitWidth: textLabel.implicitWidth + control.font.pixelSize * 1.5
 
         color: backgroundColor()
-        Behavior on color {
-            EaAnimations.ThemeChange {}
-        }
+        Behavior on color { EaAnimations.ThemeChange {} }
     }
 
     //Mouse area to react on click events

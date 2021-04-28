@@ -37,9 +37,7 @@ T.Button {
         font: control.font
 
         color: foregroundColor()
-        Behavior on color {
-            EaAnimations.ThemeChange {}
-        }
+        Behavior on color { EaAnimations.ThemeChange {} }
     }
 
     //Mouse area to react on click events

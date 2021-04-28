@@ -1,23 +1,33 @@
 import QtQuick 2.13
 import QtQuick.Templates 2.13 as T
+import QtGraphicalEffects 1.12
 
 import easyAppGui.Style 1.0 as EaStyle
 import easyAppGui.Globals 1.0 as EaGlobals
 import easyAppGui.Animations 1.0 as EaAnimations
+import easyAppGui.Elements 1.0 as EaElements
 
 
 T.ToolTip {
     id: control
 
     property color textColor: EaStyle.Colors.themeForeground
-    property color backgroundColor: EaStyle.Colors.dialogBackground
-    property color borderColor: EaStyle.Colors.themePrimary
+    property color backgroundColor: EaStyle.Colors.toolTipBackground
+    property color borderColor: EaStyle.Colors.toolTipBorder
+    property real backgroundOpacity: 0.9
+    property real arrowLength: EaStyle.Sizes.fontPixelSize * 0.707
     property int borderRadius: 0.25 * EaStyle.Sizes.fontPixelSize
-    property real backgroundOpacity: 1.0 //0.9
-    property int textFormat: Text.RichText
+    property int textFormat: Text.PlainText //Text.RichText
+
+    property int enterAnimationDuration: 500
+    property int exitAnimationDuration: 500
+
+    property int guidesCount: 0
+    property int currentGuideIndex: 0
+    property alias controlButtons: controlButtons.data
 
     x: parent ? (parent.width - implicitWidth) / 2 : 0
-    y: -implicitHeight - 0.75 * EaStyle.Sizes.fontPixelSize
+    y: -implicitHeight - EaStyle.Sizes.fontPixelSize * 0.5
 
     implicitWidth: Math.max(implicitBackgroundWidth + leftInset + rightInset,
                             contentWidth + leftPadding + rightPadding)
@@ -25,8 +35,11 @@ T.ToolTip {
                              contentHeight + topPadding + bottomPadding)
 
     margins: EaStyle.Sizes.fontPixelSize
-    padding: EaStyle.Sizes.fontPixelSize * 0.75
-    horizontalPadding: EaStyle.Sizes.fontPixelSize * 1.15
+    leftPadding: EaStyle.Sizes.fontPixelSize
+    rightPadding: EaStyle.Sizes.fontPixelSize
+    topPadding: EaStyle.Sizes.fontPixelSize + control.arrowLength
+    bottomPadding: EaStyle.Sizes.fontPixelSize + control.arrowLength
+    //horizontalPadding: EaStyle.Sizes.fontPixelSize * 1.15
 
     closePolicy: T.Popup.CloseOnEscape |
                  T.Popup.CloseOnPressOutsideParent |
@@ -35,24 +48,82 @@ T.ToolTip {
     font.family: EaStyle.Fonts.fontFamily
     font.pixelSize: EaStyle.Sizes.fontPixelSize
 
-    contentItem: Label {
-        font: control.font
-        text: control.text
+    contentItem: Column {
+        spacing: EaStyle.Sizes.fontPixelSize * 2
 
-        color: control.textColor
+        // Top dots to highlight current index
+        Row {
+            visible: guidesCount
+            anchors.horizontalCenter: parent.horizontalCenter
+            spacing: EaStyle.Sizes.fontPixelSize * 0.5
 
-        textFormat: control.textFormat
+            Repeater {
+                model: guidesCount
+
+                Rectangle {
+                    width: EaStyle.Sizes.fontPixelSize * 0.5
+                    height: EaStyle.Sizes.fontPixelSize * 0.5
+                    radius: EaStyle.Sizes.fontPixelSize * 0.25
+                    opacity: 0.5
+
+                    color: index === currentGuideIndex ?
+                               EaStyle.Colors.themeForeground :
+                               EaStyle.Colors.themeForegroundDisabled
+                    Behavior on color { EaAnimations.ThemeChange {} }
+                }
+            }
+        }
+
+        // Main text
+        EaElements.Label {
+            text: control.text
+            textFormat: control.textFormat
+            horizontalAlignment: Text.AlignHCenter
+
+            font: control.font
+
+            color: control.textColor
+        }
+
+        // Bottom buttons
+        Row {
+            id: controlButtons
+
+            anchors.horizontalCenter: parent.horizontalCenter
+            spacing: EaStyle.Sizes.fontPixelSize
+        }
     }
 
-    background: Rectangle {
-        implicitHeight: EaStyle.Sizes.tooltipHeight
+    background: Item{
+        layer.enabled: true
+        opacity: control.backgroundOpacity
 
-        opacity: backgroundOpacity
+        layer.effect: DropShadow {
+            radius: 15
+            samples: 50
+            color: control.borderColor
+        }
 
-        color: backgroundColor
-        border.color: borderColor
+        Rectangle {
+            x: -control.x - width / 2 + control.parent.width / 2
+            y: control.y >= 0 ?
+                   control.arrowLength * 0.207 + 1 :
+                   parent.height - control.arrowLength * 1.707 - 1
 
-        radius: borderRadius
+            width: control.arrowLength / 0.707
+            height: control.arrowLength / 0.707
+            rotation: 45
+
+            color: control.backgroundColor
+        }
+        Rectangle {
+            y: control.arrowLength
+            width: parent.width
+            height: parent.height - 2 * control.arrowLength
+
+            radius: control.borderRadius
+            color: control.backgroundColor
+        }
     }
 
     enter: Transition {
@@ -61,7 +132,7 @@ T.ToolTip {
             from: 0.0
             to: 1.0
             easing.type: Easing.OutQuad
-            duration: 500
+            duration: enterAnimationDuration
         }
     }
 
@@ -71,7 +142,7 @@ T.ToolTip {
             from: 1.0
             to: 0.0
             easing.type: Easing.InQuad
-            duration: 500
+            duration: exitAnimationDuration
         }
     }
 }
