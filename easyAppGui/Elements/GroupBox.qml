@@ -165,6 +165,14 @@ T.GroupBox {
         onFinished: collapsed = !collapsed
     }
 
+    // Collapse when disabled
+    onEnabledChanged: {
+        if (!enabled && collapsible) {
+            collapsed = false
+            collapsionAnimo.restart()
+        }
+    }
+
     // Logic
 
     function foregroundColor() {
