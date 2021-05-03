@@ -259,9 +259,11 @@ EaCharts.BasePlot {
                     axisX: braggAxisX
                     axisY: braggAxisY
 
+                    brush: ExGlobals.Constants.proxy.plotting1d.verticalLine(markerSize, plot.calculatedLineColor)
                     markerShape: ScatterSeries.MarkerShapeRectangle
                     markerSize: 1.5 * fontPixelSize
-                    brush: ExGlobals.Constants.proxy.plotting1d.verticalLine(markerSize, plot.calculatedLineColor)
+                    borderWidth: 0.001
+                    borderColor: 'transparent'
 
                     customPoints: plot.braggData.xy
 
