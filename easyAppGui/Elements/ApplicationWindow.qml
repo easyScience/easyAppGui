@@ -25,4 +25,18 @@ T.ApplicationWindow {
 
     color: EaStyle.Colors.contentBackground
     Behavior on color { EaAnimations.ThemeChange {} }
+
+    PropertyAnimation {
+        id: quitAnimo
+        target: window
+        property: 'opacity'
+        to: 0
+        duration: 250
+        alwaysRunToEnd: true
+        easing.type: Easing.Linear
+        onFinished: Qt.quit()
+    }
+    function quit() {
+        quitAnimo.start()
+    }
 }
