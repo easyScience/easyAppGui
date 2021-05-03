@@ -414,12 +414,14 @@ EaCharts.BasePlot {
 
         EaElements.ToolTip {
             id: mainInfoToolTip
+            textFormat: Text.RichText
             backgroundColor: plot.chartBackgroundColor
             borderColor: plot.chartGridLineColor
         }
 
         EaElements.ToolTip {
             id: braggInfoToolTip
+            textFormat: Text.RichText
             backgroundColor: plot.chartBackgroundColor
             borderColor: plot.chartGridLineColor
         }
