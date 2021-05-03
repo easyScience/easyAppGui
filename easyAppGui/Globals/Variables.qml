@@ -32,7 +32,7 @@ QtObject {
     property bool showAppStatusBar: true
     property bool showAppPreferencesDialog: false
     property bool showAppAboutDialog: false
-    property bool showToolTips: false
+    property bool showToolTips: true
     property bool showUserGuides: false
     property bool showProjectDescriptionDialog: false
 
