@@ -31,9 +31,9 @@ T.ApplicationWindow {
         target: window
         property: 'opacity'
         to: 0
-        duration: 250
+        duration: 150
         alwaysRunToEnd: true
-        easing.type: Easing.Linear
+        easing.type: Easing.InCubic
         onFinished: Qt.quit()
     }
     function quit() {
