@@ -64,7 +64,7 @@ Rectangle {
             request.accepted = true
         }
 
-        Component.onCompleted: ExGlobals.Variables.bokehStructureChart = this
+        Component.onCompleted: ExGlobals.Variables.chemDoodleStructureChart = this
     }
 
     /////////////////////
