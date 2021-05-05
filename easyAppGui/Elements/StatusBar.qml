@@ -53,7 +53,7 @@ Rectangle {
 
     // Fitting label
     EaElements.RunningLabel {
-        text: "Fitting"
+        text: "Fitting in progress"
         running: !ExGlobals.Constants.proxy.isFitFinished
     }
 
