@@ -34,7 +34,7 @@ Rectangle {
         property var info: {
             'version': '9.2.0',
             'url': 'https://web.chemdoodle.com',
-            'baseSrc': 'http://easyscience.apptimity.com/easyDiffraction/libs'
+            'baseSrc': 'https://raw.githubusercontent.com/easyScience/easyAppGui/develop/easyAppGui/Charts'
         }
         property string src: `${structureView.info.baseSrc}/ChemDoodleWeb-${structureView.info.version}.unpacked.modified.js`
         property string headScript: `<script type="text/javascript" src="${structureView.src}"></script>`
