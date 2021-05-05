@@ -22,10 +22,10 @@ QtObject {
         } else if (theme === Colors.Themes.LightTheme) {
             return false
         } else {
-            if (_isSystemThemeDark) {
-                return false
-            } else {
+            if (isSystemThemeDark) {
                 return true
+            } else {
+                return false
             }
         }
     }
