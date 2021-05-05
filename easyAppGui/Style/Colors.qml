@@ -15,7 +15,7 @@ QtObject {
     property bool isSystemThemeDark: typeof _isSystemThemeDark === 'undefined' ||
                                      _isSystemThemeDark === null ?
                                          false :
-                                         true
+                                         _isSystemThemeDark
     property bool isDarkTheme: {
         if (theme === Colors.Themes.DarkTheme) {
             return true
