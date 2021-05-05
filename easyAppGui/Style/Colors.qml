@@ -10,20 +10,22 @@ QtObject {
     id: object
 
     // Theme
-    property var _systemThemeChecker: Item { Material.theme: Material.System }
-    property int theme: Material.System // default: system theme
-
     enum Themes { LightTheme = 0, DarkTheme, SystemTheme }
+    property int theme: Colors.Themes.SystemTheme
+    property bool isSystemThemeDark: typeof _isSystemThemeDark === 'undefined' ||
+                                     _isSystemThemeDark === null ?
+                                         false :
+                                         true
     property bool isDarkTheme: {
         if (theme === Colors.Themes.DarkTheme) {
             return true
         } else if (theme === Colors.Themes.LightTheme) {
             return false
         } else {
-            if (_systemThemeChecker.Material.theme === Material.Dark) {
-                return true
-            } else if (_systemThemeChecker.Material.theme === Material.Light) {
+            if (_isSystemThemeDark) {
                 return false
+            } else {
+                return true
             }
         }
     }
