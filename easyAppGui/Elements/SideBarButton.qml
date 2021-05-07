@@ -13,6 +13,7 @@ T.Button {
 
     property bool wide: false
     property bool smallIcon: false
+    property int radius: 2
     property string fontIcon: ""
 
     implicitWidth: Math.max(implicitBackgroundWidth + leftInset + rightInset,
@@ -77,7 +78,7 @@ T.Button {
         implicitWidth: wide ? EaStyle.Sizes.sideBarContentWidth : (EaStyle.Sizes.sideBarContentWidth - EaStyle.Sizes.fontPixelSize) / 2
         implicitHeight: EaStyle.Sizes.sideBarButtonHeight
 
-        radius: 2
+        radius: control.radius
 
         color: backgroundColor()
         Behavior on color { EaAnimations.ThemeChange {} }
