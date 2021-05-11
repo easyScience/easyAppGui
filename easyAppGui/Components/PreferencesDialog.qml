@@ -168,7 +168,10 @@ EaElements.Dialog {
                 anchors.verticalCenter: parent.verticalCenter
                 text: qsTr("Check now")
                 width: EaStyle.Sizes.fontPixelSize * 7
-                onClicked: EaGlobals.Variables.maintenanceTool.checkUpdate()
+                onClicked: {
+                    EaGlobals.Variables.maintenanceTool.silentCheck = false
+                    EaGlobals.Variables.maintenanceTool.checkUpdate()
+                }
             }
         }
 

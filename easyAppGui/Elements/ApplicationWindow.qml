@@ -6,13 +6,15 @@ import easyAppGui.Globals 1.0 as EaGlobals
 import easyAppGui.Animations 1.0 as EaAnimations
 import easyAppGui.Elements 1.0 as EaElements
 
-import Gui.Globals 1.0 as ExGlobals
-
-import MaintenanceTool 1.0
+import MaintenanceTool 1.0 as EaUpdate
 
 
 T.ApplicationWindow {
     id: window
+
+    property string appName: ''
+    property string appVersion: ''
+    property string appDate: ''
 
     visible: true
     flags: EaGlobals.Variables.appWindowFlags
@@ -34,85 +36,118 @@ T.ApplicationWindow {
 
     // Updater
 
-    MaintenanceTool {
-        id: maintainanceTool
+    EaUpdate.MaintenanceTool {
+        id: maintenanceTool
 
-        property bool checkNow: false
-
-        onHasUpdateChanged: {
-            if (hasUpdate) {
-                hasUpdateDialog.open()
-            } else {
-                print("!!!!", !EaGlobals.Variables.checkUpdateOnAppStart)
-                if (!EaGlobals.Variables.checkUpdateOnAppStart) {
-                    noUpdateDialog.open()
-                }
-            }
-        }
+        onUpdateFound: updateFoundDialog.open()
+        onUpdateNotFound: updateNotFoundDialog.open()
+        onUpdateFailed: updateFailedDialog.open()
 
         Component.onCompleted: EaGlobals.Variables.maintenanceTool = this
     }
+
+    // Check update on app start (if needed)
 
     Timer {
         interval: 2000
         repeat: false
         running: EaGlobals.Variables.checkUpdateOnAppStart
-        onTriggered: maintainanceTool.checkUpdate()
+        onTriggered: {
+            maintenanceTool.silentCheck = true
+            maintenanceTool.checkUpdate()
+        }
     }
 
+    // Updater dialogs
 
     EaElements.Dialog {
-        id: hasUpdateDialog
+        id: updateFoundDialog
 
-        title: qsTr(`A new version of ${ExGlobals.Constants.appName} is available!`)
+        title: qsTr('Update')
 
-        EaElements.Label {
-            horizontalAlignment: Text.AlignHCenter
-            text: qsTr(`${ExGlobals.Constants.appName} ${maintainanceTool.webVersion} is now available. You are\ncurrently using version ${ExGlobals.Constants.appVersion}.\n\nDo you want to restart and install update?`)
+        Column {
+            spacing: EaStyle.Sizes.fontPixelSize
+
+            EaElements.Label {
+                text: qsTr(`A new version of ${appName} is now available!`)
+            }
+
+            EaElements.Label {
+                text: qsTr(`Current version: ${appVersion}\nAvailable version: ${maintenanceTool.webVersion}\n\nDo you want to restart and install update?`)
+            }
         }
 
         footer: EaElements.DialogButtonBox {
             EaElements.Button {
                 text: qsTr("Remind Me Later")
-                onClicked: hasUpdateDialog.close()
+                onClicked: updateFoundDialog.close()
             }
 
             EaElements.Button {
                 text: qsTr("Install Update Now")
-                onClicked: {
-                    maintainanceTool.installUpdate()
-                    hasUpdateDialog.close()
-                }
+                onClicked: maintenanceTool.installUpdate()
             }
         }
     }
 
     EaElements.Dialog {
-        id: noUpdateDialog
+        id: updateNotFoundDialog
 
-        title: qsTr('You are up to date!')
+        title: qsTr('Update')
 
         standardButtons: Dialog.Ok
 
-        EaElements.Label {
-            horizontalAlignment: Text.AlignHCenter
-            text: qsTr(`${ExGlobals.Constants.appName} ${ExGlobals.Constants.appVersion} (${ExGlobals.Constants.appDate}) is currently the\nnewest version available.`)
+        Column {
+            spacing: EaStyle.Sizes.fontPixelSize
+
+            EaElements.Label {
+                text: qsTr('You are up to date!')
+            }
+
+            EaElements.Label {
+                text: qsTr(`${appName} ${appVersion} (${appDate})\nis currently the newest version available.`)
+            }
         }
     }
 
+    EaElements.Dialog {
+        id: updateFailedDialog
+
+        title: qsTr('Update')
+
+        standardButtons: Dialog.Ok
+
+        Column {
+            spacing: EaStyle.Sizes.fontPixelSize
+
+            EaElements.Label {
+                text: qsTr('An error occurred while checking for updates:')
+            }
+
+            EaElements.Label {
+                text: maintenanceTool.errorMessage
+            }
+        }
+    }
 
     // Quit animation
 
     PropertyAnimation {
         id: quitAnimo
+
         target: window
+
         property: 'opacity'
         to: 0
+
         duration: 150
-        alwaysRunToEnd: true
         easing.type: Easing.InCubic
+
+        alwaysRunToEnd: true
+
         onFinished: Qt.quit()
     }
+
     function quit() {
         quitAnimo.start()
     }
