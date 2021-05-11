@@ -36,6 +36,10 @@ QtObject {
     property bool showUserGuides: false
     property bool showProjectDescriptionDialog: false
 
+    // Updater
+    property bool checkUpdateOnAppStart: true
+    property var maintenanceTool
+
     // Screenshots control
     property bool saveScreenshotsRunning: false
 

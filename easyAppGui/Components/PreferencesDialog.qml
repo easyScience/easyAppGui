@@ -36,7 +36,7 @@ EaElements.Dialog {
             }
 
             EaElements.ComboBox {
-                width: EaStyle.Sizes.fontPixelSize * 12
+                width: EaStyle.Sizes.fontPixelSize * 18
                 model: [qsTr("Light"), qsTr("Dark"), qsTr("System")]
                 onActivated: {
                     if (currentIndex === 0)
@@ -68,7 +68,7 @@ EaElements.Dialog {
             }
 
              EaElements.ComboBox {
-                width: EaStyle.Sizes.fontPixelSize * 12
+                width: EaStyle.Sizes.fontPixelSize * 18
                 model: ["100%", "110%", "120%", "130%", "140%", "150%"]
                 onCurrentTextChanged: {
                     if (parseInt(currentText) === EaStyle.Sizes.defaultScale) {
@@ -90,7 +90,7 @@ EaElements.Dialog {
 
              EaElements.ComboBox {
                  id: languageSelector
-                 width: EaStyle.Sizes.fontPixelSize * 12
+                 width: EaStyle.Sizes.fontPixelSize * 18
                  model: XmlListModel {
                      xml: EaGlobals.Variables.translator.languagesAsXml()
                      query: "/root/item"
@@ -118,7 +118,7 @@ EaElements.Dialog {
             }
 
              EaElements.ComboBox {
-                width: EaStyle.Sizes.fontPixelSize * 12
+                width: EaStyle.Sizes.fontPixelSize * 18
                 model: ExGlobals.Constants.proxy.plotting1d.libs
                 onActivated: ExGlobals.Constants.proxy.plotting1d.currentLib = currentValue
 
@@ -138,13 +138,37 @@ EaElements.Dialog {
             }
 
              EaElements.ComboBox {
-                width: EaStyle.Sizes.fontPixelSize * 12
+                width: EaStyle.Sizes.fontPixelSize * 18
                 model: ExGlobals.Constants.proxy.plotting3dLibs
                 onActivated: ExGlobals.Constants.proxy.current3dPlottingLib = currentValue
 
                 Component.onCompleted: {
                     currentIndex = model.indexOf(ExGlobals.Constants.proxy.current3dPlottingLib)
                 }
+            }
+        }
+
+        Row {
+            spacing: EaStyle.Sizes.fontPixelSize * 0.5
+
+            EaElements.Label {
+               width: EaStyle.Sizes.fontPixelSize * 9.3
+               anchors.verticalCenter: parent.verticalCenter
+               text: qsTr("Updates") + ":"
+            }
+
+            EaElements.CheckBox {
+                id: updatesCheckBox
+                text: qsTr("Check on app start")
+                checked: EaGlobals.Variables.checkUpdateOnAppStart
+                onCheckedChanged: EaGlobals.Variables.checkUpdateOnAppStart = checked
+            }
+
+            EaElements.SideBarButton {
+                anchors.verticalCenter: parent.verticalCenter
+                text: qsTr("Check now")
+                width: EaStyle.Sizes.fontPixelSize * 7
+                onClicked: EaGlobals.Variables.maintenanceTool.checkUpdate()
             }
         }
 
@@ -186,6 +210,7 @@ EaElements.Dialog {
     Settings {
         fileName: EaGlobals.Variables.settingsFile
         category: 'Preferences'
+        property alias checkUpdateOnAppStart: updatesCheckBox.checked
         property alias enableToolTips: toolTipsCheckBox.checked
         property alias enableUserGuides: userGuidesCheckBox.checked
     }
