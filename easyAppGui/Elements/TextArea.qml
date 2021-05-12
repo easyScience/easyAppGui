@@ -11,6 +11,8 @@ import easyAppGui.Elements 1.0 as EaElements
 T.TextArea {
     id: control
 
+    property real backgroundOpacity: 1.0
+
     implicitWidth: Math.max(contentWidth + leftPadding + rightPadding,
                             implicitBackgroundWidth + leftInset + rightInset,
                             placeholder.implicitWidth + leftPadding + rightPadding)
@@ -57,6 +59,7 @@ T.TextArea {
     }
 
     background: Rectangle {
+        opacity: backgroundOpacity
         color: enabled ? EaStyle.Colors.textViewBackground : EaStyle.Colors.textViewBackgroundDisabled
         Behavior on color { EaAnimations.ThemeChange {} }
     }

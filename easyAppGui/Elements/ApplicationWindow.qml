@@ -1,4 +1,5 @@
 import QtQuick 2.13
+import QtQuick.Controls 2.13
 import QtQuick.Templates 2.13 as T
 
 import easyAppGui.Style 1.0 as EaStyle
@@ -15,6 +16,9 @@ T.ApplicationWindow {
     property string appName: ''
     property string appVersion: ''
     property string appDate: ''
+
+    property string webVersion: maintenanceTool.webVersion
+    property string webDate: ''
 
     visible: true
     flags: EaGlobals.Variables.appWindowFlags
@@ -63,28 +67,45 @@ T.ApplicationWindow {
     EaElements.Dialog {
         id: updateFoundDialog
 
-        title: qsTr('Update')
+        title: qsTr('Update Available')
 
         Column {
             spacing: EaStyle.Sizes.fontPixelSize
 
             EaElements.Label {
-                text: qsTr(`A new version of ${appName} is now available!`)
+                textFormat: Text.RichText
+                text: qsTr("Current version: %1 (%2)<br>
+                            Available version: %3 (%4)"
+                           .arg(appVersion).arg(appDate)
+                           .arg(webVersion).arg(webDate))
             }
 
-            EaElements.Label {
-                text: qsTr(`Current version: ${appVersion}\nAvailable version: ${maintenanceTool.webVersion}\n\nDo you want to restart and install update?`)
+            ScrollView {
+                visible: maintenanceTool.releaseNotes
+
+                width: EaStyle.Sizes.fontPixelSize * 40
+                height: EaStyle.Sizes.fontPixelSize * 25
+                clip: true
+
+                EaElements.TextArea {
+                    wrapMode: TextEdit.Wrap
+                    readOnly: true
+                    backgroundOpacity: 0.5
+                    textFormat: Text.MarkdownText
+                    text: maintenanceTool.releaseNotes
+                }
             }
+
         }
 
         footer: EaElements.DialogButtonBox {
             EaElements.Button {
-                text: qsTr("Remind Me Later")
+                text: qsTr("Not Now")
                 onClicked: updateFoundDialog.close()
             }
 
             EaElements.Button {
-                text: qsTr("Install Update Now")
+                text: qsTr("Update")
                 onClicked: maintenanceTool.installUpdate()
             }
         }
@@ -93,40 +114,31 @@ T.ApplicationWindow {
     EaElements.Dialog {
         id: updateNotFoundDialog
 
-        title: qsTr('Update')
+        title: qsTr('No Updates')
 
         standardButtons: Dialog.Ok
 
-        Column {
-            spacing: EaStyle.Sizes.fontPixelSize
-
-            EaElements.Label {
-                text: qsTr('You are up to date!')
-            }
-
-            EaElements.Label {
-                text: qsTr(`${appName} ${appVersion} (${appDate})\nis currently the newest version available.`)
-            }
+        EaElements.Label {
+            textFormat: Text.RichText
+            text: qsTr("You are up to date<br><br>
+                        %1 version %2 (%3)<br>
+                        is currently the newest version available."
+                       .arg(appName).arg(appVersion).arg(appDate))
         }
     }
 
     EaElements.Dialog {
         id: updateFailedDialog
 
-        title: qsTr('Update')
+        title: qsTr('Update Error')
 
         standardButtons: Dialog.Ok
 
-        Column {
-            spacing: EaStyle.Sizes.fontPixelSize
-
-            EaElements.Label {
-                text: qsTr('An error occurred while checking for updates:')
-            }
-
-            EaElements.Label {
-                text: maintenanceTool.errorMessage
-            }
+        EaElements.Label {
+            textFormat: Text.RichText
+            text: qsTr('There was an error checking for updates.
+                        <br>
+                        Please try again later.')
         }
     }
 

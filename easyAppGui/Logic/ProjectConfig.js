@@ -2,8 +2,8 @@ function projectConfig() {
     return {
         tool: {
             poetry: {
-                name: "easyExample",
-                version: "0.0.1"
+                name: "easyDiffraction",
+                version: "0.8.0-beta.1"
             }
         },
         ci: {
