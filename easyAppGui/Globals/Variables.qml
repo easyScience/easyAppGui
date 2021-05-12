@@ -37,8 +37,8 @@ QtObject {
     property bool showProjectDescriptionDialog: false
 
     // Updater
-    property bool checkUpdateOnAppStart: false
-    property var maintenanceTool
+    property bool checkUpdateOnAppStart: isTestMode ? false : true
+    property var updater
 
     // Screenshots control
     property bool saveScreenshotsRunning: false

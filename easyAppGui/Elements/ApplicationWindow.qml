@@ -7,7 +7,7 @@ import easyAppGui.Globals 1.0 as EaGlobals
 import easyAppGui.Animations 1.0 as EaAnimations
 import easyAppGui.Elements 1.0 as EaElements
 
-import MaintenanceTool 1.0 as EaUpdate
+//import Maintenance 1.0 as EaMaintenance
 
 
 T.ApplicationWindow {
@@ -17,7 +17,7 @@ T.ApplicationWindow {
     property string appVersion: ''
     property string appDate: ''
 
-    property string webVersion: maintenanceTool.webVersion
+    property string webVersion: updater.webVersion
     property string webDate: ''
 
     visible: true
@@ -38,16 +38,17 @@ T.ApplicationWindow {
     color: EaStyle.Colors.contentBackground
     Behavior on color { EaAnimations.ThemeChange {} }
 
+    /*
     // Updater
 
-    EaUpdate.MaintenanceTool {
-        id: maintenanceTool
+    EaMaintenance.Updater {
+        id: updater
 
         onUpdateFound: updateFoundDialog.open()
         onUpdateNotFound: updateNotFoundDialog.open()
         onUpdateFailed: updateFailedDialog.open()
 
-        Component.onCompleted: EaGlobals.Variables.maintenanceTool = this
+        Component.onCompleted: EaGlobals.Variables.updater = this
     }
 
     // Check update on app start (if needed)
@@ -57,8 +58,8 @@ T.ApplicationWindow {
         repeat: false
         running: EaGlobals.Variables.checkUpdateOnAppStart
         onTriggered: {
-            maintenanceTool.silentCheck = true
-            maintenanceTool.checkUpdate()
+            updater.silentCheck = true
+            updater.checkUpdate()
         }
     }
 
@@ -81,7 +82,7 @@ T.ApplicationWindow {
             }
 
             ScrollView {
-                visible: maintenanceTool.releaseNotes
+                visible: updater.releaseNotes
 
                 width: EaStyle.Sizes.fontPixelSize * 40
                 height: EaStyle.Sizes.fontPixelSize * 25
@@ -92,7 +93,7 @@ T.ApplicationWindow {
                     readOnly: true
                     backgroundOpacity: 0.5
                     textFormat: Text.MarkdownText
-                    text: maintenanceTool.releaseNotes
+                    text: updater.releaseNotes
                 }
             }
 
@@ -106,7 +107,7 @@ T.ApplicationWindow {
 
             EaElements.Button {
                 text: qsTr("Update")
-                onClicked: maintenanceTool.installUpdate()
+                onClicked: updater.installUpdate()
             }
         }
     }
@@ -120,7 +121,7 @@ T.ApplicationWindow {
 
         EaElements.Label {
             textFormat: Text.RichText
-            text: qsTr("You are up to date<br><br>
+            text: qsTr("You are up to date.<br><br>
                         %1 version %2 (%3)<br>
                         is currently the newest version available."
                        .arg(appName).arg(appVersion).arg(appDate))
@@ -141,6 +142,7 @@ T.ApplicationWindow {
                         Please try again later.')
         }
     }
+    */
 
     // Quit animation
 

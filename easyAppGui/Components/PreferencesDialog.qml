@@ -169,8 +169,8 @@ EaElements.Dialog {
                 text: qsTr("Check now")
                 width: EaStyle.Sizes.fontPixelSize * 7
                 onClicked: {
-                    EaGlobals.Variables.maintenanceTool.silentCheck = false
-                    EaGlobals.Variables.maintenanceTool.checkUpdate()
+                    EaGlobals.Variables.updater.silentCheck = false
+                    EaGlobals.Variables.updater.checkUpdate()
                 }
             }
         }
