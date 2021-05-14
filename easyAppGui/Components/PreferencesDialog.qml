@@ -15,6 +15,9 @@ import Gui.Globals 1.0 as ExGlobals
 EaElements.Dialog {
     id: dialog
 
+    contentWidth: bar.implicitWidth
+    contentHeight: bar.implicitHeight + EaStyle.Sizes.fontPixelSize * 12
+
     visible: EaGlobals.Variables.showAppPreferencesDialog
     onClosed: EaGlobals.Variables.showAppPreferencesDialog = false
 
@@ -24,19 +27,127 @@ EaElements.Dialog {
 
     Component.onCompleted: setPreferencesOkButton()
 
-    Column {
+    EaElements.TabBar {
+        id: bar
 
-        Row {
-            spacing: EaStyle.Sizes.fontPixelSize * 0.5
+        anchors.top: parent.top
 
-             EaElements.Label {
-                width: EaStyle.Sizes.fontPixelSize * 10
-                anchors.verticalCenter: parent.verticalCenter
+        EaElements.AppBarTabButton {
+            fontIcon: "users"
+            text: qsTr("Prompts")
+            ToolTip.text: qsTr("")
+        }
+
+        EaElements.AppBarTabButton {
+            fontIcon: "cloud-download-alt"
+            text: qsTr("Updates")
+            ToolTip.text: qsTr("")
+        }
+
+        EaElements.AppBarTabButton {
+            fontIcon: "paint-brush"
+            text: qsTr("Appearance")
+            ToolTip.text: qsTr("")
+        }
+
+        EaElements.AppBarTabButton {
+            fontIcon: "flask"
+            text: qsTr("Experimental")
+            ToolTip.text: qsTr("")
+        }
+
+        EaElements.AppBarTabButton {
+            fontIcon: "laptop-code"
+            text: qsTr("Develop")
+            ToolTip.text: qsTr("")
+        }
+
+    }
+
+    SwipeView {
+        id: view
+
+        anchors.top: bar.bottom
+        anchors.bottom: parent.bottom
+        anchors.left: parent.left
+        anchors.right: parent.right
+
+        anchors.topMargin: EaStyle.Sizes.fontPixelSize * 1.25
+
+        currentIndex: bar.currentIndex
+
+        clip: true
+
+        // Prompts tab content
+
+        Grid {
+            columns: 2
+            columnSpacing: EaStyle.Sizes.fontPixelSize
+            verticalItemAlignment: Grid.AlignVCenter
+
+            EaElements.Label {
+               text: qsTr("Enable tool tips") + ":"
+            }
+
+            EaElements.CheckBox {
+                id: toolTipsCheckBox
+                checked: EaGlobals.Variables.showToolTips
+                onCheckedChanged: EaGlobals.Variables.showToolTips = checked
+                Component.onCompleted: ExGlobals.Variables.enableToolTipsCheckBox = this
+            }
+
+            EaElements.Label {
+               text: qsTr("Enable user guides") + ":"
+            }
+
+            EaElements.CheckBox {
+                id: userGuidesCheckBox
+                checked: EaGlobals.Variables.showUserGuides
+                onCheckedChanged: EaGlobals.Variables.showUserGuides = checked
+                Component.onCompleted: ExGlobals.Variables.enableUserGuidesCheckBox = this
+            }
+
+        }
+
+        // Updates tab content
+
+        Grid {
+            columns: 2
+            columnSpacing: EaStyle.Sizes.fontPixelSize
+            rowSpacing: EaStyle.Sizes.fontPixelSize
+            verticalItemAlignment: Grid.AlignVCenter
+
+            EaElements.Label {
+               text: qsTr("Check on app start") + ":"
+            }
+
+            EaElements.CheckBox {
+                id: updatesCheckBox
+                checked: EaGlobals.Variables.checkUpdateOnAppStart
+                onCheckedChanged: EaGlobals.Variables.checkUpdateOnAppStart = checked
+            }
+
+            EaElements.Button {
+                text: qsTr("Check now")
+                onClicked: {
+                    EaGlobals.Variables.updater.silentCheck = false
+                    EaGlobals.Variables.updater.checkUpdate()
+                }
+            }
+        }
+
+        // Appearance tab content
+
+        Grid {
+            columns: 2
+            columnSpacing: EaStyle.Sizes.fontPixelSize
+            verticalItemAlignment: Grid.AlignVCenter
+
+            EaElements.Label {
                 text: qsTr("Theme") + ":"
             }
 
             EaElements.ComboBox {
-                width: EaStyle.Sizes.fontPixelSize * 18
                 model: [qsTr("Light"), qsTr("Dark"), qsTr("System")]
                 onActivated: {
                     if (currentIndex === 0)
@@ -56,19 +167,45 @@ EaElements.Dialog {
                         currentIndex = 2
                 }
             }
+
+            EaElements.Label {
+                text: qsTr("Data plotting") + ":"
+            }
+
+            EaElements.ComboBox {
+                model: ExGlobals.Constants.proxy.plotting1d.libs
+                onActivated: ExGlobals.Constants.proxy.plotting1d.currentLib = currentValue
+                Component.onCompleted: {
+                    currentIndex = model.indexOf(ExGlobals.Constants.proxy.plotting1d.currentLib)
+                }
+            }
+
+            EaElements.Label {
+                text: qsTr("Structure plotting") + ":"
+            }
+
+            EaElements.ComboBox {
+                model: ExGlobals.Constants.proxy.plotting3dLibs
+                onActivated: ExGlobals.Constants.proxy.current3dPlottingLib = currentValue
+                Component.onCompleted: {
+                    currentIndex = model.indexOf(ExGlobals.Constants.proxy.current3dPlottingLib)
+                }
+            }
+
         }
 
-        Row {
-            spacing: EaStyle.Sizes.fontPixelSize * 0.5
+        // Experimental tab content
 
-             EaElements.Label {
-                width: EaStyle.Sizes.fontPixelSize * 10
-                anchors.verticalCenter: parent.verticalCenter
+        Grid {
+            columns: 2
+            columnSpacing: EaStyle.Sizes.fontPixelSize
+            verticalItemAlignment: Grid.AlignVCenter
+
+            EaElements.Label {
                 text: qsTr("Zoom") + ":"
             }
 
-             EaElements.ComboBox {
-                width: EaStyle.Sizes.fontPixelSize * 18
+            EaElements.ComboBox {
                 model: ["100%", "110%", "120%", "130%", "140%", "150%"]
                 onCurrentTextChanged: {
                     if (parseInt(currentText) === EaStyle.Sizes.defaultScale) {
@@ -77,137 +214,59 @@ EaElements.Dialog {
                     EaStyle.Sizes.defaultScale = parseInt(currentText)
                 }
             }
-        }
-
-        Row {
-            spacing: EaStyle.Sizes.fontPixelSize * 0.5
 
             EaElements.Label {
-                width: EaStyle.Sizes.fontPixelSize * 10
-                anchors.verticalCenter: parent.verticalCenter
                 text: qsTr("Language") + ":"
             }
 
-             EaElements.ComboBox {
-                 id: languageSelector
-                 width: EaStyle.Sizes.fontPixelSize * 18
-                 model: XmlListModel {
-                     xml: EaGlobals.Variables.translator.languagesAsXml()
-                     query: "/root/item"
-                     XmlRole {
-                         name: "name"
-                         query: "name/string()"
-                     }
-                     onStatusChanged: {
-                         if (status === XmlListModel.Ready) {
-                             languageSelector.currentIndex = EaGlobals.Variables.translator.defaultLanguageIndex()
-                         }
-                     }
-                 }
-                onActivated: EaGlobals.Variables.translator.selectLanguage(currentIndex)
-            }
-        }
-
-        Row {
-            spacing: EaStyle.Sizes.fontPixelSize * 0.5
-
-             EaElements.Label {
-                width: EaStyle.Sizes.fontPixelSize * 10
-                anchors.verticalCenter: parent.verticalCenter
-                text: qsTr("Data plotting") + ":"
-            }
-
-             EaElements.ComboBox {
-                width: EaStyle.Sizes.fontPixelSize * 18
-                model: ExGlobals.Constants.proxy.plotting1d.libs
-                onActivated: ExGlobals.Constants.proxy.plotting1d.currentLib = currentValue
-
-                Component.onCompleted: {
-                    currentIndex = model.indexOf(ExGlobals.Constants.proxy.plotting1d.currentLib)
+            EaElements.ComboBox {
+                id: languageSelector
+                model: XmlListModel {
+                    xml: EaGlobals.Variables.translator.languagesAsXml()
+                    query: "/root/item"
+                    XmlRole {
+                        name: "name"
+                        query: "name/string()"
+                    }
+                    onStatusChanged: {
+                        if (status === XmlListModel.Ready) {
+                            languageSelector.currentIndex = EaGlobals.Variables.translator.defaultLanguageIndex()
+                        }
+                    }
                 }
+               onActivated: EaGlobals.Variables.translator.selectLanguage(currentIndex)
             }
+
         }
 
-        Row {
-            spacing: EaStyle.Sizes.fontPixelSize * 0.5
+        // Develop tab content
 
-             EaElements.Label {
-                width: EaStyle.Sizes.fontPixelSize * 10
-                anchors.verticalCenter: parent.verticalCenter
-                text: qsTr("Structure plotting") + ":"
-            }
+        Grid {
+            enabled: false
 
-             EaElements.ComboBox {
-                width: EaStyle.Sizes.fontPixelSize * 18
-                model: ExGlobals.Constants.proxy.plotting3dLibs
-                onActivated: ExGlobals.Constants.proxy.current3dPlottingLib = currentValue
-
-                Component.onCompleted: {
-                    currentIndex = model.indexOf(ExGlobals.Constants.proxy.current3dPlottingLib)
-                }
-            }
-        }
-
-        Row {
-            spacing: EaStyle.Sizes.fontPixelSize * 0.5
+            columns: 2
+            columnSpacing: EaStyle.Sizes.fontPixelSize
+            verticalItemAlignment: Grid.AlignVCenter
 
             EaElements.Label {
-               width: EaStyle.Sizes.fontPixelSize * 9.3
-               anchors.verticalCenter: parent.verticalCenter
-               text: qsTr("Updates") + ":"
+                text: qsTr("Logging to") + ":"
             }
 
-            EaElements.CheckBox {
-                id: updatesCheckBox
-                text: qsTr("Check on app start")
-                checked: EaGlobals.Variables.checkUpdateOnAppStart
-                onCheckedChanged: EaGlobals.Variables.checkUpdateOnAppStart = checked
+            EaElements.ComboBox {
+                model: ["Disabled", "Terminal", "File"]
+                currentIndex: 1
             }
-
-            EaElements.SideBarButton {
-                anchors.verticalCenter: parent.verticalCenter
-                text: qsTr("Check now")
-                width: EaStyle.Sizes.fontPixelSize * 7
-                onClicked: {
-                    EaGlobals.Variables.updater.silentCheck = false
-                    EaGlobals.Variables.updater.checkUpdate()
-                }
-            }
-        }
-
-        Row {
-            spacing: EaStyle.Sizes.fontPixelSize * 0.5
 
             EaElements.Label {
-               width: EaStyle.Sizes.fontPixelSize * 9.3
-               anchors.verticalCenter: parent.verticalCenter
-               text: qsTr("Enable tool tips") + ":"
+                text: qsTr("Logging level") + ":"
             }
 
-            EaElements.CheckBox {
-                id: toolTipsCheckBox
-                checked: EaGlobals.Variables.showToolTips
-                onCheckedChanged: EaGlobals.Variables.showToolTips = checked
-                Component.onCompleted: ExGlobals.Variables.enableToolTipsCheckBox = this
+            EaElements.ComboBox {
+                model: ["Info", "Debug", "Warning"]
+                currentIndex: 1
             }
         }
 
-        Row {
-            spacing: EaStyle.Sizes.fontPixelSize * 0.5
-
-            EaElements.Label {
-               width: EaStyle.Sizes.fontPixelSize * 9.3
-               anchors.verticalCenter: parent.verticalCenter
-               text: qsTr("Enable user guides") + ":"
-            }
-
-            EaElements.CheckBox {
-                id: userGuidesCheckBox
-                checked: EaGlobals.Variables.showUserGuides
-                onCheckedChanged: EaGlobals.Variables.showUserGuides = checked
-                Component.onCompleted: ExGlobals.Variables.enableUserGuidesCheckBox = this
-            }
-        }
     }
 
     Settings {
