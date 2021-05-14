@@ -7,7 +7,7 @@ import easyAppGui.Globals 1.0 as EaGlobals
 import easyAppGui.Animations 1.0 as EaAnimations
 import easyAppGui.Elements 1.0 as EaElements
 
-//import Maintenance 1.0 as EaMaintenance
+import easyAppLogic.Maintenance 1.0 as EaMaintenance
 
 
 T.ApplicationWindow {
@@ -38,7 +38,6 @@ T.ApplicationWindow {
     color: EaStyle.Colors.contentBackground
     Behavior on color { EaAnimations.ThemeChange {} }
 
-    /*
     // Updater
 
     EaMaintenance.Updater {
@@ -81,22 +80,27 @@ T.ApplicationWindow {
                            .arg(webVersion).arg(webDate))
             }
 
-            ScrollView {
+            Column {
                 visible: updater.releaseNotes
 
-                width: EaStyle.Sizes.fontPixelSize * 40
-                height: EaStyle.Sizes.fontPixelSize * 25
-                clip: true
+                EaElements.Label {
+                    text: qsTr("Release notes:")
+                }
 
-                EaElements.TextArea {
-                    wrapMode: TextEdit.Wrap
-                    readOnly: true
-                    backgroundOpacity: 0.5
-                    textFormat: Text.MarkdownText
-                    text: updater.releaseNotes
+                ScrollView {
+                    width: EaStyle.Sizes.fontPixelSize * 40
+                    height: EaStyle.Sizes.fontPixelSize * 25
+                    clip: true
+
+                    EaElements.TextArea {
+                        wrapMode: TextEdit.Wrap
+                        readOnly: true
+                        backgroundOpacity: 0.5
+                        textFormat: Text.MarkdownText
+                        text: updater.releaseNotes
+                    }
                 }
             }
-
         }
 
         footer: EaElements.DialogButtonBox {
@@ -142,7 +146,6 @@ T.ApplicationWindow {
                         Please try again later.')
         }
     }
-    */
 
     // Quit animation
 
