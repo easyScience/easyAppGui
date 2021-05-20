@@ -535,9 +535,9 @@ function bokehMainTooltipRow(color, label, value, sigma='') {
 function bokehAddMainTooltip(data, specs) {
     const x_meas = bokehMainTooltipRow(EaStyle.Colors.themeForegroundDisabled, 'x', '@x_meas{0.00}')
     const x_calc = bokehMainTooltipRow(EaStyle.Colors.themeForegroundDisabled, 'x', '@x_calc{0.00}')
-    const y_meas = bokehMainTooltipRow(specs.measuredLineColor, 'meas', '@y_meas{0.0}', '&#177;&nbsp;@sy_meas{0.0}')
-    const y_calc = bokehMainTooltipRow(specs.calculatedLineColor, 'calc', '@y_calc{0.0}')
-    const y_diff = bokehMainTooltipRow(specs.differenceLineColor, 'diff', '@y_diff{0.0}')
+    const y_meas = bokehMainTooltipRow(specs.measuredLineColor, 'meas', '@y_meas{0.00000000}', '&#177;&nbsp;@sy_meas{0.00000000}')
+    const y_calc = bokehMainTooltipRow(specs.calculatedLineColor, 'calc', '@y_calc{0.00000000}')
+    const y_diff = bokehMainTooltipRow(specs.differenceLineColor, 'diff', '@y_diff{0.00000000}')
 
     let table = []
     table.push(...[`<div style="padding:2px">`, `<table>`, `<tbody>`])
