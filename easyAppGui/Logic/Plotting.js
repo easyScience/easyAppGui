@@ -203,6 +203,8 @@ function bokehCreateMainChart(data, specs) {
             `       end: ${data.ranges.max_y}`,
             `   }),`,
 
+            `   y_axis_type: "log",`,
+
             `   y_axis_label: "${specs.yMainAxisTitle}",`,
 
             `   outline_line_color: "${EaStyle.Colors.chartAxis}",`,
@@ -246,6 +248,8 @@ function bokehCreateDiffChart(data, specs) {
             `   width: ${specs.chartWidth},`,
 
             `   x_range: main_chart.x_range,`,
+
+            `   y_axis_type: "log",`,
 
             `   y_axis_label: "${specs.yDifferenceAxisTitle}",`,
 
