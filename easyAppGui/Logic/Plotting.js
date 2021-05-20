@@ -148,7 +148,7 @@ function bokehChart(data, specs) {
         chart.push(...bokehAddHiddenXAxis('diff_chart', specs))
         chart.push(...bokehAddVisibleYAxis('diff_chart', specs))
         chart.push(...bokehAddDataToDiffChart(data, specs))
-        chart.push(...adjustDifferenceYRange())
+        //chart.push(...adjustDifferenceYRange())
         chart.push(`diff_chart.ygrid[0].ticker.desired_num_ticks = 3`)
         chart.push(`charts.push([diff_chart])`)
     }
@@ -198,10 +198,10 @@ function bokehCreateMainChart(data, specs) {
             `       start: ${data.ranges.min_x},`,
             `       end: ${data.ranges.max_x}`,
             `   }),`,
-            `   y_range: new Bokeh.Range1d({`,
-            `       start: ${data.ranges.min_y},`,
-            `       end: ${data.ranges.max_y}`,
-            `   }),`,
+            //`   y_range: new Bokeh.Range1d({`,
+            //`       start: ${data.ranges.min_y},`,
+            //`       end: ${data.ranges.max_y}`,
+            //`   }),`,
 
             `   y_axis_type: "log",`,
 

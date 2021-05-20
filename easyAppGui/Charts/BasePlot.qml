@@ -45,7 +45,7 @@ Rectangle {
                                    ? 3 * EaStyle.Sizes.fontPixelSize
                                    : 0
     property int differenceChartHeight: hasDifferenceData
-                                        ? 8 * EaStyle.Sizes.fontPixelSize
+                                        ? 12 * EaStyle.Sizes.fontPixelSize
                                         : 0
     property int xAxisChartHeight: 3 * EaStyle.Sizes.fontPixelSize
 
