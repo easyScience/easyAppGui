@@ -13,29 +13,24 @@ EaCharts.BasePlot {
     property var chartData: {
         'measured': plot.measuredData,
         'calculated': plot.calculatedData,
-        'difference': plot.differenceData,
-        'bragg': plot.braggData,
-        'background': plot.backgroundData,
+        'sld': plot.sldData,
         'ranges': plot.plotRanges,
 
         'hasMeasured': plot.hasMeasuredData,
         'hasCalculated': plot.hasCalculatedData,
-        'hasDifference': plot.hasDifferenceData,
-        'hasBragg': plot.hasBraggData,
-        'hasBackground': plot.hasBackgroundData,
+        'hasSld': plot.hasSldData,
         'hasPlotRanges': plot.hasPlotRangesData
     }
 
     property var chartSpecs: {
         'chartWidth': plot.chartWidth,
         'mainChartHeight': plot.mainChartHeight,
-        'braggChartHeight': plot.braggChartHeight,
-        'differenceChartHeight': plot.differenceChartHeight,
-        'xAxisChartHeight': plot.xAxisChartHeight,
+        'sldChartHeight': plot.sldChartHeight,
 
-        'xAxisTitle': plot.xAxisTitle,
+        'xMainAxisTitle': plot.xMainAxisTitle,
         'yMainAxisTitle': plot.yMainAxisTitle,
-        'yDifferenceAxisTitle': plot.yDifferenceAxisTitle,
+        'xSldAxisTitle': plot.xSldAxisTitle,
+        'ySldAxisTitle': plot.ySldAxisTitle,
 
         'chartBackgroundColor': plot.chartBackgroundColor,
         'chartForegroundColor': plot.chartForegroundColor,
@@ -45,15 +40,11 @@ EaCharts.BasePlot {
         'measuredLineColor': plot.measuredLineColor,
         'measuredAreaColor': plot.measuredAreaColor,
         'calculatedLineColor': plot.calculatedLineColor,
-        'differenceLineColor': plot.differenceLineColor,
-        'braggTicksColor': plot.braggTicksColor,
-        'backgroundLineColor': plot.backgroundLineColor,
-        'differenceAreaColor': plot.differenceAreaColor,
+        'sldLineColor': plot.sldLineColor,
 
         'measuredLineWidth': plot.measuredLineWidth,
         'calculatedLineWidth': plot.calculatedLineWidth,
-        'differenceLineWidth': plot.differenceLineWidth,
-        'backgroundLineWidth': plot.backgroundLineWidth,
+        'sldLineWidth': plot.sldLineWidth,
 
         'fontPixelSize': plot.fontPixelSize
     }
@@ -72,62 +63,6 @@ EaCharts.BasePlot {
             request.accepted = true
         }
     }
-
-    /////////////////////
-    // Chart tool buttons
-    /////////////////////
-
-    /*
-    Row {
-        anchors.top: parent.top
-        anchors.right: parent.right
-
-        anchors.topMargin: plot.fontPixelSize
-        anchors.rightMargin: plot.fontPixelSize
-
-        spacing: 3
-
-        EaElements.TabButton {
-            //checked: mainChart.allowZoom
-            autoExclusive: false
-            height: plot.chartToolButtonsHeight
-            width: plot.chartToolButtonsHeight
-            borderColor: EaStyle.Colors.chartAxis
-            fontIcon: "expand"
-            ToolTip.text: qsTr("Box zoom")
-            //onClicked: mainChart.allowZoom = !mainChart.allowZoom
-        }
-
-        EaElements.TabButton {
-            checkable: false
-            height: plot.chartToolButtonsHeight
-            width: plot.chartToolButtonsHeight
-            borderColor: EaStyle.Colors.chartAxis
-            fontIcon: "sync-alt"
-            ToolTip.text: qsTr("Reset")
-            //onClicked: mainChart.zoomReset()
-            onClicked: chartView.runJavaScript("OnClick()", function(result) {
-                console.log(result);
-                //var button = document.querySelector(".bk-tool-icon-reset");
-                //console.log("!!!!!!!!!!!!!!!!!", button)
-                //if (button) {
-                //  button.click();
-                //}
-            });
-        }
-
-        EaElements.TabButton {
-            //checked: mainChart.allowHover
-            autoExclusive: false
-            height: plot.chartToolButtonsHeight
-            width: plot.chartToolButtonsHeight
-            borderColor: EaStyle.Colors.chartAxis
-            fontIcon: "comment-alt"
-            ToolTip.text: qsTr("Hover")
-            //onClicked: mainChart.allowHover = !mainChart.allowHover
-        }
-    }
-    */
 
     onHtmlChanged: {
         //print(html)
