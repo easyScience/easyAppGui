@@ -79,6 +79,7 @@ EaElements.Dialog {
             }
         }
 
+        /*
         Row {
             spacing: EaStyle.Sizes.fontPixelSize * 0.5
 
@@ -107,6 +108,7 @@ EaElements.Dialog {
                 onActivated: EaGlobals.Variables.translator.selectLanguage(currentIndex)
             }
         }
+        */
 
         Row {
             spacing: EaStyle.Sizes.fontPixelSize * 0.5
@@ -128,6 +130,7 @@ EaElements.Dialog {
             }
         }
 
+        /*
         Row {
             spacing: EaStyle.Sizes.fontPixelSize * 0.5
 
@@ -147,6 +150,7 @@ EaElements.Dialog {
                 }
             }
         }
+        */
 
         Row {
             spacing: EaStyle.Sizes.fontPixelSize * 0.5
