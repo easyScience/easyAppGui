@@ -113,12 +113,18 @@ function bokehChart(data, specs) {
     // Charts array
     chart.push('const charts = []')
 
+    // TODO: QML data.hasMeasured doesn't work for the report page...
+    const hasMeasured = typeof data.measured !== 'undefined' &&
+                      Object.keys(data.measured).length &&
+                      typeof data.measured.x !== 'undefined'
+
     // Main chart (top)
     chart.push(...bokehCreateMainChart(data, specs))
     chart.push(...bokehAddMainTools('main_chart'))
     chart.push(...bokehAddVisibleXAxis('main_chart', specs))
     chart.push(...bokehAddVisibleYAxis('main_chart', specs))
-    if (data.hasMeasured) {
+    //if (data.hasMeasured) {
+    if (hasMeasured) {
         chart.push(...bokehAddMeasuredDataToMainChart(data, specs))
     }
     if (data.hasCalculated) {
