@@ -15,11 +15,13 @@ EaCharts.BasePlot {
         'calculated': plot.calculatedData,
         'sld': plot.sldData,
         'ranges': plot.plotRanges,
+        'sldRanges': plot.sldPlotRanges,
 
         'hasMeasured': plot.hasMeasuredData,
         'hasCalculated': plot.hasCalculatedData,
         'hasSld': plot.hasSldData,
-        'hasPlotRanges': plot.hasPlotRangesData
+        'hasPlotRanges': plot.hasPlotRangesData,
+        'hasSldPlotRanges': plot.hasSldPlotRangesData
     }
 
     property var chartSpecs: {

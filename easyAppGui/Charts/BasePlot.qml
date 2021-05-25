@@ -13,6 +13,7 @@ Rectangle {
     property var calculatedData: ({})
     property var sldData: ({})
     property var plotRanges: ({})
+    property var sldPlotRanges: ({})
 
     property bool hasMeasuredData: typeof measuredData !== 'undefined'
                                    && Object.keys(measuredData).length
@@ -24,6 +25,8 @@ Rectangle {
                                      && Object.keys(sldData).length
     property bool hasPlotRangesData: typeof plotRanges !== 'undefined'
                                      && Object.keys(plotRanges).length
+    property bool hasSldPlotRangesData: typeof sldPlotRanges !== 'undefined'
+                                     && Object.keys(sldPlotRanges).length
 
     property int chartContainerWidth: container.width
     property int chartContainerHeight: container.height

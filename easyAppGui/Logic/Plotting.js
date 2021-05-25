@@ -132,7 +132,7 @@ function bokehChart(data, specs) {
         chart.push(...bokehAddVisibleXAxis('sld_chart', specs))
         chart.push(...bokehAddVisibleYAxis('sld_chart', specs))
         chart.push(...bokehAddDataToSldChart(data, specs))
-        //chart.push(`sld_chart.ygrid[0].ticker.desired_num_ticks = 3`)
+        chart.push(`sld_chart.ygrid[0].ticker.desired_num_ticks = 3`)
         chart.push(`charts.push([sld_chart])`)
     }
 
@@ -187,6 +187,11 @@ function bokehCreateSldChart(data, specs) {
 
             `   height: ${specs.sldChartHeight},`,
             `   width: ${specs.chartWidth},`,
+
+            `   x_range: new Bokeh.Range1d({`,
+            `       start: ${data.sldRanges.min_x},`,
+            `       end: ${data.sldRanges.max_x}`,
+            `   }),`,
 
             `   x_axis_label: "${specs.xSldAxisTitle}",`,
             `   y_axis_label: "${specs.ySldAxisTitle}",`,
