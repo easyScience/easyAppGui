@@ -17,7 +17,7 @@ include = ["CHANGELOG.md"]
 packages = [ { include = "easyAppGui" } ]
 
 [tool.poetry.dependencies]
-python = '^3.7.0, <3.9'
+python = '^3.9'
 PySide2 = '^5.15.2'
 
 [tool.poetry.dev-dependencies]
