@@ -105,6 +105,7 @@ function bokehChart(data, specs) {
 
     // Tooltips
     chart.push(bokehAddMainTooltip(data, specs))
+    chart.push(bokehAddSldTooltip(data, specs))
 
     // Data sources
     chart.push('const main_source = new Bokeh.ColumnDataSource()')
@@ -135,6 +136,7 @@ function bokehChart(data, specs) {
     // Sld chart (bottom)
     if (data.hasSld) {
         chart.push(...bokehCreateSldChart(data, specs))
+        chart.push(...bokehAddSldTools('sld_chart'))
         chart.push(...bokehAddVisibleXAxis('sld_chart', specs))
         chart.push(...bokehAddVisibleYAxis('sld_chart', specs))
         chart.push(...bokehAddDataToSldChart(data, specs))
@@ -189,7 +191,7 @@ function bokehCreateMainChart(data, specs) {
 
 function bokehCreateSldChart(data, specs) {
     return [`const sld_chart = new Bokeh.Plotting.figure({`,
-            `   tools: "",`,
+            `   tools: "reset,undo,redo",`,
 
             `   height: ${specs.sldChartHeight},`,
             `   width: ${specs.chartWidth},`,
@@ -216,6 +218,13 @@ function bokehCreateSldChart(data, specs) {
 
 function bokehAddMainTools(chart) {
     return [`${chart}.add_tools(new Bokeh.HoverTool({tooltips:main_tooltip, point_policy:"snap_to_data", mode:"mouse"}))`,
+            `${chart}.add_tools(new Bokeh.BoxZoomTool())`,
+            `${chart}.toolbar.active_drag = "box_zoom"`,
+            `${chart}.add_tools(new Bokeh.PanTool())`]
+}
+
+function bokehAddSldTools(chart) {
+    return [`${chart}.add_tools(new Bokeh.HoverTool({tooltips:sld_tooltip, point_policy:"snap_to_data", mode:"mouse"}))`,
             `${chart}.add_tools(new Bokeh.BoxZoomTool())`,
             `${chart}.toolbar.active_drag = "box_zoom"`,
             `${chart}.add_tools(new Bokeh.PanTool())`]
@@ -339,8 +348,8 @@ function bokehMainTooltipRow(color, label, value, sigma='') {
 }
 
 function bokehAddMainTooltip(data, specs) {
-    const x_meas = bokehMainTooltipRow(EaStyle.Colors.themeForegroundDisabled, 'x', '@x_meas{0.00}')
-    const x_calc = bokehMainTooltipRow(EaStyle.Colors.themeForegroundDisabled, 'x', '@x_calc{0.00}')
+    const x_meas = bokehMainTooltipRow(EaStyle.Colors.themeForegroundDisabled, 'q', '@x_meas{0.00}')
+    const x_calc = bokehMainTooltipRow(EaStyle.Colors.themeForegroundDisabled, 'q', '@x_calc{0.00}')
     const y_meas = bokehMainTooltipRow(specs.measuredLineColor, 'meas', '@y_meas{0.00000000}', '&#177;&nbsp;@sy_meas{0.00000000}')
     const y_calc = bokehMainTooltipRow(specs.calculatedLineColor, 'calc', '@y_calc{0.00000000}')
 
@@ -363,4 +372,20 @@ function bokehAddMainTooltip(data, specs) {
 
     const tooltip = JSON.stringify(table.join('\n'))
     return `const main_tooltip = (${tooltip})`
+}
+
+function bokehAddSldTooltip(data, specs) {
+    const x = bokehMainTooltipRow(EaStyle.Colors.themeForegroundDisabled, 'z', '@x{0.00}')
+    const y = bokehMainTooltipRow(specs.sldLineColor, 'sld', '@y{0.00000000}')
+
+    let table = []
+    table.push(...[`<div style="padding:2px">`, `<table>`, `<tbody>`])
+    if (data.hasSld) {
+        table.push(...x)
+        table.push(...y)
+    }
+    table.push(...[`</tbody>`, `</table>`, `</div>`])
+
+    const tooltip = JSON.stringify(table.join('\n'))
+    return `const sld_tooltip = (${tooltip})`
 }
