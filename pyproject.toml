@@ -17,9 +17,10 @@ include = ["CHANGELOG.md"]
 packages = [ { include = "easyAppGui" } ]
 
 [tool.poetry.dependencies]
-python = '^3.7.0, <3.9'
+# python = '^3.7.0, <3.9'
+python = "^3.11"
 #python = "^3.8, <3.9" # "^3.8" generates error when installing PySide2 in easyAppGui
-PySide2 = "5.14" #"^5.15" # 5.15 - QML TableViewColumn: Accessible must be attached to an Item - https://bugreports.qt.io/browse/QTBUG-86315
+PySide2 = "^5.15" #"^5.15" # 5.15 - QML TableViewColumn: Accessible must be attached to an Item - https://bugreports.qt.io/browse/QTBUG-86315
 
 [tool.poetry.dev-dependencies]
 
