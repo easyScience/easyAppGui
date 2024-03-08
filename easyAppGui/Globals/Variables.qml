@@ -15,9 +15,9 @@ QtObject {
                                              _projectConfig :
                                              EaLogic.ProjectConfig.projectConfig()
 
-    readonly property var translator: typeof _translator !== "undefined" && _translator !== null ?
-                                          _translator :
-                                          new EaLogic.Translate.Translator()
+    // readonly property var translator: typeof _translator !== "undefined" && _translator !== null ?
+    //                                       _translator :
+    //                                       new EaLogic.Translate.Translator()
 
     // Initial application parameters
     property int appBarCurrentIndex: 0
